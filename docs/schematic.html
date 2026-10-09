@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>شماتیک دقیق — گلدون هوشمند (برد حیاط)</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: #0f1419;
+      color: #e6edf3;
+      padding: 24px;
+      line-height: 1.55;
+    }
+    h1 { text-align: center; color: #58a6ff; margin-bottom: 6px; font-size: 1.5rem; }
+    .subtitle { text-align: center; color: #8b949e; margin-bottom: 8px; font-size: 0.92rem; }
+    .source {
+      text-align: center;
+      color: #3fb950;
+      font-size: 0.82rem;
+      margin-bottom: 28px;
+    }
+    .section {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 22px;
+      direction: rtl;
+      text-align: right;
+    }
+    .section h2 {
+      color: #f0883e;
+      font-size: 1.15rem;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #30363d;
+      padding-bottom: 8px;
+    }
+    .section h3 {
+      color: #e3b341;
+      font-size: 0.98rem;
+      margin: 16px 0 8px;
+    }
+    table.net {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.84rem;
+      margin-top: 8px;
+    }
+    table.net th, table.net td {
+      border: 1px solid #30363d;
+      padding: 8px 10px;
+      text-align: right;
+      vertical-align: top;
+    }
+    table.net th { background: #21262d; color: #58a6ff; }
+    table.net tr:nth-child(even) { background: #0d1117; }
+    .net-name {
+      font-family: Consolas, monospace;
+      color: #79c0ff;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .pin {
+      font-family: Consolas, monospace;
+      background: #21262d;
+      padding: 1px 6px;
+      border-radius: 3px;
+    }
+    .notes {
+      background: #1c2128;
+      border-right: 4px solid #f0883e;
+      padding: 12px 14px;
+      margin-top: 14px;
+      border-radius: 8px 0 0 8px;
+      font-size: 0.85rem;
+    }
+    .notes ul { margin: 6px 18px 0 0; }
+    .notes li { margin: 5px 0; }
+    .sheet {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 12px;
+      margin-top: 12px;
+      overflow-x: auto;
+    }
+    .sheet svg {
+      display: block;
+      width: 100%;
+      min-width: 760px;
+      height: auto;
+      background: #fafafa;
+      border-radius: 6px;
+    }
+    .tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      padding: 1px 7px;
+      border-radius: 4px;
+      font-weight: 600;
+      margin-right: 4px;
+    }
+    .t5 { background: rgba(248,81,73,.18); color: #f85149; }
+    .t33 { background: rgba(121,192,255,.18); color: #79c0ff; }
+    .tg { background: rgba(110,118,129,.25); color: #c9d1d9; }
+    .t3 { background: rgba(212,167,44,.18); color: #d4a72c; }
+    .toc a {
+      color: #58a6ff;
+      text-decoration: none;
+      display: block;
+      padding: 4px 0;
+      font-size: 0.9rem;
+    }
+    .toc a:hover { text-decoration: underline; }
+    code { font-family: Consolas, monospace; color: #ffa657; }
+    .footer {
+      text-align: center;
+      color: #8b949e;
+      font-size: 0.82rem;
+      margin-top: 8px;
+    }
+    .power-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 12px 0 16px;
+    }
+    @media (max-width: 700px) { .power-split { grid-template-columns: 1fr; } }
+    .power-split .box {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 14px;
+    }
+    .power-split .box.v5 { border-color: #f85149; }
+    .power-split .box.v3 { border-color: #d4a72c; }
+    .power-split .box strong { display: block; margin-bottom: 6px; }
+    .power-split .box.v5 strong { color: #f85149; }
+    .power-split .box.v3 strong { color: #d4a72c; }
+    .power-split .box p { font-size: 0.85rem; color: #8b949e; margin: 0; }
+    .path-box {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-family: Consolas, 'Segoe UI', monospace;
+      font-size: 0.88rem;
+      margin: 12px 0;
+      line-height: 1.8;
+      direction: ltr;
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+<h1>شماتیک دقیق اتصالات — برد حیاط</h1>
+<p class="subtitle">ESP32-S3-N8R2 · SIM800L EVB · ULN2003AN · ۲× رله · ۲× پمپ ۳V · سنسورها</p>
+<p class="source">منبع حقیقت: جدول اتصالات پروژه — نه خروجی حدسی AI · نسخه ۱.۰</p>
+
+<div class="section toc">
+  <h2>فهرست شیت‌ها</h2>
+  <a href="#nets">۰) نت‌لیست کامل (مرجع اصلی)</a>
+  <a href="#power">۱) شماتیک تغذیه</a>
+  <a href="#sim">۲) شماتیک SIM800L + UART</a>
+  <a href="#sensors">۳) اتصالات کامل سنسورها</a>
+  <a href="#relay">۴) اتصالات کامل ULN2003 + رله + پمپ</a>
+  <a href="#gpio-map">۵) نقشه GPIO استفاده شده</a>
+</div>
+
+<!-- NETLIST -->
+<div class="section" id="nets">
+  <h2>۰) نت‌لیست کامل — مرجع اصلی</h2>
+  <p style="color:#8b949e;font-size:0.85rem;margin-bottom:10px;">
+    هر ردیف = یک شبکه الکتریکی مشترک. هر چیزی که روی یک نت است به هم وصل است.
+  </p>
+
+  <h3>باس‌های تغذیه</h3>
+  <table class="net">
+    <thead>
+      <tr><th>نام نت</th><th>اعضا (همه به هم وصل)</th><th>توضیح</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="net-name">+5V_BANK</td>
+        <td>
+          خروجی + پاوربانک · ESP32 پین 5V (ورودی USB/برق برد) ·
+          SIM800L <span class="pin">5VIN</span> ·
+          خازن ۱۰۰۰µF <span class="pin">+</span> ·
+          ULN2003 <span class="pin">۹ COM</span> ·
+          رله۱ <span class="pin">VCC</span> ·
+          رله۲ <span class="pin">VCC</span>
+        </td>
+        <td><span class="tag t5">۵V</span> تغذیه کنترل و کویل رله و SIM</td>
+      </tr>
+      <tr>
+        <td class="net-name">GND</td>
+        <td>
+          − پاوربانک · همه GNDهای ESP32 ·
+          SIM800L هر دو GND · خازن <span class="pin">−</span> ·
+          ULN <span class="pin">۸</span> ·
+          رله۱ GND · رله۲ GND ·
+          همه سنسورها GND · VDD منطق SIM به همین زمین برمی‌گردد
+        </td>
+        <td><span class="tag tg">GND</span> زمین مشترک کنترل</td>
+      </tr>
+      <tr>
+        <td class="net-name">+3V3</td>
+        <td>
+          ESP32 <span class="pin">3V3</span> ·
+          SIM800L <span class="pin">VDD</span> ·
+          خاک۱ VCC · خاک۲ VCC · DHT11 VCC · AP3216 VCC · سطح‌آب +
+        </td>
+        <td><span class="tag t33">۳٫۳V</span> فقط منطق/سنسور — نه کویل رله</td>
+      </tr>
+      <tr>
+        <td class="net-name">+3V_PUMP</td>
+        <td>خروجی + منبع ۳V جدا · COM رله۱ · COM رله۲</td>
+        <td><span class="tag t3">۳V</span> فقط سمت پمپ</td>
+      </tr>
+      <tr>
+        <td class="net-name">GND_PUMP</td>
+        <td>− منبع ۳V · − پمپ۱ · − پمپ۲</td>
+        <td><span class="tag t3">۳V GND</span> می‌تواند از GND کنترل جدا بماند</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>سیگنال‌ها</h3>
+  <table class="net">
+    <thead>
+      <tr><th>نام نت</th><th>از</th><th>به</th><th>جهت</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="net-name">SIM_TX</td>
+        <td>SIM800L <span class="pin">TXD</span></td>
+        <td>ESP32 <span class="pin">GPIO16</span> (RX UART1)</td>
+        <td>SIM → ESP</td>
+      </tr>
+      <tr>
+        <td class="net-name">SIM_RX</td>
+        <td>ESP32 <span class="pin">GPIO17</span> (TX UART1)</td>
+        <td>SIM800L <span class="pin">RXD</span></td>
+        <td>ESP → SIM</td>
+      </tr>
+      <tr>
+        <td class="net-name">SIM_RST</td>
+        <td>ESP32 <span class="pin">GPIO18</span></td>
+        <td>SIM800L <span class="pin">RST</span></td>
+        <td>ESP → SIM</td>
+      </tr>
+      <tr>
+        <td class="net-name">SOIL1_AO</td>
+        <td>خاک۱ <span class="pin">AO</span></td>
+        <td>ESP32 <span class="pin">GPIO1</span></td>
+        <td>آنالوگ</td>
+      </tr>
+      <tr>
+        <td class="net-name">SOIL2_AO</td>
+        <td>خاک۲ <span class="pin">AO</span></td>
+        <td>ESP32 <span class="pin">GPIO2</span></td>
+        <td>آنالوگ</td>
+      </tr>
+      <tr>
+        <td class="net-name">DHT_DATA</td>
+        <td>DHT11 <span class="pin">DATA</span></td>
+        <td>ESP32 <span class="pin">GPIO4</span></td>
+        <td>۱-سیم</td>
+      </tr>
+      <tr>
+        <td class="net-name">I2C_SDA</td>
+        <td>AP3216 <span class="pin">SDA</span></td>
+        <td>ESP32 <span class="pin">GPIO5</span></td>
+        <td>I2C</td>
+      </tr>
+      <tr>
+        <td class="net-name">I2C_SCL</td>
+        <td>AP3216 <span class="pin">SCL</span></td>
+        <td>ESP32 <span class="pin">GPIO9</span></td>
+        <td>I2C</td>
+      </tr>
+      <tr>
+        <td class="net-name">WATER_S</td>
+        <td>سطح‌آب <span class="pin">S</span></td>
+        <td>ESP32 <span class="pin">GPIO7</span></td>
+        <td>دیجیتال</td>
+      </tr>
+      <tr>
+        <td class="net-name">RLY1_IN_B</td>
+        <td>ESP32 <span class="pin">GPIO10</span></td>
+        <td>ULN2003 <span class="pin">۱ (1B)</span></td>
+        <td>ESP → ULN</td>
+      </tr>
+      <tr>
+        <td class="net-name">RLY2_IN_B</td>
+        <td>ESP32 <span class="pin">GPIO11</span></td>
+        <td>ULN2003 <span class="pin">۲ (2B)</span></td>
+        <td>ESP → ULN</td>
+      </tr>
+      <tr>
+        <td class="net-name">RLY1_IN</td>
+        <td>ULN2003 <span class="pin">۱۶ (1C)</span></td>
+        <td>رله۱ <span class="pin">IN</span></td>
+        <td>ULN → رله (open-collector / sink)</td>
+      </tr>
+      <tr>
+        <td class="net-name">RLY2_IN</td>
+        <td>ULN2003 <span class="pin">۱۵ (2C)</span></td>
+        <td>رله۲ <span class="pin">IN</span></td>
+        <td>ULN → رله</td>
+      </tr>
+      <tr>
+        <td class="net-name">PUMP1+</td>
+        <td>رله۱ <span class="pin">NO</span></td>
+        <td>پمپ۱ <span class="pin">+</span></td>
+        <td>سوییچ‌شده از +3V_PUMP</td>
+      </tr>
+      <tr>
+        <td class="net-name">PUMP2+</td>
+        <td>رله۲ <span class="pin">NO</span></td>
+        <td>پمپ۲ <span class="pin">+</span></td>
+        <td>سوییچ‌شده از +3V_PUMP</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="notes">
+    <strong>قواعد قطعی:</strong>
+    <ul>
+      <li>UART متقاطع است: TXD سیم به RX برد، RXD سیم به TX برد.</li>
+      <li>IN رله هرگز مستقیم به GPIO وصل نمی‌شود؛ فقط از خروجی C روی ULN.</li>
+      <li>خازن ۱۰۰۰µF موازی روی نت‌های <code>+5V_BANK</code> و <code>GND</code> نزدیک SIM است، نه سری.</li>
+      <li>پین‌های استفاده‌نشده ULN (۳–۷ و ۱۰–۱۴) باز می‌مانند.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- POWER SCHEMATIC -->
+<div class="section" id="power">
+  <h2>۱) شماتیک تغذیه</h2>
+  <div class="sheet">
+    <svg viewBox="0 0 900 420" xmlns="http://www.w3.org/2000/svg" aria-label="شماتیک تغذیه">
+      <style>
+        .w { fill: none; stroke: #222; stroke-width: 2; }
+        .w5 { stroke: #c62828; stroke-width: 2.5; fill: none; }
+        .w33 { stroke: #1565c0; stroke-width: 2.5; fill: none; }
+        .wg { stroke: #424242; stroke-width: 2.5; fill: none; }
+        .w3 { stroke: #f9a825; stroke-width: 2.5; fill: none; }
+        .box { fill: #fff; stroke: #222; stroke-width: 2; }
+        .t { font-family: Consolas, 'Segoe UI', sans-serif; font-size: 13px; fill: #111; }
+        .ts { font-family: 'Segoe UI', Tahoma, sans-serif; font-size: 12px; fill: #333; }
+        .th { font-family: 'Segoe UI', Tahoma, sans-serif; font-size: 15px; font-weight: 700; fill: #111; }
+        .dot { fill: #111; }
+      </style>
+      <rect x="0" y="0" width="900" height="420" fill="#fafafa"/>
+      <text x="20" y="28" class="th">Sheet 1 — Power Distribution</text>
+
+      <!-- Powerbank -->
+      <rect x="40" y="70" width="130" height="80" rx="6" class="box"/>
+      <text x="105" y="100" text-anchor="middle" class="th">پاوربانک</text>
+      <text x="105" y="122" text-anchor="middle" class="ts">۵V / ≥۲A</text>
+      <text x="155" y="148" class="t" fill="#c62828">+</text>
+      <text x="155" y="178" class="t">−</text>
+      <circle cx="170" cy="145" r="3.5" class="dot"/>
+      <circle cx="170" cy="175" r="3.5" class="dot"/>
+
+      <!-- +5V rail -->
+      <path class="w5" d="M170 145 H760"/>
+      <text x="300" y="136" class="t" fill="#c62828">+5V_BANK</text>
+
+      <!-- GND rail -->
+      <path class="wg" d="M170 175 H760"/>
+      <text x="300" y="198" class="t">GND</text>
+
+      <!-- ESP tap -->
+      <rect x="220" y="240" width="120" height="70" rx="6" class="box"/>
+      <text x="280" y="270" text-anchor="middle" class="th">ESP32-S3</text>
+      <text x="280" y="290" text-anchor="middle" class="ts">5V · GND · 3V3</text>
+      <path class="w5" d="M250 240 V175"/>
+      <path class="wg" d="M280 240 V175"/>
+      <circle cx="250" cy="175" r="3.5" class="dot"/>
+      <circle cx="280" cy="175" r="3.5" class="dot"/>
+
+      <!-- 3V3 from ESP -->
+      <path class="w33" d="M310 275 H820"/>
+      <text x="520" y="266" class="t" fill="#1565c0">+3V3</text>
+      <circle cx="310" cy="275" r="3.5" class="dot"/>
+
+      <!-- SIM + Cap -->
+      <rect x="400" y="240" width="130" height="70" rx="6" class="box"/>
+      <text x="465" y="268" text-anchor="middle" class="th">SIM800L</text>
+      <text x="465" y="288" text-anchor="middle" class="ts">5VIN · GND · VDD</text>
+      <path class="w5" d="M430 240 V145"/>
+      <path class="wg" d="M465 240 V175"/>
+      <path class="w33" d="M505 275 V275"/>
+      <circle cx="430" cy="145" r="3.5" class="dot"/>
+      <circle cx="465" cy="175" r="3.5" class="dot"/>
+      <circle cx="505" cy="275" r="3.5" class="dot"/>
+
+      <!-- Cap parallel -->
+      <text x="560" y="100" class="ts">C1 1000µF ≥16V</text>
+      <path class="w" d="M560 115 V145"/>
+      <path class="w5" d="M560 145 H430"/>
+      <path class="w" d="M580 115 V145 M560 115 H580"/>
+      <path class="w" d="M560 130 H580"/>
+      <path class="wg" d="M570 145 V175"/>
+      <circle cx="570" cy="145" r="3.5" class="dot"/>
+      <circle cx="570" cy="175" r="3.5" class="dot"/>
+      <text x="590" y="140" class="t" fill="#c62828">+</text>
+      <text x="590" y="180" class="t">−</text>
+
+      <!-- Relays / ULN on 5V -->
+      <rect x="600" y="240" width="100" height="70" rx="6" class="box"/>
+      <text x="650" y="268" text-anchor="middle" class="th">ULN+رله</text>
+      <text x="650" y="288" text-anchor="middle" class="ts">VCC · COM9</text>
+      <path class="w5" d="M630 240 V145"/>
+      <path class="wg" d="M670 240 V175"/>
+      <circle cx="630" cy="145" r="3.5" class="dot"/>
+      <circle cx="670" cy="175" r="3.5" class="dot"/>
+
+      <!-- Sensors on 3V3 -->
+      <rect x="740" y="300" width="110" height="60" rx="6" class="box"/>
+      <text x="795" y="328" text-anchor="middle" class="th">سنسورها</text>
+      <text x="795" y="348" text-anchor="middle" class="ts">همه VCC</text>
+      <path class="w33" d="M795 300 V275"/>
+      <path class="wg" d="M770 300 V175 H760"/>
+      <circle cx="795" cy="275" r="3.5" class="dot"/>
+      <circle cx="760" cy="175" r="3.5" class="dot"/>
+
+      <!-- Separate 3V pump -->
+      <rect x="40" y="310" width="130" height="70" rx="6" class="box" stroke="#f9a825" stroke-width="2"/>
+      <text x="105" y="338" text-anchor="middle" class="th">منبع ۳V</text>
+      <text x="105" y="358" text-anchor="middle" class="ts">جدا — فقط پمپ</text>
+      <path class="w3" d="M170 335 H360"/>
+      <path class="wg" d="M170 360 H360" stroke-dasharray="4 3"/>
+      <text x="220" y="326" class="t" fill="#f9a825">+3V_PUMP → COM رله‌ها</text>
+      <text x="220" y="380" class="t">GND_PUMP → − پمپ‌ها</text>
+    </svg>
+  </div>
+</div>
+
+<!-- SIM SCHEMATIC -->
+<div class="section" id="sim">
+  <h2>۲) شماتیک SIM800L + UART</h2>
+  <div class="sheet">
+    <svg viewBox="0 0 900 360" xmlns="http://www.w3.org/2000/svg" aria-label="شماتیک SIM800L">
+      <style>
+        .box { fill:#fff; stroke:#222; stroke-width:2; }
+        .t { font-family: Consolas, 'Segoe UI', sans-serif; font-size:13px; fill:#111; }
+        .ts { font-family:'Segoe UI', Tahoma, sans-serif; font-size:12px; fill:#333; }
+        .th { font-family:'Segoe UI', Tahoma, sans-serif; font-size:15px; font-weight:700; fill:#111; }
+        .w { fill:none; stroke:#222; stroke-width:2; }
+        .dot { fill:#111; }
+      </style>
+      <rect width="900" height="360" fill="#fafafa"/>
+      <text x="20" y="28" class="th">Sheet 2 — SIM800L EVB ↔ ESP32-S3 UART1</text>
+
+      <rect x="80" y="80" width="220" height="220" rx="8" class="box"/>
+      <text x="190" y="110" text-anchor="middle" class="th">ESP32-S3</text>
+      <text x="100" y="150" class="t">GPIO16 RX</text>
+      <text x="100" y="185" class="t">GPIO17 TX</text>
+      <text x="100" y="220" class="t">GPIO18</text>
+      <text x="100" y="255" class="t">3V3</text>
+      <text x="100" y="280" class="t">GND</text>
+      <circle cx="300" cy="145" r="3.5" class="dot"/>
+      <circle cx="300" cy="180" r="3.5" class="dot"/>
+      <circle cx="300" cy="215" r="3.5" class="dot"/>
+      <circle cx="300" cy="250" r="3.5" class="dot"/>
+      <circle cx="300" cy="275" r="3.5" class="dot"/>
+
+      <rect x="560" y="80" width="240" height="220" rx="8" class="box"/>
+      <text x="680" y="110" text-anchor="middle" class="th">SIM800L EVB</text>
+      <text x="680" y="128" text-anchor="middle" class="ts">ترتیب: 5VIN GND VDD TXD RXD GND RST</text>
+      <text x="580" y="160" class="t">TXD</text>
+      <text x="580" y="195" class="t">RXD</text>
+      <text x="580" y="230" class="t">RST</text>
+      <text x="580" y="255" class="t">VDD</text>
+      <text x="580" y="280" class="t">GND</text>
+      <text x="700" y="160" class="ts">→ SIM_TX</text>
+      <text x="700" y="195" class="ts">← SIM_RX</text>
+      <circle cx="560" cy="155" r="3.5" class="dot"/>
+      <circle cx="560" cy="190" r="3.5" class="dot"/>
+      <circle cx="560" cy="225" r="3.5" class="dot"/>
+      <circle cx="560" cy="250" r="3.5" class="dot"/>
+      <circle cx="560" cy="275" r="3.5" class="dot"/>
+
+      <!-- crossed UART -->
+      <path class="w" d="M300 145 H400 V155 H560" stroke="#f9a825" stroke-width="2.5"/>
+      <path class="w" d="M300 180 H420 V190 H560" stroke="#2e7d32" stroke-width="2.5"/>
+      <path class="w" d="M300 215 H560" stroke="#ef6c00" stroke-width="2.5"/>
+      <path class="w" d="M300 250 H560" stroke="#1565c0" stroke-width="2.5"/>
+      <path class="w" d="M300 275 H560" stroke="#424242" stroke-width="2.5"/>
+
+      <text x="380" y="70" class="ts" fill="#f9a825">SIM_TX (متقاطع)</text>
+      <text x="450" y="70" class="ts" fill="#2e7d32">SIM_RX (متقاطع)</text>
+
+      <text x="80" y="340" class="ts">5VIN و خازن روی Sheet 1 · آنتن روی سوکت IPEX ماژول</text>
+    </svg>
+  </div>
+</div>
+
+<!-- SENSORS -->
+<div class="section" id="sensors">
+  <h2>۳) اتصالات کامل سنسورها</h2>
+  <p style="color:#8b949e;font-size:0.9rem;margin-bottom:14px;">
+    همه سنسورها از <strong>۳٫۳V</strong> ESP تغذیه می‌شوند — نه از ۵V.
+    GND همه مشترک با ESP است.
+  </p>
+
+  <div class="power-split">
+    <div class="box" style="border-color:#79c0ff;">
+      <strong style="color:#79c0ff;">۳٫۳V مشترک</strong>
+      <p>ESP 3V3 → VCC همه سنسورها · VDD سیم‌کارت منطق SIM جداست ولی همین ۳٫۳V</p>
+    </div>
+    <div class="box" style="border-color:#8b949e;">
+      <strong style="color:#c9d1d9;">GND مشترک</strong>
+      <p>ESP GND → GND همه سنسورها</p>
+    </div>
+  </div>
+
+  <h3>۱) رطوبت خاک ۱ — HW-103 (گیاه ۱)</h3>
+  <table class="net">
+    <thead>
+      <tr><th>پین سنسور</th><th>وصل به</th><th>رنگ</th><th>توضیح</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>VCC</strong></td><td>ESP <span class="pin">3.3V</span></td><td>آبی روشن</td><td>نه ۵V</td></tr>
+      <tr><td><strong>GND</strong></td><td>ESP <span class="pin">GND</span></td><td>مشکی</td><td></td></tr>
+      <tr><td><strong>AO</strong></td><td>ESP <span class="pin">GPIO 1</span></td><td>نارنجی</td><td>مقدار آنالوگ</td></tr>
+      <tr><td><strong>DO</strong></td><td>—</td><td>—</td><td>وصل نکن</td></tr>
+    </tbody>
+  </table>
+
+  <h3>۲) رطوبت خاک ۲ — HW-103 (گیاه ۲)</h3>
+  <table class="net">
+    <thead>
+      <tr><th>پین سنسور</th><th>وصل به</th><th>رنگ</th><th>توضیح</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>VCC</strong></td><td>ESP <span class="pin">3.3V</span></td><td>آبی روشن</td><td>نه ۵V</td></tr>
+      <tr><td><strong>GND</strong></td><td>ESP <span class="pin">GND</span></td><td>مشکی</td><td></td></tr>
+      <tr><td><strong>AO</strong></td><td>ESP <span class="pin">GPIO 2</span></td><td>نارنجی</td><td>مقدار آنالوگ</td></tr>
+      <tr><td><strong>DO</strong></td><td>—</td><td>—</td><td>وصل نکن</td></tr>
+    </tbody>
+  </table>
+
+  <h3>۳) دما / رطوبت هوا — DHT11</h3>
+  <table class="net">
+    <thead>
+      <tr><th>پین سنسور</th><th>وصل به</th><th>رنگ</th><th>توضیح</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>VCC</strong> (+)</td><td>ESP <span class="pin">3.3V</span></td><td>آبی روشن</td><td>نه ۵V</td></tr>
+      <tr><td><strong>GND</strong> (−)</td><td>ESP <span class="pin">GND</span></td><td>مشکی</td><td></td></tr>
+      <tr><td><strong>DATA</strong> (وسط / S)</td><td>ESP <span class="pin">GPIO 4</span></td><td>نارنجی</td><td>سیگنال ۱-سیم</td></tr>
+    </tbody>
+  </table>
+
+  <h3>۴) نور محیط — AP3216 (I2C)</h3>
+  <table class="net">
+    <thead>
+      <tr><th>پین سنسور</th><th>وصل به</th><th>رنگ</th><th>توضیح</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>VCC</strong></td><td>ESP <span class="pin">3.3V</span></td><td>آبی روشن</td><td>نه ۵V</td></tr>
+      <tr><td><strong>GND</strong></td><td>ESP <span class="pin">GND</span></td><td>مشکی</td><td></td></tr>
+      <tr><td><strong>SDA</strong></td><td>ESP <span class="pin">GPIO 5</span></td><td>آبی</td><td>I2C Data</td></tr>
+      <tr><td><strong>SCL</strong></td><td>ESP <span class="pin">GPIO 9</span></td><td>بنفش</td><td>I2C Clock</td></tr>
+    </tbody>
+  </table>
+
+  <h3>۵) سنسور سطح آب (۳ پین)</h3>
+  <table class="net">
+    <thead>
+      <tr><th>پین سنسور</th><th>وصل به</th><th>رنگ</th><th>توضیح</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>+</strong> (VCC)</td><td>ESP <span class="pin">3.3V</span></td><td>آبی روشن</td><td>نه ۵V</td></tr>
+      <tr><td><strong>−</strong> (GND)</td><td>ESP <span class="pin">GND</span></td><td>مشکی</td><td></td></tr>
+      <tr><td><strong>S</strong> (Signal)</td><td>ESP <span class="pin">GPIO 7</span></td><td>نارنجی</td><td>معمولاً HIGH = آب هست</td></tr>
+    </tbody>
+  </table>
+
+  <h3>جدول خلاصه GPIO سنسورها</h3>
+  <table class="net">
+    <thead>
+      <tr><th>GPIO</th><th>سنسور</th><th>پین ماژول</th><th>نوع</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="net-name">1</td><td>خاک ۱</td><td>AO</td><td>آنالوگ</td></tr>
+      <tr><td class="net-name">2</td><td>خاک ۲</td><td>AO</td><td>آنالوگ</td></tr>
+      <tr><td class="net-name">4</td><td>DHT11</td><td>DATA</td><td>دیجیتال</td></tr>
+      <tr><td class="net-name">5</td><td>AP3216</td><td>SDA</td><td>I2C</td></tr>
+      <tr><td class="net-name">9</td><td>AP3216</td><td>SCL</td><td>I2C</td></tr>
+      <tr><td class="net-name">7</td><td>سطح آب</td><td>S</td><td>دیجیتال</td></tr>
+      <tr><td class="net-name">3V3</td><td>همه</td><td>VCC / +</td><td>تغذیه</td></tr>
+      <tr><td class="net-name">GND</td><td>همه</td><td>GND / −</td><td>زمین</td></tr>
+    </tbody>
+  </table>
+
+  <div class="notes">
+    <strong>ترتیب وصل پیشنهادی:</strong>
+    <ul>
+      <li>اول ۳٫۳V و GND مشترک را برای همه سنسورها بکش.</li>
+      <li>بعد سیگنال‌ها: خاک۱→GPIO1 ، خاک۲→GPIO2 ، DHT→GPIO4 ، سطح آب→GPIO7.</li>
+      <li>در آخر AP3216: SDA→GPIO5 ، SCL→GPIO9.</li>
+      <li>پروب خاک (میله‌ها) را در خاک بگذار؛ ماژول الکترونیک بیرون بماند.</li>
+      <li>وقتی وصل شد بگو تا فریمور تست سنسورها را روی برد بریزم.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- RELAY -->
+<div class="section" id="relay">
+  <h2>۴) اتصالات کامل ULN2003 + رله + پمپ</h2>
+  <p style="color:#8b949e;font-size:0.9rem;margin-bottom:14px;">
+    رله را مستقیم به GPIO نزن. مسیر درست: <strong>ESP32 → ULN2003 → IN رله → پمپ ۳V</strong>.
+    دیود flyback جدا لازم نیست؛ با وصل پین ۹ ULN به ۵V، دیودهای داخلی فعال می‌شوند.
+  </p>
+
+  <h3>دو منبع برق</h3>
+  <div class="power-split">
+    <div class="box v5">
+      <strong>منبع ۵ ولت (پاوربانک)</strong>
+      <p>+ ← VCC هر دو رله · پین ۹ ULN<br>− ← GND مشترک با ESP و ULN و رله</p>
+    </div>
+    <div class="box v3">
+      <strong>منبع ۳ ولت (جدا)</strong>
+      <p>+ ← فقط COM هر دو رله<br>− ← فقط − هر دو پمپ · مستقیم به ESP وصل نشود</p>
+    </div>
+  </div>
+
+  <h3>۱) ULN2003AN</h3>
+  <p style="color:#8b949e;font-size:0.85rem;margin-bottom:8px;">ناچ (فرورفتگی) بالا باشد. پین ۱ سمت چپ بالاست.</p>
+  <table class="net">
+    <thead>
+      <tr><th>پین ULN</th><th>نام</th><th>وصل به</th><th>رنگ</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>۱</strong></td><td>1B</td><td>ESP32 <span class="pin">GPIO 10</span></td><td>نارنجی</td></tr>
+      <tr><td><strong>۲</strong></td><td>2B</td><td>ESP32 <span class="pin">GPIO 11</span></td><td>نارنجی</td></tr>
+      <tr><td><strong>۸</strong></td><td>GND</td><td>GND مشترک</td><td>مشکی</td></tr>
+      <tr><td><strong>۹</strong></td><td>COM</td><td>۵V پاوربانک</td><td>قرمز · الزامی</td></tr>
+      <tr><td><strong>۱۶</strong></td><td>1C</td><td>IN رله ۱</td><td>نارنجی</td></tr>
+      <tr><td><strong>۱۵</strong></td><td>2C</td><td>IN رله ۲</td><td>نارنجی</td></tr>
+    </tbody>
+  </table>
+  <p style="color:#8b949e;font-size:0.85rem;margin-top:8px;">پین‌های ۳ تا ۷ و ۱۰ تا ۱۴ را وصل نکن (باز بمانند).</p>
+
+  <h3>۲) رله ۱ (پمپ گیاه ۱)</h3>
+  <table class="net">
+    <thead>
+      <tr><th>پین رله</th><th>وصل به</th><th>توضیح</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>VCC</strong></td><td>۵V پاوربانک</td><td>کویل رله</td></tr>
+      <tr><td><strong>GND</strong></td><td>GND مشترک</td><td>زمین کنترل</td></tr>
+      <tr><td><strong>IN</strong></td><td>ULN پین ۱۶ (1C)</td><td>نه مستقیم از ESP</td></tr>
+      <tr><td><strong>COM</strong> (ترمینال بزرگ)</td><td>+ منبع ۳V</td><td>ورودی برق پمپ</td></tr>
+      <tr><td><strong>NO</strong> (ترمینال بزرگ)</td><td>+ پمپ ۱</td><td>خروجی وقتی رله روشن است</td></tr>
+    </tbody>
+  </table>
+
+  <h3>۳) رله ۲ (پمپ گیاه ۲)</h3>
+  <table class="net">
+    <thead>
+      <tr><th>پین رله</th><th>وصل به</th><th>توضیح</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>VCC</strong></td><td>۵V پاوربانک</td><td>کویل رله</td></tr>
+      <tr><td><strong>GND</strong></td><td>GND مشترک</td><td>زمین کنترل</td></tr>
+      <tr><td><strong>IN</strong></td><td>ULN پین ۱۵ (2C)</td><td>نه مستقیم از ESP</td></tr>
+      <tr><td><strong>COM</strong></td><td>+ منبع ۳V</td><td>ورودی برق پمپ</td></tr>
+      <tr><td><strong>NO</strong></td><td>+ پمپ ۲</td><td>خروجی وقتی رله روشن است</td></tr>
+    </tbody>
+  </table>
+
+  <h3>۴) پمپ‌ها</h3>
+  <table class="net">
+    <thead>
+      <tr><th>پمپ</th><th>پایه +</th><th>پایه −</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><strong>پمپ ۱</strong></td><td>NO رله ۱</td><td>− منبع ۳V</td></tr>
+      <tr><td><strong>پمپ ۲</strong></td><td>NO رله ۲</td><td>− منبع ۳V</td></tr>
+    </tbody>
+  </table>
+
+  <h3>مسیر سیگنال</h3>
+  <div class="path-box">
+GPIO10 → ULN 1B → ULN 1C → IN رله۱ → (COM/NO) → پمپ۱<br>
+GPIO11 → ULN 2B → ULN 2C → IN رله۲ → (COM/NO) → پمپ۲
+  </div>
+  <p style="font-size:0.9rem;">منطق: <code>digitalWrite(10, HIGH)</code> = پمپ ۱ روشن · <code>LOW</code> = خاموش · GPIO 11 برای پمپ ۲.</p>
+
+  <h3>جدول خلاصه همه اتصالات این بخش</h3>
+  <table class="net">
+    <thead>
+      <tr><th>از</th><th>به</th><th>رنگ</th><th>توضیح</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>GPIO 10</td><td>ULN پین ۱ (1B)</td><td>نارنجی</td><td>سیگنال رله ۱</td></tr>
+      <tr><td>GPIO 11</td><td>ULN پین ۲ (2B)</td><td>نارنجی</td><td>سیگنال رله ۲</td></tr>
+      <tr><td>ULN پین ۸</td><td>GND مشترک</td><td>مشکی</td><td>زمین کنترل</td></tr>
+      <tr><td>ULN پین ۹</td><td>۵V پاوربانک</td><td>قرمز</td><td>دیودهای داخلی ULN</td></tr>
+      <tr><td>ULN پین ۱۶</td><td>IN رله ۱</td><td>نارنجی</td><td>خروجی کانال ۱</td></tr>
+      <tr><td>ULN پین ۱۵</td><td>IN رله ۲</td><td>نارنجی</td><td>خروجی کانال ۲</td></tr>
+      <tr><td>VCC هر رله</td><td>۵V پاوربانک</td><td>قرمز</td><td>کویل رله</td></tr>
+      <tr><td>GND هر رله</td><td>GND مشترک</td><td>مشکی</td><td>زمین کنترل</td></tr>
+      <tr><td>+ منبع ۳V</td><td>COM هر رله</td><td>قرمز</td><td>برق پمپ</td></tr>
+      <tr><td>NO هر رله</td><td>+ پمپ مربوط</td><td>سبز</td><td>سوییچ پمپ</td></tr>
+      <tr><td>− پمپ</td><td>− منبع ۳V</td><td>مشکی</td><td>برگشت پمپ</td></tr>
+    </tbody>
+  </table>
+
+  <div class="notes">
+    <strong>ترتیب وصل پیشنهادی:</strong>
+    <ul>
+      <li>اول ULN به ESP (GPIO10/11 + GND + پین ۹ به ۵V).</li>
+      <li>بعد دو رله: VCC و GND و IN از ULN.</li>
+      <li>اول بدون پمپ تست کن (فقط صدای کلیک رله).</li>
+      <li>در آخر منبع ۳V و پمپ‌ها را وصل کن.</li>
+      <li>GND کنترل (ESP و ULN و رله) مشترک باشد؛ مسیر ۳V پمپ می‌تواند جدا بماند.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- GPIO MAP -->
+<div class="section" id="gpio-map">
+  <h2>۵) نقشه GPIO استفاده شده (ESP32-S3)</h2>
+  <table class="net">
+    <thead>
+      <tr><th>GPIO</th><th>نت</th><th>ماژول</th><th>نوع</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="net-name">1</td><td>SOIL1_AO</td><td>خاک ۱ AO</td><td>ADC ورودی</td></tr>
+      <tr><td class="net-name">2</td><td>SOIL2_AO</td><td>خاک ۲ AO</td><td>ADC ورودی</td></tr>
+      <tr><td class="net-name">4</td><td>DHT_DATA</td><td>DHT11</td><td>دیجیتال ۱-سیم</td></tr>
+      <tr><td class="net-name">5</td><td>I2C_SDA</td><td>AP3216</td><td>I2C</td></tr>
+      <tr><td class="net-name">9</td><td>I2C_SCL</td><td>AP3216</td><td>I2C</td></tr>
+      <tr><td class="net-name">10</td><td>RLY1_IN_B</td><td>ULN 1B</td><td>خروجی</td></tr>
+      <tr><td class="net-name">11</td><td>RLY2_IN_B</td><td>ULN 2B</td><td>خروجی</td></tr>
+      <tr><td class="net-name">7</td><td>WATER_S</td><td>سطح آب</td><td>ورودی</td></tr>
+      <tr><td class="net-name">16</td><td>SIM_TX</td><td>SIM TXD</td><td>UART RX</td></tr>
+      <tr><td class="net-name">17</td><td>SIM_RX</td><td>SIM RXD</td><td>UART TX</td></tr>
+      <tr><td class="net-name">18</td><td>SIM_RST</td><td>SIM RST</td><td>خروجی</td></tr>
+    </tbody>
+  </table>
+  <div class="notes">
+    این شماتیک از روی جدول اتصالات تأییدشدهٔ پروژه نوشته شده.
+    برای ساخت PCB در KiCad/Flux، همین نت‌لیست بخش ۰ را وارد کن — نه شماتیک حدسی AI.
+  </div>
+</div>
+
+<p class="footer">گلدون هوشمند · schematic v1.0 · docs/schematic.html</p>
+
+</body>
+</html>

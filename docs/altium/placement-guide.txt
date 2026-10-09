@@ -1,0 +1,31 @@
+Goldon Hoshmand — Altium schematic placement order
+=================================================
+
+Sheet 1 — Power
+  J4 Powerbank 5V → net +5V_BANK / GND
+  J5 Pump 3V supply → net +3V_PUMP / GND_PUMP
+  C1 1000uF: + on +5V_BANK, - on GND (near U2)
+
+Sheet 2 — MCU & GSM
+  U1 ESP32-S3: 5V, GND, 3V3
+  U2 SIM800L: 5VIN=+5V_BANK, VDD=+3V3, GND/GND2=GND
+  SIM_TX: U2.TXD — U1.GPIO16
+  SIM_RX: U1.GPIO17 — U2.RXD
+  SIM_RST: U1.GPIO18 — U2.RST
+
+Sheet 3 — Sensors
+  J1 SOIL1: VCC=3V3, GND, AO→GPIO1
+  J2 SOIL2: VCC=3V3, GND, AO→GPIO2
+  U4 DHT11: VCC=3V3, GND, DATA→GPIO4
+  U5 AP3216: VCC=3V3, GND, SDA→GPIO5, SCL→GPIO9
+  J3 WATER: VCC=3V3, GND, S→GPIO7
+
+Sheet 4 — Actuators
+  U3 ULN2003: COM=+5V_BANK, GND=GND
+  U1.GPIO10 → U3.1B ; U3.1C → K1.IN
+  U1.GPIO11 → U3.2B ; U3.2C → K2.IN
+  K1/K2: VCC=+5V_BANK, GND=GND
+  K1.COM / K2.COM = +3V_PUMP
+  K1.NO → M1.+ ; K2.NO → M2.+
+  M1.- / M2.- = GND_PUMP
+  Leave ULN pins 3,4,5,6,7,10,11,12,13,14 open

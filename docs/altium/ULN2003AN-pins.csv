@@ -1,0 +1,17 @@
+Designator,Name,Electrical Type,Description,Project Net
+1,1B,Input,Base channel 1 (input),RLY1_IN_B
+2,2B,Input,Base channel 2 (input),RLY2_IN_B
+3,3B,Input,Base channel 3 unused,NC
+4,4B,Input,Base channel 4 unused,NC
+5,5B,Input,Base channel 5 unused,NC
+6,6B,Input,Base channel 6 unused,NC
+7,7B,Input,Base channel 7 unused,NC
+8,GND,Power,Emitter common / GND,GND
+9,COM,Power,Clamp diode common to +5V,+5V_BANK
+10,7C,OpenCollector,Collector channel 7 unused,NC
+11,6C,OpenCollector,Collector channel 6 unused,NC
+12,5C,OpenCollector,Collector channel 5 unused,NC
+13,4C,OpenCollector,Collector channel 4 unused,NC
+14,3C,OpenCollector,Collector channel 3 unused,NC
+15,2C,OpenCollector,Collector channel 2 -> Relay2 IN,RLY2_IN
+16,1C,OpenCollector,Collector channel 1 -> Relay1 IN,RLY1_IN

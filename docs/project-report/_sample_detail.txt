@@ -1,0 +1,259 @@
+SECTIONS=1
+section 0: 21.01x29.69 cm
+  margins R=2.01 L=2.01 T=3.0 B=3.0
+  header dist=1.27 footer dist=0.53
+  different_first=False
+  header paras: ['']
+  footer paras: ['']
+  sectPr snippet has pgNumType=False
+
+--- STYLES ---
+style 'Normal' font=Times New Roman size=12.0 bold=None
+style 'Heading 1' font=None size=16.0 bold=True
+style 'Heading 2' font=None size=14.0 bold=True
+style 'Heading 3' font=None size=None bold=True
+style 'Heading 6' font=Cambria size=None bold=None
+style 'Heading 7' font=Cambria size=None bold=None
+style 'Heading 8' font=Cambria size=10.0 bold=None
+style 'Heading 9' font=Cambria size=10.0 bold=None
+style 'Heading 1 Char' font=Times New Roman size=16.0 bold=True
+style 'Heading 2 Char' font=Times New Roman size=14.0 bold=True
+style 'Heading 3 Char' font=Times New Roman size=12.0 bold=True
+style 'Heading 4 Char' font=Times New Roman size=12.0 bold=True
+style 'Heading 5 Char' font=None size=12.0 bold=None
+style 'Heading 6 Char' font=Cambria size=12.0 bold=None
+style 'Heading 7 Char' font=Cambria size=12.0 bold=None
+style 'Heading 8 Char' font=Cambria size=10.0 bold=None
+style 'Heading 9 Char' font=Cambria size=10.0 bold=None
+style 'شکل' font=None size=11.0 bold=None
+style 'جدول' font=None size=11.0 bold=None
+style 'toc 1' font=None size=None bold=True
+style 'toc 2' font=None size=None bold=None
+style 'toc 3' font=None size=None bold=None
+style 'مرجع' font=None size=11.0 bold=None
+style 'مرجع Char' font=Times New Roman size=None bold=None
+style 'TOC Heading' font=None size=14.0 bold=None
+style 'Book Title' font=Times New Roman size=12.0 bold=None
+style 'Title' font=None size=26.0 bold=True
+style 'Title Char' font=Times New Roman size=26.0 bold=True
+style 'Heading' font=IranNastaliq size=34.0 bold=None
+style 'Heading Char' font=IranNastaliq size=34.0 bold=None
+style 'toc 5' font=None size=11.0 bold=None
+style 'toc 6' font=None size=11.0 bold=None
+style 'toc 7' font=None size=11.0 bold=None
+style 'toc 8' font=None size=11.0 bold=None
+style 'toc 9' font=None size=11.0 bold=None
+style 'Subtitle' font=Cambria size=None bold=None
+style 'Subtitle Char' font=Cambria size=12.0 bold=None
+style 'Heading 1 Char1' font=Times New Roman size=48.0 bold=None
+style 'Heading 2 Char1' font=Times New Roman size=14.0 bold=True
+style 'Heading 3 Char1' font=Times New Roman size=12.0 bold=True
+style 'Heading 4 Char1' font=Times New Roman size=12.0 bold=True
+style 'زيرنويس شکل' font=Times New Roman size=12.0 bold=None
+style 'بالانويس جدول' font=Times New Roman size=12.0 bold=None
+style 'بالا نويس جدول' font=Times New Roman Bold size=10.0 bold=True
+style 'متن اصلي Char' font=Times New Roman size=12.0 bold=None
+style 'Heading 6 Char1' font=None size=12.0 bold=None
+style 'Heading 7 Char1' font=None size=12.0 bold=None
+style 'جدول Char' font=Times New Roman size=None bold=None
+style 'شکل Char' font=Times New Roman size=None bold=None
+style 'متن Char' font=Times New Roman size=12.0 bold=None
+style 'متن' font=None size=None bold=None
+style 'شکل - جدول' font=None size=9.0 bold=None
+style 'شکل - جدول Char' font=None size=9.0 bold=None
+style 'Padder Between Title and Properties' font=None size=1.0 bold=None
+style 'Normal_n Char' font=Times New Roman size=12.0 bold=None
+style 'Style Article Title + Before:  60 pt' font=None size=14.0 bold=True
+style 'Heading_centered' font=None size=13.0 bold=None
+style 'شکل Char Char Char' font=None size=10.0 bold=None
+style 'Style Heading 2 + (Complex) Zar Justified' font=None size=12.0 bold=None
+style 'Style Heading 4 + (Complex) Nazanin Not Bold' font=None size=13.0 bold=False
+style 'Style Style Heading 3 UCS + +' font=Verdana size=None bold=True
+style 'Style Style Style Heading 2Char + + +' font=Verdana size=None bold=True
+style 'UCS Heading 2' font=None size=12.0 bold=None
+style 'Title Page' font=Arial size=None bold=None
+style 'Title Page Names' font=None size=14.0 bold=True
+style 'شکل Char Char' font=Verdana size=9.0 bold=None
+style 'متن Char1' font=Verdana size=9.0 bold=None
+style 'Heading 1 - Tilte' font=None size=16.0 bold=True
+style 'Heading 1 - Tilte Char' font=Times New Roman size=16.0 bold=True
+style 'Normal Text' font=None size=None bold=None
+style 'Normal Text Char' font=Times New Roman size=12.0 bold=None
+style 'Style Normal Text + Bold Italic Underline' font=B Zar size=None bold=True
+style 'متن اصلی Char' font=Times New Roman size=12.0 bold=False
+style 'متن پيوسته Char' font=Times New Roman size=12.0 bold=None
+style 'شماره شکل' font=None size=8.0 bold=None
+style 'متن روي جلد انگليسي' font=None size=14.0 bold=True
+style 'زيرنويس شکل Char' font=Times New Roman size=12.0 bold=None
+style 'متن Char Char' font=Times New Roman size=12.0 bold=None
+style 'جدول Char Char' font=Times New Roman size=12.0 bold=True
+style 'شکل Char Char Char Char' font=Times New Roman size=10.0 bold=None
+style 'متن 2 Char Char Char' font=Times New Roman size=12.0 bold=None
+style 'متن Char2' font=Times New Roman size=12.0 bold=None
+style 'Style متن 2 Char Char + Not (Latin) Italic Char Char' font=Times New Roman size=12.0 bold=None
+style 'متن1' font=None size=14.0 bold=None
+style 'My Normal Char' font=Times New Roman size=12.0 bold=None
+style 'Heading2' font=None size=14.0 bold=None
+
+--- DEFAULT THEME / DOCUMENT FONT ---
+ascii fonts: Arial, Arial Black, B Nazanin, B Zar, Calibri, Cambria, Cambria Math, Courier New, IranNastaliq, Segoe UI, Tahoma, Times New Roman, Times New Roman Bold, Verdana
+cs fonts: Arial, B Compset, B Lotus, B Nazanin, B Roya, B Titr, B Zar, Courier New, IranNastaliq, Lotus, Nazanin, Segoe UI, Tahoma, Times New Roman, Titr, Traditional Arabic, Zar
+sz vals: 13, 14, 16, 18, 2, 20, 21, 22, 23, 24, 26, 28, 30, 32, 36, 40, 44, 52, 68, 96
+theme typefaces: Angsana New, Arial, Calibri, Cambria, Cordia New, DaunPenh, DokChampa, Estrangelo Edessa, Euphemia, Gautami, Iskoola Pota, Kalinga, Kartika, Latha, MV Boli, Mangal, Microsoft Himalaya, Microsoft Uighur, Microsoft Yi Baiti, Mongolian Baiti
+files: [Content_Types].xml, _rels/.rels, word/_rels/document.xml.rels, word/diagrams/data1.xml, word/document.xml, word/footnotes.xml, word/endnotes.xml, word/header1.xml, word/footer1.xml, word/media/image1.png, word/diagrams/layout1.xml, word/diagrams/quickStyle1.xml, word/diagrams/colors1.xml, word/diagrams/drawing1.xml, word/media/image2.png, word/media/image3.png, word/theme/theme1.xml, word/settings.xml, word/webSettings.xml, word/numbering.xml, word/fontTable.xml, docProps/core.xml, docProps/app.xml, docProps/custom.xml, customXml/itemProps1.xml, customXml/item1.xml, customXml/_rels/item1.xml.rels, word/styles.xml
+
+--- FULL PARAS ---
+[3] style='Title Page Names' align=None
+    عنوان تحقیق:
+[5] style='Title Page' align=None
+    عنوان تحقيق دانشجويي
+[8] style='Title Page' align=None
+    نام دانشجو و اعضای تیم:
+[10] style='Title Page' align=None
+    …
+[12] style='Title Page' align=None
+    استاد:
+[14] style='Title Page' align=None
+    …
+[17] style='Title Page' align=None
+    زمان انجام پروژه: ...
+[24] style='Subtitle' align=LEFT (0)
+    چکیده
+[26] style='Normal' align=LEFT (0)
+    در بخش چکیده بایستی آنچه در تحقیق قرار است انجام شود را بصورت مختصر و با استفاده از کمترین کلمات ممکن بیان کرد. معمولا چکیده بین 100 الی 300 کلمه را شامل میشود.
+[27] style='Normal' align=LEFT (0) PAGEBREAK
+    
+[28] style='Subtitle' align=LEFT (0)
+    فهرست مطالب | 
+[29] style='toc 2' align=None
+    چکیده | 2
+[30] style='toc 2' align=None
+    فهرست مطالب | 3
+[31] style='toc 1' align=None
+    1- مقدمه | 6
+[32] style='toc 2' align=None
+    1-1 - پیش گفتار | 6
+[33] style='toc 3' align=None
+    1-1-1 - کلیات گزارش | 6
+[34] style='toc 3' align=None
+    1-1-2 - ساختار تحقيق | 7
+[35] style='toc 1' align=None
+    2- بدنه اصلي تحقيق | 8
+[36] style='toc 2' align=None
+    2-1 - زیر فصل شماره 1 | 8
+[37] style='toc 2' align=None
+    2-2 - زیر فصل شماره 2 | 9
+[38] style='toc 3' align=None
+    2-2-2 - زیرزیربخش اول | 9
+[39] style='toc 3' align=None
+    2-2-1 - زیرزیربخش اول | 9
+[40] style='toc 1' align=None
+    3- جمع بندي و نتيجه گيري | 9
+[41] style='toc 2' align=None
+    3-1 - نتيجه گيري | 10
+[42] style='toc 2' align=None
+    3-2 - پيشنهاد براي ادامه کار | 10
+[43] style='toc 2' align=None
+    3-3 - تقدير و تشکر | 10
+[44] style='toc 1' align=None
+    4- مراجع | 10
+[45] style='toc 1' align=LEFT (0) PAGEBREAK
+    
+[47] style='toc 1' align=LEFT (0)
+    فهرست شکلها
+[49] style='table of figures' align=None
+    شکل (1-1) توضیحات مربوط به شکل اول. | 6
+[50] style='table of figures' align=None
+    شکل (1-2) نمودار مطالب ارائه شده در فصلهای مختلف. | 8
+[51] style='table of figures' align=None
+    شکل (2-1) توضیحات مربوط به شکل. | 9
+[52] style='Normal' align=LEFT (0) PAGEBREAK
+    فهرست جدولها
+[53] style='table of figures' align=None
+    جدول (1-1) توضیحات مربوط به جدول اول. | 7
+[55] style='Normal' align=LEFT (0) PAGEBREAK
+    
+[57] style='Heading 1' align=None
+    مقدمه
+[59] style='Heading 2' align=LEFT (0)
+    پیش گفتار
+[60] style='Normal' align=LEFT (0)
+    در مقدمه به  ماهیت کار، هدف، ضرورت و اهمیت کار، مواد پژوهش، روش تحقيق،...اشاره مي شود.
+[62] style='Heading 3' align=LEFT (0)
+    کلیات گزارش
+[63] style='Normal' align=LEFT (0)
+    در این قسمت یک معرفی کلی از کار انجام خواهد شد. ضمن اینکه چهارچوبی که قرار است تحقیق در آن انجام شود نیز در این بخش مشخص میگردد در صورت لزوم میتوان از شکلها و جداول نیز استفاده کرد.
+[65] style='شکل' align=None
+    توضیحات مربوط به شکل اول.
+[67] style='Normal' align=LEFT (0)
+    همچنین همانطور که گفته شد، از جداول نیز میتوان برای شرح مطالب استفاده نمود. در ادامه فرمت یک جدول نشان داده شده است.
+[69] style='جدول' align=None
+    توضیحات مربوط به جدول اول.
+[74] style='Heading 3' align=None
+    ساختار تحقيق
+[75] style='Normal' align=LEFT (0)
+    در این قسمت میتوان ساختار تحقیق و پیکربندی فصول گزارش را بیان نمود. بعنوان مثال فصل اول به بررسی ... میپردازد. در فصل دوم جنبههای مختلف ... مورد مطالعه قرار میگیرد. فصل آخر نیز به ... اختصاص دارد.
+[78] style='شکل' align=LEFT (0)
+    نمودار مطالب ارائه شده در فصلهای مختلف.
+[80] style='Heading 1' align=None
+    بدنه اصلي تحقيق
+[82] style='متن' align=LEFT (0)
+    این فصل شامل بخش اصلی تحقیق است. در این فصل کل کار انجام شده با جزئیات آن ذکر میگردد. البته در صورت گسترده بودن تحقیق، میتوان مطالب را در چندین فصل آورد.
+[84] style='Heading 2' align=LEFT (0)
+    زیر فصل شماره 1
+[85] style='متن' align=LEFT (0)
+    میتوان مطالب را به چندین زیرفصل تقسیم بندی نمود. بعنوان مثال میتوان مروری بر کارهایی که در دنیا روی این موضوع صورت گرفته را در زیرفصل اول آورد و در زیرفصلهای بعدی به بحث اصلی تحقیق پرداخت. بدیهی است این امربسته به نوع تحقیق میتواند متفاوت باشد. در اینجا نیز میتوان از تصاویر برای شرح بهتر متن استفاده
+[93] style='شکل' align=None
+    توضیحات مربوط به شکل.
+[94] style='Heading 2' align=LEFT (0)
+    زیر فصل شماره 2
+[95] style='متن' align=LEFT (0)
+    زیربخش دوم نیز میتواند بخش دیگری از تحقیق را شامل گردد. بعنوان مقال میتوان در این بخش به بیان مسئله اصلی که تحقیق به آن اختصاص دارد پرداخت. مثلا میتوان روابط عددی و فرمولی را بیان کرد. بعنوان مثال فرمول زیر میتواند بخشی از تحقیق باشد:
+[98] style='متن' align=LEFT (0)
+    البته خود زیربخش دوم هم میتواند شامل دو زیرزیر بخش باشد:
+[100] style='Heading 3' align=LEFT (0)
+    زیرزیربخش اول
+[101] style='متن' align=LEFT (0)
+    ابن بخش میتواند حاوی بخشی از گزارش تحقیق باشد.
+[103] style='Heading 3' align=LEFT (0)
+    زیرزیربخش اول
+[104] style='متن' align=LEFT (0)
+    ابن بخش نیز میتواند حاوی بخشی از گزارش تحقیق باشد.
+[105] style='Heading 1' align=None
+    جمع بندي و نتيجه گيري
+[107] style='Normal' align=LEFT (0)
+    در این بخش بایستی کل نتایج تحقیق بصورت خلاصه ذکر گردد. بهتر است از نمودار و جداول کمکی برای نتیجهگیری و مقایسه نتایج استفاده گردد. اینفصل میتواند شامل بخشهای زیر باشد:
+[108] style='Heading 2' align=LEFT (0)
+    نتيجه گيري
+[109] style='Normal' align=LEFT (0)
+    مطالب مربوط به نتيجهگيري ذکر گردد.
+[111] style='Heading 2' align=LEFT (0)
+    پيشنهاد براي ادامه کار
+[112] style='Normal' align=LEFT (0)
+    در اين بخش پيشنهادهايي براي ادامه راه اين تحقيق بيان گردد
+[114] style='Heading 2' align=LEFT (0)
+    تقدير و تشکر
+[115] style='متن' align=LEFT (0)
+    اسامي کساني که قرار است از آنها تقدير و تشکر صورت پذيرد در اين بخش قيد ميگردد.
+[118] style='Heading 1' align=None
+    مراجع
+[120] style='Normal Text' align=LEFT (0)
+    در اين بخش منابع و مراجع علمي تحقيق ذکر ميگردد. بعنوان مثال تعدادي مرجع در زير قرار داده شده است:
+[123] style='شماره گذاري مراجع' align=LEFT (0)
+    C. Bowick, RF Circuit Design, Second Edition, 2 edition. Amsterdam ; Boston: Newnes, 2007.
+[124] style='شماره گذاري مراجع' align=LEFT (0)
+    B. Razavi, RF Microelectronics, 2 edition. Upper Saddle River, NJ: Prentice Hall, 2011.
+[125] style='شماره گذاري مراجع' align=LEFT (0)
+    V. Giannini, J. Craninckx, and A. Baschirotto, Baseband Analog Circuits for Software Defined Radio, 2008 edition. Sheffield (Eng.): Springer, 2008.
+[126] style='شماره گذاري مراجع' align=LEFT (0)
+    “AD9262 Datasheet and Product Info | Analog Devices.” [Online]. Available: http://www.analog.com/en/products/analog-to-digital-converters/ad-converters/ad9262.html#product-documentation. [Accessed: 12-Sep-2016].
+
+--- TABLES DETAIL ---
+table 0 4x2
+  مقدار || نام پارامتر
+  ... || ...
+  ... || ...
+  ... || ...
+table 1 2x1
+  
+  

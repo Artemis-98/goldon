@@ -1,0 +1,1235 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>سیم‌کشی گلدون هوشمند — ESP32 حیاط</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: #0f1419;
+      color: #e6edf3;
+      padding: 24px;
+      line-height: 1.5;
+    }
+
+    h1 {
+      text-align: center;
+      color: #58a6ff;
+      margin-bottom: 8px;
+      font-size: 1.6rem;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: #8b949e;
+      margin-bottom: 32px;
+      font-size: 0.95rem;
+    }
+
+    .section {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .section h2 {
+      color: #f0883e;
+      margin-bottom: 16px;
+      font-size: 1.2rem;
+      border-bottom: 1px solid #30363d;
+      padding-bottom: 8px;
+    }
+
+    .power-flow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 20px 0;
+    }
+
+    .power-box {
+      background: #21262d;
+      border: 2px solid #388bfd;
+      border-radius: 10px;
+      padding: 14px 18px;
+      text-align: center;
+      min-width: 130px;
+    }
+
+    .power-box.solar {
+      border-color: #f0883e;
+    }
+
+    .power-box.battery {
+      border-color: #a371f7;
+    }
+
+    .power-box.bank {
+      border-color: #3fb950;
+    }
+
+    .power-box .icon {
+      font-size: 2rem;
+      margin-bottom: 6px;
+    }
+
+    .power-box .label {
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .power-box .detail {
+      font-size: 0.75rem;
+      color: #8b949e;
+      margin-top: 4px;
+    }
+
+    .arrow {
+      color: #58a6ff;
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+
+    .wire-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-top: 16px;
+      padding: 12px;
+      background: #0d1117;
+      border-radius: 8px;
+    }
+
+    .wire-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+    }
+
+    .wire-color {
+      width: 28px;
+      height: 6px;
+      border-radius: 3px;
+    }
+
+    .red {
+      background: #f85149;
+    }
+
+    .black {
+      background: #484f58;
+      border: 1px solid #6e7681;
+    }
+
+    .orange {
+      background: #f0883e;
+    }
+
+    .yellow {
+      background: #d4a72c;
+    }
+
+    .green {
+      background: #3fb950;
+    }
+
+    .blue {
+      background: #58a6ff;
+    }
+
+    .cyan {
+      background: #79c0ff;
+    }
+
+    .purple {
+      background: #a371f7;
+    }
+
+    .white {
+      background: #e6edf3;
+    }
+
+    .notes {
+      background: #1c2128;
+      border-right: 4px solid #f0883e;
+      border-left: none;
+      padding: 16px;
+      margin-top: 16px;
+      border-radius: 8px 0 0 8px;
+      font-size: 0.85rem;
+      text-align: right;
+    }
+
+    .notes ul {
+      margin: 8px 20px 0 0;
+      padding: 0;
+      list-style-position: inside;
+    }
+
+    .notes li {
+      margin: 6px 0;
+    }
+
+    .connect-guide {
+      direction: rtl;
+      text-align: right;
+    }
+
+    .connect-guide h3 {
+      color: #e3b341;
+      font-size: 1.05rem;
+      margin: 20px 0 12px;
+    }
+
+    .connect-guide h3:first-of-type {
+      margin-top: 0;
+    }
+
+    .connect-steps {
+      list-style: none;
+      counter-reset: step;
+      margin: 0;
+      padding: 0;
+    }
+
+    .connect-steps>li {
+      position: relative;
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 14px 52px 14px 16px;
+      margin-bottom: 12px;
+    }
+
+    .connect-steps>li::before {
+      counter-increment: step;
+      content: counter(step);
+      position: absolute;
+      right: 14px;
+      top: 14px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #21262d;
+      border: 2px solid #58a6ff;
+      color: #58a6ff;
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .connect-steps .step-title {
+      font-weight: 700;
+      color: #58a6ff;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    .connect-steps .wire-line {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 0;
+      font-size: 0.88rem;
+      border-bottom: 1px solid #21262d;
+    }
+
+    .connect-steps .wire-line:last-child {
+      border-bottom: none;
+    }
+
+    .connect-steps .from,
+    .connect-steps .to {
+      font-family: Consolas, 'Segoe UI', monospace;
+      background: #21262d;
+      padding: 2px 8px;
+      border-radius: 4px;
+      color: #e6edf3;
+    }
+
+    .connect-steps .arrow-rtl {
+      color: #8b949e;
+      font-weight: bold;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .tag-red {
+      background: rgba(248, 81, 73, .2);
+      color: #f85149;
+    }
+
+    .tag-orange {
+      background: rgba(240, 136, 62, .2);
+      color: #f0883e;
+    }
+
+    .tag-black {
+      background: rgba(110, 118, 129, .25);
+      color: #c9d1d9;
+    }
+
+    .tag-gold {
+      background: rgba(227, 179, 65, .2);
+      color: #e3b341;
+    }
+
+    .tag-green {
+      background: rgba(63, 185, 80, .2);
+      color: #3fb950;
+    }
+
+    .power-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 12px 0 16px;
+    }
+
+    @media (max-width: 700px) {
+      .power-split {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .power-split .box {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 14px;
+    }
+
+    .power-split .box.v5 {
+      border-color: #f85149;
+    }
+
+    .power-split .box.v3 {
+      border-color: #d4a72c;
+    }
+
+    .power-split .box strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .power-split .box.v5 strong {
+      color: #f85149;
+    }
+
+    .power-split .box.v3 strong {
+      color: #d4a72c;
+    }
+
+    .power-split .box p {
+      font-size: 0.85rem;
+      color: #8b949e;
+      margin: 0;
+    }
+
+    table.pin-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin-top: 12px;
+    }
+
+    table.pin-table th,
+    table.pin-table td {
+      border: 1px solid #30363d;
+      padding: 8px 12px;
+      text-align: right;
+    }
+
+    table.pin-table th {
+      background: #21262d;
+      color: #58a6ff;
+    }
+
+    table.pin-table tr:nth-child(even) {
+      background: #0d1117;
+    }
+
+    .svg-wrap {
+      width: 100%;
+      max-width: 900px;
+      margin: 10px auto;
+      display: block;
+    }
+
+    .svg-wrap svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .footer-note {
+      text-align: center;
+      color: #8b949e;
+      font-size: 0.85rem;
+    }
+
+    .board-section {
+      background: #0d1117;
+      border-radius: 12px;
+      padding: 16px;
+      overflow: auto;
+    }
+
+    .board-section .svg-wrap {
+      max-width: 100%;
+      min-width: 1180px;
+    }
+
+    .module-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .module-card {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 10px;
+      padding: 14px;
+    }
+
+    .module-card h3 {
+      font-size: 0.95rem;
+      margin-bottom: 10px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #30363d;
+    }
+
+    .module-card .wire-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 0;
+      font-size: 0.82rem;
+      border-bottom: 1px solid #21262d;
+    }
+
+    .module-card .wire-row:last-child {
+      border-bottom: none;
+    }
+
+    .module-card .wire-stripe {
+      width: 36px;
+      height: 8px;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+
+    .module-card svg {
+      margin-top: 10px;
+      width: 100%;
+      height: auto;
+    }
+
+    .pin-label {
+      font-family: Consolas, monospace;
+      font-size: 0.8rem;
+    }
+
+    .module-diagram-card {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .module-diagram-card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+    }
+
+    .module-desc {
+      color: #8b949e;
+      font-size: 0.85rem;
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+
+    .module-svg-wrap {
+      background: #010409;
+      border-radius: 8px;
+      padding: 8px;
+      margin-bottom: 12px;
+    }
+
+    .module-svg-wrap svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      min-height: 120px;
+    }
+
+    #module-wiring-root {
+      margin-top: 8px;
+    }
+
+    .uln-pinout-section {
+      background: #0d1117;
+      border: 2px solid #e3b341;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .uln-pinout-section h3 {
+      color: #e3b341;
+      font-size: 1.15rem;
+      margin-bottom: 10px;
+    }
+
+    .uln-pinout-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    .uln-chip-svg {
+      max-width: 100%;
+      flex: 1 1 420px;
+    }
+
+    .uln-legend-box {
+      flex: 1 1 280px;
+      max-width: 360px;
+    }
+
+    .uln-pin-used {
+      font-weight: bold;
+    }
+
+    .uln-pin-unused {
+      color: #484f58;
+    }
+
+    .cap-section {
+      background: #0d1117;
+      border: 2px solid #f0883e;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+
+    .cap-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 24px;
+      align-items: flex-start;
+      justify-content: center;
+    }
+
+    .cap-svg-box {
+      flex: 1 1 480px;
+      max-width: 640px;
+    }
+
+    .cap-legend {
+      flex: 1 1 280px;
+      max-width: 400px;
+    }
+
+    @media print {
+      body {
+        background: #fff;
+        color: #000;
+      }
+
+      .section {
+        border-color: #ccc;
+        background: #fff;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>سیم‌کشی گلدون هوشمند — برد حیاط (ESP32-S3)</h1>
+  <p class="subtitle">ESP32-S3-N8R2 + SIM800L EVB + سنسورها + پمپ 3V + تامین برق خودکفا</p>
+  <p style="text-align:center;margin-bottom:28px;">
+    <a href="schematic.html" style="color:#58a6ff;font-size:0.95rem;">شماتیک دقیق اتصالات و نت‌لیست ←</a>
+  </p>
+
+  <!-- OVERVIEW -->
+  <div class="section">
+    <h2>راهنمای رنگ سیم‌ها</h2>
+    <div class="wire-legend" style="margin-bottom:16px;">
+      <div class="wire-item"><span class="wire-color red"></span> قرمز = 5V</div>
+      <div class="wire-item"><span class="wire-color cyan"></span> آبی روشن = 3.3V سنسور / SIM VDD</div>
+      <div class="wire-item"><span class="wire-color black"></span> مشکی = GND</div>
+      <div class="wire-item"><span class="wire-color orange"></span> نارنجی = سیگنال / ULN</div>
+      <div class="wire-item"><span class="wire-color yellow"></span> زرد = SIM TXD</div>
+      <div class="wire-item"><span class="wire-color green"></span> سبز = SIM RXD</div>
+      <div class="wire-item"><span class="wire-color blue"></span> آبی = I2C SDA</div>
+      <div class="wire-item"><span class="wire-color purple"></span> بنفش = I2C SCL</div>
+    </div>
+    <div class="notes">
+      <strong>راهنما:</strong> برای سیم‌کشی دقیق از بخش‌های متنی و جداول پایین استفاده کن.
+    </div>
+  </div>
+
+  <!-- 1000uF CAPACITOR -->
+  <div class="section cap-section">
+    <h2>خازن ۱۰۰۰µF — کجا بگذارم؟ + و − کدام است؟</h2>
+    <p style="color:#8b949e;font-size:0.85rem;margin-bottom:16px;">
+      این خازن الکترولیت است و <strong>قطب دارد</strong>. اگر برعکس بزنی باد می‌کند یا می‌ترکد.
+      جای درست: <strong>موازی روی تغذیه SIM800L</strong> — پایهٔ مثبت به <strong>5VIN</strong>، پایهٔ منفی به
+      <strong>GND</strong>، هرچه نزدیک‌تر به ماژول بهتر.
+    </p>
+
+    <div class="cap-wrap">
+      <div class="cap-legend">
+        <h3 style="color:#f0883e;margin-bottom:12px;font-size:1rem;">اتصال دقیق</h3>
+        <table class="pin-table">
+          <thead>
+            <tr>
+              <th>پایه خازن</th>
+              <th>تشخیص</th>
+              <th>وصل به</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>+</strong></td>
+              <td>بدون نوار / پایه بلند</td>
+              <td>SIM800L <strong>5VIN</strong> و +5V پاوربانک</td>
+            </tr>
+            <tr>
+              <td><strong>−</strong></td>
+              <td>نوار تیره با علامت − / پایه کوتاه</td>
+              <td>SIM800L <strong>GND</strong> و GND مشترک</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="notes" style="margin-top:16px;">
+          <strong>قواعد جاگذاری:</strong>
+          <ul>
+            <li>خازن را <strong>موازی</strong> بگذار (نه سری در مسیر سیم). یعنی هم 5VIN و هم GND همچنان به پاوربانک
+              وصل‌اند؛ خازن فقط بین همان دو نقطه می‌نشیند.</li>
+            <li>حداکثر <strong>۲–۳ سانتی‌متر</strong> از پین‌های 5VIN و GND ماژول فاصله داشته باشد. روی بردبرد اگر دور
+              باشد اثرش کم می‌شود.</li>
+            <li>ولتاژ خازن: حداقل <strong>۱۰V</strong>، بهتر <strong>۱۶V یا ۲۵V</strong>. روی 5V از خازن 6.3V استفاده
+              نکن.</li>
+            <li>این خازن مال جهش جریان SIM است (هنگام ارسال GPRS). روی پمپ یا ESP لازم نیست همین را بگذاری.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- راهنمای اتصال ULN + رله + منبع ۳V -->
+  <div class="section connect-guide" id="relay-uln-connect">
+    <h2>اتصال دو رله با ULN2003 و منبع تغذیه جدا</h2>
+    <p style="color:#8b949e;font-size:0.9rem;margin-bottom:16px;">
+      رله را مستقیم به GPIO نزن. مسیر درست: <strong>ESP32 → ULN2003 → IN رله → پمپ ۳V</strong>.
+      دیود flyback جدا لازم نیست؛ دیودهای داخل ULN با وصل پین ۹ به ۵V فعال می‌شوند.
+    </p>
+
+    <h3>دو منبع برق</h3>
+    <div class="power-split">
+      <div class="box v5">
+        <strong>منبع ۵ ولت (پاوربانک)</strong>
+        <p>کویل رله‌ها · پین ۹ (COM) روی ULN · تغذیه کنترل</p>
+      </div>
+      <div class="box v3">
+        <strong>منبع ۳ ولت (جدا)</strong>
+        <p>فقط پمپ‌ها از طریق COM و NO رله — مستقیم به ESP وصل نشود</p>
+      </div>
+    </div>
+
+    <h3>گام‌به‌گام سیم‌کشی</h3>
+    <ol class="connect-steps">
+      <li>
+        <div class="step-title">اول ULN2003 را بگذار</div>
+        <p style="font-size:0.85rem;color:#8b949e;margin-bottom:8px;">ناچ (فرورفتگی) بالا باشد. پین ۱ سمت چپ بالاست.</p>
+        <div class="wire-line">
+          <span class="from">پین ۱ — 1B</span>
+          <span class="arrow-rtl">←</span>
+          <span class="to">ESP32 GPIO 10</span>
+          <span class="tag tag-orange">نارنجی</span>
+        </div>
+        <div class="wire-line">
+          <span class="from">پین ۲ — 2B</span>
+          <span class="arrow-rtl">←</span>
+          <span class="to">ESP32 GPIO 11</span>
+          <span class="tag tag-orange">نارنجی</span>
+        </div>
+        <div class="wire-line">
+          <span class="from">پین ۸ — GND</span>
+          <span class="arrow-rtl">←</span>
+          <span class="to">GND مشترک</span>
+          <span class="tag tag-black">مشکی</span>
+        </div>
+        <div class="wire-line">
+          <span class="from">پین ۹ — COM</span>
+          <span class="arrow-rtl">←</span>
+          <span class="to">۵V پاوربانک</span>
+          <span class="tag tag-red">قرمز · الزامی</span>
+        </div>
+        <div class="wire-line">
+          <span class="from">پین ۱۶ — 1C</span>
+          <span class="arrow-rtl">→</span>
+          <span class="to">IN رله ۱</span>
+          <span class="tag tag-orange">نارنجی</span>
+        </div>
+        <div class="wire-line">
+          <span class="from">پین ۱۵ — 2C</span>
+          <span class="arrow-rtl">→</span>
+          <span class="to">IN رله ۲</span>
+          <span class="tag tag-orange">نارنجی</span>
+        </div>
+      </li>
+
+      <li>
+        <div class="step-title">رله ۱ (پمپ گیاه ۱)</div>
+        <div class="wire-line">
+          <span class="from">VCC رله</span>
+          <span class="arrow-rtl">←</span>
+          <span class="to">۵V پاوربانک</span>
+          <span class="tag tag-red">قرمز</span>
+        </div>
+        <div class="wire-line">
+          <span class="from">GND رله</span>
+          <span class="arrow-rtl">←</span>
+          <span class="to">GND مشترک</span>
+          <span class="tag tag-black">مشکی</span>
+        </div>
+        <div class="wire-line">
+          <span class="from">IN رله</span>
+          <span class="arrow-rtl">←</span>
+          <span class="to">ULN پین ۱۶ (1C)</span>
+          <span class="tag tag-orange">نه از ESP</span>
+        </div>
+      </li>
+
+      <li>
+        <div class="step-title">رله ۲ (پمپ گیاه ۲)</div>
+        <div class="wire-line">
+          <span class="from">VCC رله</span>
+          <span class="arrow-rtl">←</span>
+          <span class="to">۵V پاوربانک</span>
+          <span class="tag tag-red">قرمز</span>
+        </div>
+        <div class="wire-line">
+          <span class="from">GND رله</span>
+          <span class="arrow-rtl">←</span>
+          <span class="to">GND مشترک</span>
+          <span class="tag tag-black">مشکی</span>
+        </div>
+        <div class="wire-line">
+          <span class="from">IN رله</span>
+          <span class="arrow-rtl">←</span>
+          <span class="to">ULN پین ۱۵ (2C)</span>
+          <span class="tag tag-orange">نه از ESP</span>
+        </div>
+      </li>
+
+      <li>
+        <div class="step-title">منبع ۳ ولت و پمپ‌ها (ترمینال بزرگ رله)</div>
+        <p style="font-size:0.85rem;color:#8b949e;margin-bottom:8px;">برای هر پمپ همین الگو را تکرار کن.</p>
+        <div class="wire-line">
+          <span class="from">+ منبع ۳V</span>
+          <span class="arrow-rtl">→</span>
+          <span class="to">COM رله</span>
+          <span class="tag tag-gold">زرد / قرمز</span>
+        </div>
+        <div class="wire-line">
+          <span class="from">NO رله</span>
+          <span class="arrow-rtl">→</span>
+          <span class="to">+ پمپ</span>
+          <span class="tag tag-green">سبز</span>
+        </div>
+        <div class="wire-line">
+          <span class="from">− پمپ</span>
+          <span class="arrow-rtl">→</span>
+          <span class="to">− منبع ۳V</span>
+          <span class="tag tag-black">مشکی</span>
+        </div>
+      </li>
+    </ol>
+
+    <h3>جدول خلاصه اتصالات</h3>
+    <table class="pin-table">
+      <thead>
+        <tr>
+          <th>از</th>
+          <th>به</th>
+          <th>رنگ پیشنهادی</th>
+          <th>توضیح</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>GPIO 10</td>
+          <td>ULN پین ۱ (1B)</td>
+          <td>نارنجی</td>
+          <td>سیگنال رله ۱</td>
+        </tr>
+        <tr>
+          <td>GPIO 11</td>
+          <td>ULN پین ۲ (2B)</td>
+          <td>نارنجی</td>
+          <td>سیگنال رله ۲</td>
+        </tr>
+        <tr>
+          <td>ULN پین ۸</td>
+          <td>GND مشترک</td>
+          <td>مشکی</td>
+          <td>زمین کنترل</td>
+        </tr>
+        <tr>
+          <td>ULN پین ۹</td>
+          <td>۵V پاوربانک</td>
+          <td>قرمز</td>
+          <td>دیودهای داخلی ULN</td>
+        </tr>
+        <tr>
+          <td>ULN پین ۱۶</td>
+          <td>IN رله ۱</td>
+          <td>نارنجی</td>
+          <td>خروجی کانال ۱</td>
+        </tr>
+        <tr>
+          <td>ULN پین ۱۵</td>
+          <td>IN رله ۲</td>
+          <td>نارنجی</td>
+          <td>خروجی کانال ۲</td>
+        </tr>
+        <tr>
+          <td>VCC هر رله</td>
+          <td>۵V پاوربانک</td>
+          <td>قرمز</td>
+          <td>کویل رله</td>
+        </tr>
+        <tr>
+          <td>GND هر رله</td>
+          <td>GND مشترک</td>
+          <td>مشکی</td>
+          <td>زمین کنترل</td>
+        </tr>
+        <tr>
+          <td>+ منبع ۳V</td>
+          <td>COM هر رله</td>
+          <td>قرمز</td>
+          <td>برق پمپ</td>
+        </tr>
+        <tr>
+          <td>NO هر رله</td>
+          <td>+ پمپ مربوط</td>
+          <td>سبز</td>
+          <td>سوییچ پمپ</td>
+        </tr>
+        <tr>
+          <td>− پمپ</td>
+          <td>− منبع ۳V</td>
+          <td>مشکی</td>
+          <td>برگشت پمپ</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="notes">
+      <strong>نکات مهم:</strong>
+      <ul>
+        <li>GPIO را مستقیم به IN رله وصل نکن؛ حتماً از ULN رد شود.</li>
+        <li>دیود جدا لازم نیست — پین ۹ ULN را به ۵V وصل کن.</li>
+        <li>ماژول رله معمولاً LOW-trigger است: <code>digitalWrite(10, HIGH)</code> = پمپ ۱ روشن.</li>
+        <li>اول بدون پمپ تست کن (فقط صدای کلیک رله)، بعد منبع ۳V و پمپ را وصل کن.</li>
+        <li>GND کنترل (ESP و ULN و رله) مشترک باشد؛ مسیر ۳V پمپ می‌تواند جدا بماند.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ULN2003 PINOUT SHEET -->
+  <div class="section uln-pinout-section">
+    <h2>خلاصه پین‌های ULN2003AN</h2>
+    <p style="color:#8b949e;font-size:0.85rem;margin-bottom:16px;">
+      چیپ را طوری بگیر که <strong>نقطه/فرورفتگی (notch)</strong> بالا باشد. پین ۱ سمت چپ بالاست.
+      فقط پین‌های <span style="color:#f85149">قرمز</span> را در این پروژه استفاده کن — بقیه خالی بمانند.
+    </p>
+
+    <div class="uln-pinout-wrap">
+      <div class="uln-legend-box">
+        <h3 style="color:#e3b341;margin-bottom:12px;font-size:1rem;">خلاصه — فقط ۶ پین وصل شود</h3>
+        <table class="pin-table">
+          <thead>
+            <tr>
+              <th>پین IC</th>
+              <th>نام</th>
+              <th>سیم به</th>
+              <th>رنگ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>۱</strong></td>
+              <td>1B</td>
+              <td>ESP32 GPIO 10</td>
+              <td>نارنجی</td>
+            </tr>
+            <tr>
+              <td><strong>۲</strong></td>
+              <td>2B</td>
+              <td>ESP32 GPIO 11</td>
+              <td>نارنجی</td>
+            </tr>
+            <tr>
+              <td><strong>۸</strong></td>
+              <td>GND</td>
+              <td>GND مشترک (همه ماژول‌ها)</td>
+              <td>مشکی</td>
+            </tr>
+            <tr>
+              <td><strong>۹</strong></td>
+              <td>COM</td>
+              <td>+5V پاوربانک</td>
+              <td>قرمز</td>
+            </tr>
+            <tr>
+              <td><strong>۱۵</strong></td>
+              <td>2C</td>
+              <td>IN ماژول رله ۲</td>
+              <td>نارنجی</td>
+            </tr>
+            <tr>
+              <td><strong>۱۶</strong></td>
+              <td>1C</td>
+              <td>IN ماژول رله ۱</td>
+              <td>نارنجی</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="notes" style="margin-top:16px;">
+          <strong>نکات مهم:</strong>
+          <ul>
+            <li>پین‌های <strong>۳ تا ۷</strong> (ورودی) و <strong>۱۰ تا ۱۴</strong> (خروجی) را وصل نکن.</li>
+            <li><strong>پین ۹ (COM)</strong> را به 5V وصل کن تا دیودهای داخلی هنگام قطع رله ولتاژ القایی را خنثی کنند.
+            </li>
+            <li>رله: <strong>VCC→5V</strong>، <strong>GND→مشترک</strong>، <strong>IN→1C یا 2C</strong> (مستقیم به ESP
+              نه).</li>
+            <li>روی breadboard: چیپ را طوری بگذار که notch رو به بالا باشد؛ پین ۱ جلوی چپ.</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- PIN TABLE -->
+  <div class="section">
+    <h2>جدول کامل اتصال پین‌ها</h2>
+
+    <table class="pin-table">
+      <thead>
+        <tr>
+          <th>ماژول</th>
+          <th>پین ماژول</th>
+          <th>رنگ سیم</th>
+          <th>پین ESP32-S3</th>
+          <th>توضیح</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td rowspan="7"><strong>SIM800L EVB</strong><br><span style="font-size:0.75rem;color:#8b949e">ترتیب روی
+              برد:<br>5VIN · GND · VDD · TXD · RXD · GND · RST</span></td>
+          <td>5VIN</td>
+          <td>قرمز</td>
+          <td>خروجی 5V پاوربانک</td>
+          <td>نه از پین 5V برد ESP — پاوربانک 5V/2A. خازن ۱۰۰۰µF موازی بین 5VIN و GND</td>
+        </tr>
+        <tr>
+          <td>GND (اول)</td>
+          <td>مشکی</td>
+          <td>GND</td>
+          <td>GND مشترک + پایه − خازن</td>
+        </tr>
+        <tr>
+          <td>VDD</td>
+          <td>آبی روشن</td>
+          <td>3.3V ESP</td>
+          <td>سطح منطقی UART — نه 5V</td>
+        </tr>
+        <tr>
+          <td>TXD</td>
+          <td>زرد</td>
+          <td>GPIO 16 (RX)</td>
+          <td>SIM TX → ESP RX</td>
+        </tr>
+        <tr>
+          <td>RXD</td>
+          <td>سبز</td>
+          <td>GPIO 17 (TX)</td>
+          <td>SIM RX → ESP TX</td>
+        </tr>
+        <tr>
+          <td>GND (دوم)</td>
+          <td>مشکی</td>
+          <td>GND</td>
+          <td>همان GND مشترک — هر دو یکی‌اند</td>
+        </tr>
+        <tr>
+          <td>RST</td>
+          <td>نارنجی</td>
+          <td>GPIO 18 (اختیاری)</td>
+          <td>Reset نرم‌افزاری ماژول</td>
+        </tr>
+
+        <tr>
+          <td rowspan="2"><strong>خازن ۱۰۰۰µF</strong></td>
+          <td>+ (بدون نوار / پایه بلند)</td>
+          <td>قرمز</td>
+          <td>SIM 5VIN و +5V پاوربانک</td>
+          <td>موازی روی تغذیه SIM — نه سری در سیم</td>
+        </tr>
+        <tr>
+          <td>− (نوار تیره / پایه کوتاه)</td>
+          <td>مشکی</td>
+          <td>SIM GND</td>
+          <td>نزدیک ماژول؛ ولتاژ ۱۶V یا ۲۵V</td>
+        </tr>
+
+        <tr>
+          <td rowspan="4"><strong>رطوبت خاک 1 (HW-103)</strong></td>
+          <td>VCC</td>
+          <td>آبی روشن</td>
+          <td>3.3V</td>
+          <td>نه 5V</td>
+        </tr>
+        <tr>
+          <td>GND</td>
+          <td>مشکی</td>
+          <td>GND</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>AO</td>
+          <td>نارنجی</td>
+          <td>GPIO 1</td>
+          <td>مقدار آنالوگ — گیاه 1</td>
+        </tr>
+        <tr>
+          <td>DO</td>
+          <td>—</td>
+          <td>—</td>
+          <td>استفاده نکن</td>
+        </tr>
+
+        <tr>
+          <td rowspan="3"><strong>رطوبت خاک 2 (HW-103)</strong></td>
+          <td>VCC</td>
+          <td>آبی روشن</td>
+          <td>3.3V</td>
+          <td>نه 5V</td>
+        </tr>
+        <tr>
+          <td>GND</td>
+          <td>مشکی</td>
+          <td>GND</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>AO</td>
+          <td>نارنجی</td>
+          <td>GPIO 2</td>
+          <td>مقدار آنالوگ — گیاه 2</td>
+        </tr>
+
+        <tr>
+          <td rowspan="3"><strong>DHT11</strong></td>
+          <td>VCC</td>
+          <td>آبی روشن</td>
+          <td>3.3V</td>
+          <td>نه 5V</td>
+        </tr>
+        <tr>
+          <td>GND</td>
+          <td>مشکی</td>
+          <td>GND</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>DATA</td>
+          <td>نارنجی</td>
+          <td>GPIO 4</td>
+          <td>دما + رطوبت هوا</td>
+        </tr>
+
+        <tr>
+          <td rowspan="4"><strong>AP3216 (نور)</strong></td>
+          <td>VCC</td>
+          <td>آبی روشن</td>
+          <td>3.3V</td>
+          <td>نه 5V</td>
+        </tr>
+        <tr>
+          <td>GND</td>
+          <td>مشکی</td>
+          <td>GND</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>SDA</td>
+          <td>آبی</td>
+          <td>GPIO 5</td>
+          <td>I2C Data</td>
+        </tr>
+        <tr>
+          <td>SCL</td>
+          <td>بنفش</td>
+          <td>GPIO 9</td>
+          <td>I2C Clock</td>
+        </tr>
+
+        <tr>
+          <td rowspan="3"><strong>سنسور سطح آب</strong></td>
+          <td>+ (VCC)</td>
+          <td>آبی روشن</td>
+          <td>3.3V</td>
+          <td>نه 5V</td>
+        </tr>
+        <tr>
+          <td>− (GND)</td>
+          <td>مشکی</td>
+          <td>GND</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>S (Signal)</td>
+          <td>نارنجی</td>
+          <td>GPIO 7</td>
+          <td>HIGH = آب موجود</td>
+        </tr>
+
+        <tr>
+          <td rowspan="6"><strong>ULN2003AN</strong></td>
+          <td>1B (پین ۱)</td>
+          <td>نارنجی</td>
+          <td>GPIO 10</td>
+          <td>ورودی کانال ۱</td>
+        </tr>
+        <tr>
+          <td>1C (پین ۱۶)</td>
+          <td>نارنجی</td>
+          <td>IN رله ۱</td>
+          <td>خروجی کانال ۱</td>
+        </tr>
+        <tr>
+          <td>2B (پین ۲)</td>
+          <td>نارنجی</td>
+          <td>GPIO 11</td>
+          <td>ورودی کانال ۲</td>
+        </tr>
+        <tr>
+          <td>2C (پین ۱۵)</td>
+          <td>نارنجی</td>
+          <td>IN رله ۲</td>
+          <td>خروجی کانال ۲</td>
+        </tr>
+        <tr>
+          <td>8 GND</td>
+          <td>مشکی</td>
+          <td>GND</td>
+          <td>مشترک</td>
+        </tr>
+        <tr>
+          <td>9 COM</td>
+          <td>قرمز</td>
+          <td>5V</td>
+          <td>دیودهای داخلی ULN — دیود جدا لازم نیست</td>
+        </tr>
+
+        <tr>
+          <td rowspan="3"><strong>رله 1 (پمپ 1)</strong></td>
+          <td>VCC</td>
+          <td>قرمز</td>
+          <td>5V پاوربانک</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>GND</td>
+          <td>مشکی</td>
+          <td>GND</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>نارنجی</td>
+          <td>ULN2003 1C</td>
+          <td>نه مستقیم از ESP</td>
+        </tr>
+
+        <tr>
+          <td rowspan="3"><strong>رله 2 (پمپ 2)</strong></td>
+          <td>VCC</td>
+          <td>قرمز</td>
+          <td>5V پاوربانک</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>GND</td>
+          <td>مشکی</td>
+          <td>GND</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>IN</td>
+          <td>نارنجی</td>
+          <td>ULN2003 2C</td>
+          <td>نه مستقیم از ESP</td>
+        </tr>
+
+        <tr>
+          <td rowspan="2"><strong>پمپ 3V (هر کدام)</strong></td>
+          <td>+</td>
+          <td>قرمز</td>
+          <td>NO رله ← COM منبع 3V</td>
+          <td>مستقیم به ESP وصل نشود</td>
+        </tr>
+        <tr>
+          <td>−</td>
+          <td>مشکی</td>
+          <td>GND منبع 3V</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="section footer-note">
+    گلدون هوشمند — نقشه سیم‌کشی ESP32 حیاط · تمام GNDها مشترک · SIM و پمپ از منبع جدا
+  </div>
+
+</body>
+
+</html>

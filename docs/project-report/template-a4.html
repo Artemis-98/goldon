@@ -1,0 +1,3031 @@
+﻿<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>قالب گزارش پروژه دانشجویی</title>
+  <style>
+    @font-face {
+      font-family: "B Nazanin";
+      src: local("B Nazanin"), local("BNazanin"),
+        url("assets/fonts/B-NAZANIN.TTF") format("truetype");
+      font-weight: 400;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "B Nazanin";
+      src: local("B Nazanin Bold"), local("BNazanin Bold"),
+        url("assets/fonts/B-Nazanin-Bold.ttf") format("truetype");
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "B Titr";
+      src: local("B Titr"), local("BTitr"), local("Titr"), local("XB Titre"), local("XBTitre");
+      font-weight: 700;
+      font-style: normal;
+      font-display: swap;
+    }
+
+    @page {
+      size: A4;
+      margin: 0;
+    }
+
+    :root {
+      --page-w: 210mm;
+      --page-h: 297mm;
+      --m-top: 25mm;
+      --m-bottom: 25mm;
+      --m-outer: 20mm;
+      --m-inner: 28mm;
+      --ink: #1a1a1a;
+      --muted: #5a5a5a;
+      --font-body: "B Nazanin", "BNazanin", Tahoma, serif;
+      --font-title: "B Titr", "BTitr", "Titr", "XB Titre", "B Nazanin", Tahoma, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #dcdcdc;
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 13pt;
+      line-height: 2;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: #1a1a1a;
+      color: #fff;
+      padding: 10px 16px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-family: Tahoma, sans-serif;
+    }
+
+    .toolbar button {
+      background: #fff;
+      color: #111;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: Tahoma, sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .toolbar button:hover {
+      background: #e8e8e8;
+    }
+
+    .sheet {
+      width: var(--page-w);
+      height: var(--page-h);
+      min-height: var(--page-h);
+      margin: 12mm auto;
+      background: #fff;
+      box-shadow: 0 2px 14px rgba(0, 0, 0, 0.16);
+      position: relative;
+      overflow: hidden;
+      page-break-after: always;
+      break-after: page;
+    }
+
+    .sheet:last-child {
+      page-break-after: auto;
+      break-after: auto;
+    }
+
+    .page {
+      padding: 10mm 9mm 8mm 9mm;
+      margin: 12mm 12mm 20mm 12mm;
+      height: calc(100% - 32mm);
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      border: 2.5pt double var(--ink);
+      overflow: hidden;
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 7mm;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 11pt;
+      font-weight: 700;
+      font-family: var(--font-body);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .footer.hidden {
+      display: none;
+    }
+
+    .page.fullfig {
+      padding: 6mm 5mm 5mm;
+    }
+
+    .page.fullfig .fig-cap {
+      margin: 0 0 4px;
+    }
+
+    .page.fullfig .schem {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .page.fullfig .schem img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border: 1px solid #333;
+      background: #fff;
+    }
+
+    h1.page-title,
+    h2.chapter,
+    h3.sub,
+    .cover-uni,
+    .cover-fac,
+    .cover-dept,
+    .cover-badge,
+    .cover-fields .field .label,
+    .field .label,
+    .kw,
+    table.toc tr.head td,
+    table.abbr th,
+    .sig-box {
+      font-family: var(--font-title);
+    }
+
+    h1.page-title {
+      font-size: 16pt;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 1.2em;
+      padding-bottom: 0.45em;
+    }
+
+    h2.chapter {
+      font-size: 15pt;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 1.4em;
+      line-height: 1.9;
+    }
+
+    .prose {
+      font-family: var(--font-body);
+      font-size: 12.5pt;
+      line-height: 1.85;
+      text-align: justify;
+      text-justify: inter-word;
+      margin: 0 0 0.55em;
+    }
+
+    .prose-list {
+      font-family: var(--font-body);
+      font-size: 12.5pt;
+      line-height: 1.75;
+      margin: 0.2em 0 0.5em;
+      padding: 0 0.3em 0 0;
+      max-width: 100%;
+      box-sizing: border-box;
+      list-style: disc;
+      list-style-position: inside;
+    }
+
+    .prose-list li {
+      margin-bottom: 0.1em;
+      text-align: justify;
+      overflow-wrap: anywhere;
+      word-wrap: break-word;
+    }
+
+    h3.sub {
+      font-size: 13pt;
+      font-weight: 700;
+      margin: 0.75em 0 0.4em;
+      padding-right: 0.55em;
+      border-right: 2.5pt solid var(--ink);
+    }
+
+    .code-box {
+      direction: ltr;
+      text-align: left;
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 9pt;
+      line-height: 1.45;
+      background: #f4f4f4;
+      border: 1px solid #333;
+      padding: 0.55em 0.7em;
+      margin: 0.35em 0 0.65em;
+      white-space: pre;
+      overflow: hidden;
+      overflow-wrap: normal;
+    }
+
+    .code-cap {
+      font-family: var(--font-body);
+      font-size: 11pt;
+      line-height: 1.55;
+      text-align: justify;
+      margin: 0 0 0.15em;
+      color: #333;
+    }
+
+    .field {
+      display: flex;
+      align-items: baseline;
+      gap: 0.65em;
+      margin: 0.55em 0;
+    }
+
+    .field .label {
+      font-weight: 700;
+      white-space: nowrap;
+      min-width: 8.5em;
+    }
+
+    .field .value {
+      font-family: var(--font-body);
+      font-weight: 400;
+    }
+
+    .meta {
+      margin-top: 1.5em;
+    }
+
+    /* —— صفحه عنوان —— */
+    .title-page {
+      gap: 0;
+    }
+
+    .tp-block {
+      margin-bottom: 7mm;
+      padding-bottom: 5mm;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .tp-block:last-of-type {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .tp-info-stack {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 5mm;
+      align-items: start;
+      margin-bottom: 7mm;
+      padding-bottom: 5mm;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .tp-info-stack .tp-block {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      padding-left: 4mm;
+      border-bottom: none;
+      border-left: 1px solid #999;
+      min-width: 0;
+    }
+
+    .tp-info-stack .tp-block:last-child {
+      padding-left: 0;
+      padding-right: 4mm;
+      border-left: none;
+      padding-top: 0;
+    }
+
+    .tp-info-stack .tp-heading {
+      font-size: 11.5pt;
+      margin-bottom: 0.5em;
+    }
+
+    .tp-info-stack .tp-table {
+      font-size: 10pt;
+    }
+
+    .tp-info-stack .tp-table th {
+      width: 30%;
+      white-space: nowrap;
+      padding: 0.3em 0.25em;
+    }
+
+    .tp-info-stack .tp-table td {
+      padding: 0.3em 0.25em;
+      white-space: nowrap;
+      font-size: 9.5pt;
+    }
+
+    .tp-heading {
+      font-family: var(--font-title);
+      font-size: 12.5pt;
+      font-weight: 700;
+      margin-bottom: 0.7em;
+      text-align: center;
+    }
+
+    .tp-heading.en {
+      text-align: left;
+      font-family: "Times New Roman", "B Titr", serif;
+    }
+
+    .tp-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12.5pt;
+    }
+
+    .tp-table th,
+    .tp-table td {
+      padding: 0.45em 0.6em;
+      vertical-align: top;
+      text-align: right;
+      line-height: 1.7;
+    }
+
+    .tp-table th {
+      font-family: var(--font-title);
+      font-weight: 700;
+      width: 32%;
+      white-space: nowrap;
+      color: var(--ink);
+    }
+
+    .tp-table td {
+      font-family: var(--font-body);
+      font-weight: 400;
+    }
+
+    .tp-title-text {
+      font-family: var(--font-body);
+      font-size: 13pt;
+      line-height: 1.9;
+      text-align: center;
+      padding: 0.2em 0.4em;
+    }
+
+    .tp-title-text.en {
+      text-align: left;
+      direction: ltr;
+      font-family: "Times New Roman", "B Nazanin", serif;
+      font-size: 12pt;
+      line-height: 1.7;
+    }
+
+    .space {
+      flex: 1;
+      min-height: 24mm;
+      font-family: var(--font-body);
+    }
+
+    .space-sm {
+      min-height: 18mm;
+      flex: 0 0 auto;
+    }
+
+    .space-md {
+      min-height: 36mm;
+      flex: 0 0 auto;
+    }
+
+    .space-lg {
+      min-height: 90mm;
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 10.5pt;
+    }
+
+    .en {
+      direction: ltr;
+      text-align: left;
+      font-family: "Times New Roman", "B Nazanin", serif;
+    }
+
+    .en h1.page-title {
+      text-align: left;
+      font-family: "Times New Roman", "B Titr", serif;
+    }
+
+    /* —— جلد —— */
+    .cover-wrap {
+      padding: 12mm;
+      height: 100%;
+    }
+
+    .cover {
+      height: 100%;
+      padding: 10mm 9mm;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .bismillah {
+      width: 92%;
+      max-width: 175mm;
+      height: auto;
+      margin-bottom: 7mm;
+      display: block;
+    }
+
+    .cover-uni {
+      font-size: 14pt;
+      font-weight: 700;
+      margin-bottom: 0.2em;
+      min-height: 1.4em;
+      width: 100%;
+    }
+
+    .cover-fac {
+      font-size: 12.5pt;
+      font-weight: 600;
+      margin-bottom: 0.15em;
+      min-height: 1.3em;
+      width: 100%;
+    }
+
+    .cover-dept {
+      font-size: 13pt;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 1em;
+      min-height: 1.2em;
+      width: 100%;
+      line-height: 1.85;
+    }
+
+    .cover-badge {
+      font-size: 13pt;
+      font-weight: 700;
+      border: 1px solid var(--ink);
+      padding: 0.55em 1em;
+      margin: 0.4em 0 0;
+      line-height: 1.85;
+      width: 100%;
+      max-width: 100%;
+    }
+
+    .cover-fields {
+      width: 100%;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1em;
+      margin-top: auto;
+      padding-top: 8mm;
+      padding-bottom: 4mm;
+    }
+
+    .cover-fields .field {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.15em;
+      margin: 0;
+    }
+
+    .cover-fields .field .label {
+      min-width: 0;
+      font-size: 14pt;
+      color: var(--muted);
+    }
+
+    .cover-fields .field .value {
+      font-size: 12.5pt;
+      font-weight: 700;
+    }
+
+    .cover-year {
+      font-size: 12pt;
+      padding-top: 0.6em;
+      min-height: 1.5em;
+      width: 100%;
+      text-align: center;
+    }
+
+    .sig-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16mm 14mm;
+      margin-top: auto;
+      padding-top: 18mm;
+    }
+
+    .sig-box {
+      text-align: center;
+      font-size: 11pt;
+      font-weight: 600;
+      min-height: 22mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    table.toc {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+      font-size: 12pt;
+      line-height: 1.7;
+    }
+
+    table.toc td {
+      padding: 0.28em 0;
+      vertical-align: middle;
+      white-space: nowrap;
+    }
+
+    table.toc tr.head td {
+      font-weight: 700;
+      font-family: var(--font-title);
+      padding-top: 0.35em;
+      padding-bottom: 0.55em;
+      border-top: none;
+      border-bottom: 1.5pt solid var(--ink);
+      height: auto;
+    }
+
+    table.toc tr.chapter td {
+      padding-top: 0.75em;
+      font-family: var(--font-title);
+      font-weight: 700;
+    }
+
+    table.toc tr.chapter .title {
+      font-family: var(--font-title);
+    }
+
+    table.toc tr.section td {
+      padding-top: 0.2em;
+      padding-bottom: 0.2em;
+    }
+
+    table.toc .title {
+      width: auto;
+      font-family: var(--font-body);
+      text-align: right;
+    }
+
+    table.toc .pg {
+      width: 18mm;
+      min-width: 18mm;
+      max-width: 18mm;
+      text-align: center;
+      font-family: var(--font-body);
+      font-weight: 700;
+      padding: 0;
+    }
+
+    table.toc tr.head .pg {
+      font-family: var(--font-title);
+    }
+
+    table.toc tr.section .title {
+      padding-right: 1.6em;
+    }
+
+    table.toc tr.front .title {
+      font-family: var(--font-title);
+      font-weight: 700;
+    }
+
+    table.abbr {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 0.4em;
+    }
+
+    table.abbr th,
+    table.abbr td {
+      border: 1px solid #333;
+      padding: 0.55em 0.7em;
+      text-align: right;
+      vertical-align: middle;
+      height: 2.3em;
+    }
+
+    table.abbr th {
+      font-weight: 700;
+      background: #f7f7f7;
+    }
+
+    table.abbr th:first-child,
+    table.abbr td:first-child {
+      width: 28%;
+    }
+
+    table.data {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0.4em 0 0.8em;
+      font-family: var(--font-body);
+      font-size: 10.5pt;
+      line-height: 1.45;
+    }
+
+    table.data th,
+    table.data td {
+      border: 1px solid #333;
+      padding: 0.35em 0.4em;
+      text-align: right;
+      vertical-align: middle;
+    }
+
+    table.data th {
+      font-family: var(--font-title);
+      font-weight: 700;
+      background: #f3f3f3;
+    }
+
+    table.data td.num {
+      width: 8mm;
+      text-align: center;
+    }
+
+    .uart-x {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      direction: rtl;
+      margin: 0.3em 0 0.2em;
+      font-size: 9.5pt;
+      line-height: 1.4;
+    }
+
+    .uart-x .box {
+      flex: 1;
+      border: 1.5px solid #333;
+      padding: 8px 10px;
+      background: #fff;
+      text-align: right;
+    }
+
+    .uart-x .box strong {
+      display: block;
+      font-family: var(--font-title);
+      font-size: 10pt;
+      margin-bottom: 4px;
+    }
+
+    .uart-x .wires {
+      flex: 0 0 42%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 4px;
+      font-size: 9pt;
+      text-align: center;
+    }
+
+    .fig-cap {
+      font-family: var(--font-body);
+      font-size: 10.5pt;
+      text-align: center;
+      margin: 0.2em 0 0.8em;
+    }
+
+    .arch-fig {
+      width: 100%;
+      margin: 0.35em 0 0.25em;
+      border: 1px solid #333;
+      padding: 10px 8px 8px;
+      background: #fafafa;
+    }
+
+    .arch-flow {
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      gap: 2px;
+      direction: ltr;
+    }
+
+    .arch-box {
+      flex: 1 1 0;
+      border: 1.5px solid #333;
+      border-radius: 3px;
+      padding: 7px 6px;
+      text-align: center;
+      font-size: 9pt;
+      line-height: 1.35;
+      background: #fff;
+    }
+
+    .arch-box strong {
+      display: block;
+      font-family: var(--font-title);
+      font-size: 9.5pt;
+      font-weight: 700;
+      margin-bottom: 3px;
+      line-height: 1.3;
+    }
+
+    .arch-box span {
+      display: block;
+      color: #333;
+      font-size: 8.5pt;
+      line-height: 1.35;
+    }
+
+    .arch-link {
+      flex: 0 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: 52px;
+      font-size: 8.5pt;
+      line-height: 1.15;
+      font-family: Tahoma, sans-serif;
+    }
+
+    .arch-link .arr {
+      font-size: 16pt;
+      line-height: 1;
+      font-weight: 700;
+    }
+
+    .arch-ai {
+      margin-top: 8px;
+      border: 1px dashed #555;
+      padding: 5px 8px;
+      text-align: center;
+      font-size: 9pt;
+      line-height: 1.4;
+      background: #fff;
+    }
+
+    .arch-ai strong {
+      display: block;
+      font-family: var(--font-title);
+      font-size: 9.5pt;
+      margin-bottom: 2px;
+    }
+
+    .arch-note {
+      margin-top: 6px;
+      text-align: center;
+      font-size: 8.5pt;
+      line-height: 1.4;
+      color: #333;
+    }
+
+    .hw-fig {
+      width: 100%;
+      margin: 0.35em 0 0.15em;
+      text-align: center;
+    }
+
+    .hw-fig img {
+      max-width: 100%;
+      max-height: 52mm;
+      width: auto;
+      border: 1px solid #333;
+      filter: grayscale(1) contrast(1.08);
+      background: #fff;
+    }
+
+    .hw-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 10px;
+      margin: 0.35em 0 0.2em;
+    }
+
+    .hw-card {
+      border: 1px solid #333;
+      padding: 6px;
+      text-align: center;
+      background: #fff;
+    }
+
+    .hw-card img {
+      display: block;
+      width: 100%;
+      max-height: 28mm;
+      object-fit: contain;
+      margin: 0 auto 4px;
+      filter: grayscale(1) contrast(1.05);
+    }
+
+    .hw-card .lab {
+      font-size: 9pt;
+      line-height: 1.35;
+      font-family: var(--font-body);
+    }
+
+    .cite {
+      font-size: 9pt;
+      vertical-align: super;
+      line-height: 0;
+    }
+
+    .refs {
+      font-family: var(--font-body);
+      font-size: 11.5pt;
+      line-height: 1.85;
+      list-style: persian;
+      padding: 0 1.4em 0 0;
+      margin: 0.35em 0 0;
+    }
+
+    .refs li {
+      margin: 0 0 0.35em;
+      text-align: right;
+    }
+
+    .refs a {
+      color: var(--ink);
+      word-break: break-all;
+    }
+
+    .kw {
+      margin-top: 1.1em;
+      font-weight: 700;
+    }
+
+    @media print {
+      body {
+        background: #fff;
+      }
+
+      .toolbar {
+        display: none !important;
+      }
+
+      .sheet {
+        margin: 0;
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="toolbar">
+    <button type="button" onclick="window.print()">چاپ / ذخیره PDF</button>
+  </div>
+
+  <!-- جلد -->
+  <section class="sheet" aria-label="جلد">
+    <div class="cover-wrap">
+      <div class="cover">
+        <img class="bismillah" src="assets/bismillah-recreated.png" alt="بسم الله الرحمن الرحیم" />
+
+        <div class="cover-uni" contenteditable="true">دانشگاه آزاد اسلامی واحد تهران جنوب</div>
+        <div class="cover-fac" contenteditable="true">دانشکده کامپیوتر</div>
+        <div class="cover-dept" contenteditable="true">عنوان پروژه</div>
+
+        <div class="cover-badge">طراحی و پیاده‌سازی سیستم پایش و آبیاری هوشمند گلدون مبتنی بر میکروکنترلر و هوش مصنوعی
+        </div>
+
+        <div class="cover-fields">
+          <div class="field">
+            <span class="label">استاد راهنما:</span>
+            <span class="value">دکتر حمید رضا لطفعلی شمیرانی</span>
+          </div>
+          <div class="field">
+            <span class="label">نام دانشجو:</span>
+            <span class="value">محمد تدین</span>
+          </div>
+          <div class="field">
+            <span class="label">شماره دانشجویی:</span>
+            <span class="value">۴۰۳۱۷۰۲۳۵</span>
+          </div>
+        </div>
+
+        <div class="cover-year" contenteditable="true">دی‌ماه ۱۴۰۴–۱۴۰۵</div>
+      </div>
+    </div>
+    <div class="footer hidden"></div>
+  </section>
+
+  <!-- صفحه عنوان -->
+  <section class="sheet" aria-label="صفحه عنوان">
+    <div class="page title-page">
+      <h1 class="page-title">صفحه عنوان</h1>
+
+      <div class="tp-info-stack">
+        <div class="tp-block">
+          <div class="tp-heading">مشخصات دانشگاهی</div>
+          <table class="tp-table">
+            <tr>
+              <th>نام دانشگاه</th>
+              <td>دانشگاه آزاد اسلامی واحد تهران جنوب</td>
+            </tr>
+            <tr>
+              <th>نام دانشکده</th>
+              <td>کامپیوتر</td>
+            </tr>
+            <tr>
+              <th>گروه / رشته</th>
+              <td>مهندسی نرم افزار</td>
+            </tr>
+            <tr>
+              <th>مقطع</th>
+              <td>کارشناسی</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="tp-block">
+          <div class="tp-heading">مشخصات دانشجو و استاد</div>
+          <table class="tp-table">
+            <tr>
+              <th>استاد راهنما</th>
+              <td>دکتر حمید رضا لطفعلی شمیرانی</td>
+            </tr>
+            <tr>
+              <th>نام دانشجو</th>
+              <td>محمد تدین</td>
+            </tr>
+            <tr>
+              <th>شماره دانشجویی</th>
+              <td>۴۰۳۱۷۰۲۳۵</td>
+            </tr>
+            <tr>
+              <th>نیمسال / سال</th>
+              <td>دی‌ماه ۱۴۰۴–۱۴۰۵</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="tp-block">
+        <div class="tp-heading">عنوان فارسی</div>
+        <div class="tp-title-text">طراحی و پیاده‌سازی سیستم پایش و آبیاری هوشمند گلدون مبتنی بر میکروکنترلر و هوش مصنوعی
+        </div>
+      </div>
+
+      <div class="tp-block">
+        <div class="tp-heading en">English Title</div>
+        <div class="tp-title-text en">Design and Implementation of a Smart Planter Monitoring and Irrigation System
+          Based on Microcontroller and Artificial Intelligence</div>
+      </div>
+    </div>
+    <div class="footer hidden"></div>
+  </section>
+
+  <!-- چکیده -->
+  <section class="sheet" aria-label="چکیده">
+    <div class="page">
+      <h1 class="page-title">چکیده</h1>
+      <p class="prose">
+        در این پروژه یک سامانه&zwnj;ی پایش و آبیاری برای گلدون حیاط ساختم تا ببینم تا کجا می‌شود کنترل را
+        به هوش مصنوعی سپرد و خودم دائم به حیاط نروم. کار را روی سه برد ESP پیاده کردم:
+        برد حیاط حسگر دما، رطوبت هوا و رطوبت خاک را می‌خواند و رله&zwnj;ی پمپ را می‌زند.
+        برد واسط با وای فای به شبکه&zwnj;ی خانه وصل می‌شود و همان داده و فرمان را از روی سیم به حیاط می‌رساند.
+        برد پنل داخل خانه با صفحه لمسی و کتابخانه&zwnj;ی LVGL وضعیت را نشان می‌دهد و دکمه&zwnj;ی پمپ دارد.
+      </p>
+      <p class="prose">
+        مسیر فرمان دوطرفه است: پنل یا برنامه&zwnj;ی لپ‌تاپ از وای فای به برد واسط درخواست می‌زند،
+        واسط روی سیم به حیاط می‌گوید وضعیت بفرست یا رله را عوض کن، و جواب برمی‌گردد.
+        هواشناسی را از یک سرویس رایگان برای مختصات سیرجان گرفتم. کلید جدا لازم نداشت.
+        اگر احتمال باران بالا باشد آبیاری را عقب می‌اندازم. تصمیم ساده‌ی آبیاری روی لپ‌تاپ است:
+        اگر خاک خشک باشد و باران نباشد، پمپ چند ثانیه روشن می‌شود.
+      </p>
+      <p class="prose">
+        برنامه را در Arduino IDE نوشتم و هر برد را با کابل USB آپلود کردم.
+        مدار را قبل از لحیم در آلتیوم کشیدم. نتیجه&zwnj;ی کار یک سیستم کوچک خانگی است که هم دستی از پنل
+        و هم خودکار از روی حسگر و هوا، پمپ را کنترل می‌کند.
+      </p>
+      <div class="kw">کلیدواژه‌ها: گلدون هوشمند، میکروکنترلر، اینترنت اشیا، ارتباط سریال، صفحه لمسی، آبیاری خودکار، هوش مصنوعی</div>
+    </div>
+    <div class="footer">۱</div>
+  </section>
+
+  <!-- فهرست مطالب -->
+  <section class="sheet" aria-label="فهرست مطالب">
+    <div class="page">
+      <table class="toc">
+        <tr class="head">
+          <td class="title">فهرست مطالب</td>
+          <td class="pg">صفحه</td>
+        </tr>
+        <tr class="front">
+          <td class="title">چکیده</td>
+          <td class="pg">۱</td>
+        </tr>
+        <tr class="front">
+          <td class="title">فهرست مطالب</td>
+          <td class="pg">۲</td>
+        </tr>
+        <tr class="front">
+          <td class="title">فهرست اشکال</td>
+          <td class="pg">۴</td>
+        </tr>
+        <tr class="front">
+          <td class="title">فهرست جداول</td>
+          <td class="pg">۵</td>
+        </tr>
+        <tr class="front">
+          <td class="title">فهرست علائم و اختصارات</td>
+          <td class="pg">۶</td>
+        </tr>
+        <tr class="chapter">
+          <td class="title">فصل ۱ — مقدمه و کلیات</td>
+          <td class="pg">۷</td>
+        </tr>
+        <tr class="section">
+          <td class="title">۱-۱ بیان مسئله</td>
+          <td class="pg">۷</td>
+        </tr>
+        <tr class="section">
+          <td class="title">۱-۲ اهمیت و ضرورت</td>
+          <td class="pg">۷</td>
+        </tr>
+        <tr class="section">
+          <td class="title">۱-۳ اهداف پروژه</td>
+          <td class="pg">۸</td>
+        </tr>
+        <tr class="section">
+          <td class="title">۱-۴ محدوده و محدودیت‌ها</td>
+          <td class="pg">۸</td>
+        </tr>
+        <tr class="section">
+          <td class="title">۱-۵ ساختار گزارش</td>
+          <td class="pg">۸</td>
+        </tr>
+        <tr class="chapter">
+          <td class="title">فصل ۲ — مبانی نظری و پیشینه</td>
+          <td class="pg">۹</td>
+        </tr>
+        <tr class="section">
+          <td class="title">۲-۱ مفاهیم پایه</td>
+          <td class="pg">۹</td>
+        </tr>
+        <tr class="section">
+          <td class="title">۲-۲ مقدمه سخت‌افزار و معرفی ESP32</td>
+          <td class="pg">۱۰</td>
+        </tr>
+        <tr class="section">
+          <td class="title">۲-۳ تفاوت مدل‌های خانواده ESP32</td>
+          <td class="pg">۱۱</td>
+        </tr>
+        <tr class="section">
+          <td class="title">۲-۴ سخت‌افزار پروژه</td>
+          <td class="pg">۱۲</td>
+        </tr>
+        <tr class="section">
+          <td class="title">۲-۵ قطعات و نقش پایه‌ها</td>
+          <td class="pg">۱۳</td>
+        </tr>
+        <tr class="section">
+          <td class="title">۲-۶ پیشینه و کارهای مشابه</td>
+          <td class="pg">۱۴</td>
+        </tr>
+        <tr class="chapter">
+          <td class="title">فصل ۳ — تحلیل نیاز و طراحی سیستم</td>
+          <td class="pg">۱۸</td>
+        </tr>
+        <tr class="section">
+          <td class="title">۳-۱ نیازمندی‌های کارکردی</td>
+          <td class="pg">۱۸</td>
+        </tr>
+        <tr class="section">
+          <td class="title">۳-۲ نیازمندی‌های غیرکارکردی</td>
+          <td class="pg">۱۸</td>
+        </tr>
+        <tr class="section">
+          <td class="title">۳-۳ معماری کلی</td>
+          <td class="pg">۱۹</td>
+        </tr>
+        <tr class="section">
+          <td class="title">۳-۴ طراحی سخت‌افزاری</td>
+          <td class="pg">۲۰</td>
+        </tr>
+        <tr class="section">
+          <td class="title">۳-۵ طراحی نرم‌افزاری</td>
+          <td class="pg">۲۲</td>
+        </tr>
+      </table>
+    </div>
+    <div class="footer">۲</div>
+  </section>
+
+  <section class="sheet" aria-label="فهرست مطالب ادامه">
+    <div class="page">
+      <table class="toc">
+        <tr class="head">
+          <td class="title">فهرست مطالب</td>
+          <td class="pg">صفحه</td>
+        </tr>
+        <tr class="chapter">
+          <td class="title">فصل ۴ — پیاده‌سازی</td>
+          <td class="pg">۲۴</td>
+        </tr>
+        <tr class="section">
+          <td class="title">۴-۱ محیط توسعه و اتصال برد به سیستم</td>
+          <td class="pg">۲۴</td>
+        </tr>
+        <tr class="section">
+          <td class="title">۴-۲ پیاده‌سازی واحدها</td>
+          <td class="pg">۲۶</td>
+        </tr>
+        <tr class="section">
+          <td class="title">۴-۳ انتخاب گیاه و جواب هوش مصنوعی</td>
+          <td class="pg">۳۱</td>
+        </tr>
+        <tr class="section">
+          <td class="title">۴-۴ انتقال فرمان از سیستم به برد</td>
+          <td class="pg">۳۳</td>
+        </tr>
+        <tr class="section">
+          <td class="title">۴-۵ یکپارچه‌سازی</td>
+          <td class="pg">۳۴</td>
+        </tr>
+        <tr class="chapter">
+          <td class="title">فصل ۵ — آزمایش، نتایج و ارزیابی</td>
+          <td class="pg">۳۵</td>
+        </tr>
+        <tr class="section">
+          <td class="title">۵-۱ سناریوهای آزمون</td>
+          <td class="pg">۳۵</td>
+        </tr>
+        <tr class="section">
+          <td class="title">۵-۲ نتایج</td>
+          <td class="pg">۳۶</td>
+        </tr>
+        <tr class="section">
+          <td class="title">۵-۳ بحث</td>
+          <td class="pg">۳۷</td>
+        </tr>
+        <tr class="section">
+          <td class="title">۵-۴ تجربه عملی و چیزهایی که اشتباه کردم</td>
+          <td class="pg">۳۸</td>
+        </tr>
+        <tr class="section">
+          <td class="title">۵-۵ آزمایش یک هفته</td>
+          <td class="pg">۳۹</td>
+        </tr>
+        <tr class="chapter">
+          <td class="title">فصل ۶ — نتیجه‌گیری و کارهای آینده</td>
+          <td class="pg">۴۰</td>
+        </tr>
+        <tr class="section">
+          <td class="title">۶-۱ جمع‌بندی</td>
+          <td class="pg">۴۰</td>
+        </tr>
+        <tr class="section">
+          <td class="title">۶-۲ کارهای آینده</td>
+          <td class="pg">۴۱</td>
+        </tr>
+        <tr class="section">
+          <td class="title">۶-۳ محدودیت‌ها</td>
+          <td class="pg">۴۲</td>
+        </tr>
+        <tr class="chapter">
+          <td class="title">پیوست‌ها</td>
+          <td class="pg">۴۳</td>
+        </tr>
+        <tr class="section">
+          <td class="title">پیوست الف — دستورهای بین بردها</td>
+          <td class="pg">۴۳</td>
+        </tr>
+        <tr class="section">
+          <td class="title">پیوست ب — نکات لازم برای نصب و کار</td>
+          <td class="pg">۴۴</td>
+        </tr>
+        <tr class="section">
+          <td class="title">پیوست ج — کاربردهای دیگر و انبوه‌سازی</td>
+          <td class="pg">۴۵</td>
+        </tr>
+        <tr class="section">
+          <td class="title">پیوست د — آینده اینترنت اشیا و هوش مصنوعی</td>
+          <td class="pg">۴۶</td>
+        </tr>
+        <tr class="chapter">
+          <td class="title">منابع و مآخذ</td>
+          <td class="pg">۴۷</td>
+        </tr>
+      </table>
+    </div>
+    <div class="footer">۳</div>
+  </section>
+
+  <!-- فهرست اشکال -->
+  <section class="sheet" aria-label="فهرست اشکال">
+    <div class="page">
+      <table class="toc">
+        <tr class="head">
+          <td class="title">فهرست اشکال</td>
+          <td class="pg">صفحه</td>
+        </tr>
+        <tr>
+          <td class="title">شکل ۲-۱ — بردهای ESP پروژه</td>
+          <td class="pg">۱۲</td>
+        </tr>
+        <tr>
+          <td class="title">شکل ۲-۲ — ماژول‌ها و حسگرها</td>
+          <td class="pg">۱۲</td>
+        </tr>
+        <tr>
+          <td class="title">شکل ۲-۳ — گلدون گلپونه (پروژه قبلی)</td>
+          <td class="pg">۱۵</td>
+        </tr>
+        <tr>
+          <td class="title">شکل ۲-۳ الف — مدار پروژه قبلی</td>
+          <td class="pg">۱۶</td>
+        </tr>
+        <tr>
+          <td class="title">شکل ۲-۴ — ساختار پروژه قبلی</td>
+          <td class="pg">۱۷</td>
+        </tr>
+        <tr>
+          <td class="title">شکل ۳-۱ — معماری ارتباط سامانه و نقش هوش مصنوعی</td>
+          <td class="pg">۱۹</td>
+        </tr>
+        <tr>
+          <td class="title">شکل ۳-۲ — اتصال سریال بین برد واسط و برد حیاط</td>
+          <td class="pg">۲۰</td>
+        </tr>
+        <tr>
+          <td class="title">شکل ۳-۳ — شماتیک مدار در نرم‌افزار آلتیوم</td>
+          <td class="pg">۲۱</td>
+        </tr>
+      </table>
+    </div>
+    <div class="footer">۴</div>
+  </section>
+
+  <!-- فهرست جداول -->
+  <section class="sheet" aria-label="فهرست جداول">
+    <div class="page">
+      <table class="toc">
+        <tr class="head">
+          <td class="title">فهرست جداول</td>
+          <td class="pg">صفحه</td>
+        </tr>
+        <tr>
+          <td class="title">جدول ۲-۱ — مقایسه&zwnj;ی چند مدل اصلی خانواده ESP32</td>
+          <td class="pg">۱۱</td>
+        </tr>
+        <tr>
+          <td class="title">جدول ۲-۲ — فرق ساده&zwnj;ی دو مدل</td>
+          <td class="pg">۱۲</td>
+        </tr>
+        <tr>
+          <td class="title">جدول ۲-۳ — فهرست قطعات سخت‌افزاری پروژه</td>
+          <td class="pg">۱۳</td>
+        </tr>
+        <tr>
+          <td class="title">جدول ۲-۴ — نقش پایه‌های استفاده‌شده</td>
+          <td class="pg">۱۳</td>
+        </tr>
+        <tr>
+          <td class="title">جدول ۳-۱ — نقش هر بخش در معماری</td>
+          <td class="pg">۱۹</td>
+        </tr>
+        <tr>
+          <td class="title">جدول ۳-۲ — سیم‌کشی سریال بین دو برد</td>
+          <td class="pg">۲۰</td>
+        </tr>
+        <tr>
+          <td class="title">جدول ۴-۱ — تنظیمات اتصال هر برد به لپ‌تاپ</td>
+          <td class="pg">۲۵</td>
+        </tr>
+        <tr>
+          <td class="title">جدول ۴-۲ — گیاه‌ها و حسگر و پمپ هر کدام</td>
+          <td class="pg">۳۱</td>
+        </tr>
+        <tr>
+          <td class="title">جدول ۵-۱ — نتیجه&zwnj;ی آزمون‌های سامانه</td>
+          <td class="pg">۳۶</td>
+        </tr>
+        <tr>
+          <td class="title">جدول ۵-۲ — یادداشت یک هفته آزمایش فرضی</td>
+          <td class="pg">۳۹</td>
+        </tr>
+        <tr>
+          <td class="title">جدول پ-۱ — دستور از واسط به حیاط</td>
+          <td class="pg">۴۳</td>
+        </tr>
+      </table>
+    </div>
+    <div class="footer">۵</div>
+  </section>
+
+  <!-- اختصارات -->
+  <section class="sheet" aria-label="فهرست اختصارات">
+    <div class="page">
+      <h1 class="page-title">فهرست علائم و اختصارات</h1>
+      <table class="abbr">
+        <thead>
+          <tr>
+            <th>اختصار</th>
+            <th>معنی / توضیح</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>IoT</td>
+            <td>اینترنت اشیا؛ وصل کردن دستگاه واقعی به شبکه</td>
+          </tr>
+          <tr>
+            <td>AI</td>
+            <td>هوش مصنوعی؛ اینجا تصمیم آبیاری روی لپ‌تاپ</td>
+          </tr>
+          <tr>
+            <td>UART</td>
+            <td>ارتباط سریال سیمی بین برد واسط و برد حیاط</td>
+          </tr>
+          <tr>
+            <td>HTTP</td>
+            <td>پروتکل درخواست وب روی وای فای (مثل /status)</td>
+          </tr>
+          <tr>
+            <td>JSON</td>
+            <td>قالب متنی جواب حسگر و وضعیت برد</td>
+          </tr>
+          <tr>
+            <td>API</td>
+            <td>رابط آماده؛ اینجا پیش‌بینی هوا از Open-Meteo</td>
+          </tr>
+          <tr>
+            <td>GPIO</td>
+            <td>پایه‌های ورودی و خروجی میکروکنترلر</td>
+          </tr>
+          <tr>
+            <td>SPI</td>
+            <td>باس مشترک صفحه و لمس روی برد پنل</td>
+          </tr>
+          <tr>
+            <td>LVGL</td>
+            <td>کتابخانه&zwnj;ی ساخت UI لمسی روی صفحه TFT</td>
+          </tr>
+          <tr>
+            <td>DHT</td>
+            <td>حسگر دما و رطوبت هوا روی برد حیاط</td>
+          </tr>
+          <tr>
+            <td>USB / COM</td>
+            <td>کابل و پورت سریال برای آپلود برنامه از لپ‌تاپ</td>
+          </tr>
+          <tr>
+            <td>SoC</td>
+            <td>سیستم روی تراشه؛ مغز بردهای خانواده&zwnj;ی ESP32</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="footer">۶</div>
+  </section>
+
+  <!-- فصل ۱ -->
+  <section class="sheet" aria-label="فصل ۱">
+    <div class="page">
+      <h2 class="chapter">فصل ۱<br />مقدمه و کلیات</h2>
+
+      <h3 class="sub">۱-۱ بیان مسئله</h3>
+      <p class="prose">
+        راستش نگهداری گیاه، مخصوصاً وقتی گلدون توی حیاط باشد، کار ساده‌ای نیست.
+        یا آب دادنش یادم می‌رود و خاک خشک می‌شود، یا زیادی آب می‌دهم و ممکن است به ریشه آسیب بزند.
+        هر بار هم برای چک کردن وضعیت یا روشن کردن پمپ باید بروم حیاط. این وسط اگر خودم خانه باشم، عملاً کار سختی می‌شود.
+      </p>
+      <p class="prose">
+        برای همین تو این پروژه یک سؤال اصلی داشتم: آیا هوش مصنوعی می‌تواند کنترل اشیا را تقریباً کامل دست بگیرد
+        و کار را خودکار جلو ببرد یا نه؟ به‌جای حرف کلی، آمدم روی یک نمونه&zwnj;ی واقعی کار کردم. یعنی گلدون هوشمند.
+        حسگرها وضعیت را می‌خوانند، هوش مصنوعی با همان داده‌ها برای آبیاری تصمیم می‌گیرد، و میکروکنترلر فرمان را به رله و
+        پمپ می‌دهد.
+        کنارش یک پنل لمسی داخل خانه هم گذاشتم تا خودم هم وضعیت را ببینم و اگر لازم شد دستی فرمان بدهم.
+      </p>
+
+      <h3 class="sub">۱-۲ اهمیت و ضرورت</h3>
+      <p class="prose">
+        این روزها با اینترنت اشیا IoT و بردهایی مثل ESP32 خیلی راحت‌تر می‌شود حسگر و رله را به شبکه وصل کرد.
+        برای من به‌عنوان دانشجو، این پروژه هم تمرین عملی خوبی بود و هم یک کاربرد واقعی داشت.
+        از طرفی آبیاری منظم‌تر یعنی کمتر آب هدر می‌رود و گیاه هم بهتر نگه داشته می‌شود.
+        ولی هدف اصلی‌ام فقط ساختن یک گلدون بامزه نبود. می‌خواستم ببینم تا کجا می‌شود کنترل را به هوش مصنوعی سپرد
+        تا مجبور نباشم دائم خودم دخالت کنم.
+      </p>
+    </div>
+    <div class="footer">۷</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۱ ادامه">
+    <div class="page">
+      <h3 class="sub">۱-۳ اهداف پروژه</h3>
+      <p class="prose">
+        هدف کلی‌ام این بود که با ساخت یک سامانه&zwnj;ی واقعی بفهمم آیا هوش مصنوعی می‌تواند اشیا را به‌صورت خودکار کنترل کند یا
+        نه.
+        برای رسیدن به این هدف، این کارها را انجام دادم:
+      </p>
+      <ul class="prose-list">
+        <li>خواندن دما، رطوبت هوا و رطوبت خاک از روی برد حیاط</li>
+        <li>تصمیم‌گیری و برنامه‌ریزی آبیاری با هوش مصنوعی بر اساس داده&zwnj;ی حسگرها</li>
+        <li>روشن و خاموش کردن رله / پمپ</li>
+        <li>ساخت پنل لمسی داخل خانه برای دیدن وضعیت و ارسال فرمان</li>
+        <li>وصل کردن پایدار بین پنل خانه و برد حیاط جزئیات در فصل ۳</li>
+        <li>تست کل سیستم با هم و دیدن نتیجه&zwnj;ی واقعی</li>
+      </ul>
+
+      <h3 class="sub">۱-۴ محدوده و محدودیت‌ها</h3>
+      <p class="prose">
+        کار را کوچک و قابل انجام نگه داشتم: یک مجموعه&zwnj;ی گلدون در حیاط و کنترل روی شبکه&zwnj;ی خانگی خودمان.
+        اپ موبایل جدا نساختم. ولی برای دسترسی از راه دور، یک سرویس ابری رایگان با سایت بلینک راه انداختم.
+        از سه برد استفاده کردم حیاط، پنل، و برد واسط.
+        خودِ تصمیم هوش مصنوعی روی لپ‌تاپ اجرا می‌شود و فرمان نهایی به رله حیاط می‌رسد.
+      </p>
+
+      <h3 class="sub">۱-۵ ساختار گزارش</h3>
+      <p class="prose">بقیه&zwnj;ی گزارش را این‌طوری جلو می‌برم:</p>
+      <ul class="prose-list">
+        <li>فصل دوم: مقدمه سخت‌افزار، خانواده&zwnj;ی ESP32، ماژول‌ها و قطعات واقعی پروژه</li>
+        <li>فصل سوم: نیازها و طراحی سیستم</li>
+        <li>فصل چهارم: پیاده‌سازی سخت‌افزار و نرم‌افزار</li>
+        <li>فصل پنجم: تست‌ها و نتایج</li>
+        <li>فصل ششم: جمع‌بندی و کارهای بعدی</li>
+      </ul>
+      <p class="prose">
+        خلاصه اینکه می‌خواهم با این پروژه جواب روشنی بدهم: آیا می‌شود کنترل اشیا را به هوش مصنوعی سپرد تا خودکار کار
+        کند؟
+        گلدون هوشمند همان نمونه‌ای است که رویش این سؤال را امتحان کردم.
+      </p>
+    </div>
+    <div class="footer">۸</div>
+  </section>
+
+  <!-- فصل ۲ -->
+  <section class="sheet" aria-label="فصل ۲">
+    <div class="page">
+      <h2 class="chapter">فصل ۲<br />مبانی نظری و پیشینه</h2>
+
+      <h3 class="sub">۲-۱ مفاهیم پایه</h3>
+      <p class="prose">
+        اینترنت اشیا در ساده‌ترین شکلش یعنی دستگاه‌های واقعی را به شبکه وصل کنیم تا هم داده بگیریم هم فرمان بفرستیم.
+        تو این پروژه مغز محلی کار، میکروکنترلر خانواده&zwnj;ی ای&zwnj;اس&zwnj;پی است. حسگر را می‌خواند و رله را کنترل می‌کند.
+      </p>
+      <p class="prose">
+        حسگر همان چیزی است که وضعیت را اندازه می‌گیرد. مثلاً دما، رطوبت هوا یا رطوبت خاک.
+        محرک هم چیزی است که روی محیط اثر می‌گذارد. اینجا رله، پمپ آب را قطع و وصل می‌کند.
+        اگر حسگر غلط بخواند، تصمیم هم غلط می‌شود. برای همین اول سعی کردم عددها را روی مانیتور سریال ببینم
+        تا بفهمم خشک و تر تقریباً چه عددی می‌دهند.
+      </p>
+      <p class="prose">
+        ارتباط بین بردها دو جور است: یکی سیمی سریال ساده بین حیاط و واسط و یکی بی‌سیم وای فای خانه.
+        نقش هر کدام را در معماری فصل ۳ آورده‌ام.
+        هوش مصنوعی را روی لپ‌تاپ گذاشتم تا با داده&zwnj;ی حسگر و هوا برای آبیاری تصمیم بگیرد.
+        خود برد حیاط این تصمیم سنگین را نمی‌گیرد.
+      </p>
+    </div>
+    <div class="footer">۹</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۲ مقدمه سخت‌افزار">
+    <div class="page">
+      <h3 class="sub">۲-۲ مقدمه سخت‌افزار و معرفی ESP32</h3>
+      <p class="prose">
+        در پروژه‌های اینترنت اشیا، سخت‌افزار معمولاً سه نقش دارد: حس کردن محیط، پردازش و تصمیم محلی،
+        و اثر گذاشتن روی محیط مثلاً روشن کردن پمپ. اگر این سه بخش درست انتخاب و به هم وصل نشوند،
+        نرم‌افزار هرقدر هم خوب باشد نتیجه پایدار نمی‌دهد. در این پروژه هم اول قطعات را جور کردم،
+        بعد ارتباط بین بردها را ساختم، و در نهایت برنامه&zwnj;ی هر بخش را نوشتم.
+      </p>
+      <p class="prose">
+        مغز کار من بردهای خانواده&zwnj;ی ای&zwnj;اس&zwnj;پی ساخت شرکت اسپرسیف است.
+        این برد یک سیستم روی تراشه است. یعنی پردازنده، حافظه و رادیوی وای فای داخل همان قطعه جمع شده‌اند.
+        برای دانشجو و کار خانگی مناسب است چون ارزان است، پایه زیاد دارد،
+        و می‌شود با آردوینو رویش برنامه ریخت.
+      </p>
+      <p class="prose">
+        روی هر برد توسعه معمولاً این‌ها را می‌بینیم: تراشه&zwnj;ی اصلی، آنتن، رگولاتور ۳٫۳ ولت،
+        مبدل کابل به سریال برای آپلود برنامه، و ردیف پایه‌ها برای وصل حسگر و نمایشگر.
+        من از این پایه‌ها برای حسگر دما، حسگر خاک، رله، ارتباط سیمی بین دو برد، و صفحه لمسی پنل استفاده کردم.
+      </p>
+      <p class="prose">
+        در عمل سه برد آوردم: یک ESP32 معمولی برای پنل لمسی، و دو ESP32-S3 —
+        یکی در حیاط برای حسگر و رله، یکی سالم در خانه به‌عنوان پل وای فای.
+        دلیلش را در بخش بعد با مقایسه&zwnj;ی مدل‌ها می‌گویم.
+      </p>
+    </div>
+    <div class="footer">۱۰</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۲ تفاوت مدل‌ها">
+    <div class="page">
+      <h3 class="sub">۲-۳ تفاوت مدل‌های خانواده ESP32</h3>
+      <p class="prose">
+        خانواده&zwnj;ی ESP32 چند سری دارد مثل ESP32، ESP32-S2، ESP32-C3 و ESP32-S3.
+        همه‌شان وای فای ۲٫۴ گیگاهرتز دارند، ولی پردازنده، حافظه، بلوتوث و بعضی بخش‌های جانبی‌شان فرق می‌کند.
+        جدول ۲-۱ خلاصه‌ای از همین تفاوت‌هاست.
+      </p>
+
+      <p class="fig-cap">جدول ۲-۱ — مقایسه&zwnj;ی چند مدل اصلی خانواده ESP32</p>
+      <table class="data">
+        <thead>
+          <tr>
+            <th>ویژگی</th>
+            <th>ESP32</th>
+            <th>ESP32-S3</th>
+            <th>ESP32-C3</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>هسته</td>
+            <td>دو هسته Xtensa LX6</td>
+            <td>دو هسته Xtensa LX7</td>
+            <td>تک‌هسته RISC-V</td>
+          </tr>
+          <tr>
+            <td>فرکانس معمول</td>
+            <td>تا ۲۴۰ MHz</td>
+            <td>تا ۲۴۰ MHz</td>
+            <td>تا ۱۶۰ MHz</td>
+          </tr>
+          <tr>
+            <td>SRAM داخلی</td>
+            <td>حدود ۵۲۰ KB</td>
+            <td>حدود ۵۱۲ KB</td>
+            <td>حدود ۴۰۰ KB</td>
+          </tr>
+          <tr>
+            <td>وای فای</td>
+            <td>802.11 b/g/n</td>
+            <td>802.11 b/g/n</td>
+            <td>802.11 b/g/n</td>
+          </tr>
+          <tr>
+            <td>بلوتوث</td>
+            <td>Classic + BLE</td>
+            <td>BLE ۵</td>
+            <td>BLE ۵</td>
+          </tr>
+          <tr>
+            <td>تعداد پایه تقریبی</td>
+            <td>تا ۳۴</td>
+            <td>تا ۴۵</td>
+            <td>تا ۲۲</td>
+          </tr>
+          <tr>
+            <td>USB داخلی</td>
+            <td>ندارد</td>
+            <td>دارد (OTG)</td>
+            <td>ندارد (سریال جدا)</td>
+          </tr>
+          <tr>
+            <td>کاربرد من</td>
+            <td>برد پنل</td>
+            <td>حیاط + برد سالم</td>
+            <td>در این گزارش اصلی نیست</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="prose">
+        مدل اس‌سه نسل جدیدتر همین خانواده است. هسته قوی‌تری دارد، پایه بیشتر دارد و برای کار با نمایشگر و حافظه&zwnj;ی
+        خارجی معمولاً راحت‌تر است.
+        نسخه&zwnj;ی معمولی همین خانواده هنوز خیلی رایج است و برای پنل لمسی من کافی بود.
+        برد حیاط را از مدل اس‌سه با حافظه بیشتر گرفتم. برد واسط را هم از همین خانواده انتخاب کردم.
+      </p>
+    </div>
+    <div class="footer">۱۱</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۲ سخت‌افزار پروژه">
+    <div class="page">
+      <h3 class="sub">۲-۴ سخت‌افزار پروژه</h3>
+
+      <div class="hw-grid">
+        <div class="hw-card">
+          <img src="assets/hardware/esp32-bw.png" alt="برد ESP32 پنل" />
+          <div class="lab">برد پنل — ESP32</div>
+        </div>
+        <div class="hw-card">
+          <img src="assets/hardware/esp32s3-bw.png" alt="برد ESP32-S3" />
+          <div class="lab">حیاط و واسط — ESP32-S3</div>
+        </div>
+      </div>
+      <p class="fig-cap">شکل ۲-۱ — بردهای ESP پروژه</p>
+
+      <p class="prose">
+        <strong>برد پنل ESP32:</strong> وای فای داخلی دارد. صفحه لمسی روی آن است.
+        <strong>برد حیاط و واسط ESP32-S3:</strong> حیاط حسگر و رله. واسط پل وای فای بین خانه و حیاط.
+      </p>
+
+      <p class="fig-cap">جدول ۲-۲ — فرق ساده&zwnj;ی دو مدل</p>
+      <table class="data">
+        <thead>
+          <tr>
+            <th>مورد</th>
+            <th>ESP32 (پنل)</th>
+            <th>ESP32-S3 (حیاط / واسط)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>وای فای</td>
+            <td>دارد</td>
+            <td>دارد</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="hw-grid" style="grid-template-columns:1fr 1fr 1fr;">
+        <div class="hw-card">
+          <img src="assets/hardware/dht-bw.png" alt="DHT11" />
+          <div class="lab">DHT — دما و رطوبت هوا</div>
+        </div>
+        <div class="hw-card">
+          <img src="assets/hardware/soil-bw.png" alt="حسگر خاک" />
+          <div class="lab">حسگر خاک YL-69</div>
+        </div>
+        <div class="hw-card">
+          <img src="assets/hardware/tft-bw.png" alt="نمایشگر لمسی" />
+          <div class="lab">نمایشگر ۳٫۲ اینچ لمسی</div>
+        </div>
+      </div>
+      <div class="hw-grid" style="grid-template-columns:1fr 1fr 1fr;">
+        <div class="hw-card">
+          <img src="assets/hardware/uln2003-bw.png" alt="ULN2003" />
+          <div class="lab">آی‌سی درایور ULN2003</div>
+        </div>
+        <div class="hw-card">
+          <img src="assets/hardware/relay-bw.png" alt="رله" />
+          <div class="lab">ماژول رله ۵ ولت</div>
+        </div>
+        <div class="hw-card">
+          <img src="assets/hardware/sim800l-bw.png" alt="ماژول SIM800L" />
+          <div class="lab">ماژول SIM800L</div>
+        </div>
+      </div>
+      <p class="fig-cap">شکل ۲-۲ — ماژول‌ها و حسگرها</p>
+
+      <p class="prose">
+        DHT به پایه&zwnj;ی ۴ و دو حسگر خاک به ۱ و ۲ وصل است.
+        پمپ مستقیم به برد نرفت: ESP ← ULN ← رله ← پمپ.
+        نمایشگر ۳٫۲ اینچ روی پنل است. ماژول SIM800L هم روی حیاط برای ارتباط پیامکی گذاشته شد.
+      </p>
+    </div>
+    <div class="footer">۱۲</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۲ قطعات و پایه‌ها">
+    <div class="page">
+      <h3 class="sub">۲-۵ قطعات و نقش پایه‌ها</h3>
+      <p class="prose">
+        جدول ۲-۳ قطعات اصلی همین پروژه را یکجا نشان می‌دهد.
+        جدول ۲-۴ هم می‌گوید هر پایه دقیقاً به چه کاری وصل شده است.
+      </p>
+
+      <p class="fig-cap">جدول ۲-۳ — فهرست قطعات سخت‌افزاری پروژه</p>
+      <table class="data">
+        <thead>
+          <tr>
+            <th class="num">ردیف</th>
+            <th>نام قطعه</th>
+            <th>مدل / نوع</th>
+            <th>نقش در پروژه</th>
+            <th>محل</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="num">۱</td>
+            <td>برد ESP حیاط</td>
+            <td>ESP32-S3-N8R2</td>
+            <td>حسگر و رله؛ UART به برد سالم</td>
+            <td>حیاط</td>
+          </tr>
+          <tr>
+            <td class="num">۲</td>
+            <td>برد ESP واسط</td>
+            <td>ESP32-S3</td>
+            <td>پل وای فای پنل به حیاط</td>
+            <td>خانه</td>
+          </tr>
+          <tr>
+            <td class="num">۳</td>
+            <td>برد ESP پنل</td>
+            <td>ESP32 Dev Module</td>
+            <td>صفحه لمسی و ارسال فرمان</td>
+            <td>خانه</td>
+          </tr>
+          <tr>
+            <td class="num">۴</td>
+            <td>نمایشگر لمسی</td>
+            <td>ILI9341 + XPT2046</td>
+            <td>UI و لمس کاربر</td>
+            <td>روی پنل</td>
+          </tr>
+          <tr>
+            <td class="num">۵</td>
+            <td>حسگر هوا</td>
+            <td>DHT11</td>
+            <td>دما و رطوبت هوا</td>
+            <td>حیاط</td>
+          </tr>
+          <tr>
+            <td class="num">۶</td>
+            <td>حسگر خاک</td>
+            <td>YL-69 ×۲</td>
+            <td>رطوبت خاک گلدون‌ها</td>
+            <td>حیاط</td>
+          </tr>
+          <tr>
+            <td class="num">۷</td>
+            <td>ULN2003</td>
+            <td>درایور رله</td>
+            <td>بین پایه برد و ورودی رله</td>
+            <td>حیاط</td>
+          </tr>
+          <tr>
+            <td class="num">۸</td>
+            <td>ماژول رله</td>
+            <td>۵ ولت / تک یا دو کانال</td>
+            <td>قطع و وصل دو پمپ</td>
+            <td>حیاط</td>
+          </tr>
+          <tr>
+            <td class="num">۹</td>
+            <td>پمپ آب</td>
+            <td>۳ ولت ×۲</td>
+            <td>آبیاری دو مسیر</td>
+            <td>حیاط</td>
+          </tr>
+          <tr>
+            <td class="num">۱۰</td>
+            <td>ماژول SIM800L</td>
+            <td>SIM800L EVB</td>
+            <td>ارتباط پیامکی</td>
+            <td>حیاط</td>
+          </tr>
+          <tr>
+            <td class="num">۱۱</td>
+            <td>منبع تغذیه</td>
+            <td>۵V کنترل + ۳V پمپ</td>
+            <td>برق کنترل و محرک جدا</td>
+            <td>حیاط</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="fig-cap">جدول ۲-۴ — نقش پایه‌های استفاده‌شده</p>
+      <table class="data">
+        <thead>
+          <tr>
+            <th>برد</th>
+            <th>پایه</th>
+            <th>کار پایه</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>ESP حیاط</td>
+            <td>۴</td>
+            <td>DHT11</td>
+          </tr>
+          <tr>
+            <td>ESP حیاط</td>
+            <td>۱ / ۲</td>
+            <td>خاک ۱ و ۲</td>
+          </tr>
+          <tr>
+            <td>ESP حیاط</td>
+            <td>۱۰ / ۱۱</td>
+            <td>به ULN → رله ۱ و ۲</td>
+          </tr>
+          <tr>
+            <td>حیاط / واسط</td>
+            <td>۸ / ۹</td>
+            <td>UART دوطرفه</td>
+          </tr>
+          <tr>
+            <td>ESP پنل</td>
+            <td>۲۳ / ۱۸ / ۱۹</td>
+            <td>SPI نمایشگر</td>
+          </tr>
+          <tr>
+            <td>ESP پنل</td>
+            <td>۵ / ۲۱ / ۲۲ / ۱۵</td>
+            <td>TFT و لمس</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="footer">۱۳</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۲ پیشینه">
+    <div class="page">
+      <h3 class="sub">۲-۶ پیشینه و کارهای مشابه</h3>
+      <p class="prose">
+        پروژه‌های آبیاری هوشمند معمولاً یک حسگر خاک دارند، یک میکروکنترلر، و یک راه برای روشن کردن پمپ.
+        خیلی‌ها فقط با یک عدد ثابت کار می‌کنند. مثلاً اگر رطوبت از فلان حد کمتر شد، پمپ روشن شود.
+        بعضی‌ها هم اپ موبایل یا سرور ابری می‌گذارند تا از راه دور بشود وضعیت را دید.
+      </p>
+      <p class="prose">
+        کارهایی که دیدم بیشتر یا فقط حسگر خاک داشتند، یا فقط از موبایل پمپ را روشن می‌کردند.
+        کمتر دیدم کسی هم پنل داخل خانه بگذارد، هم هوا را از اینترنت بگیرد، هم اسم گیاه را به مدل بدهد.
+        من خواستم این‌ها با هم باشد تا اگر خودم خانه هستم از صفحه کار کنم،
+        اگر لپ‌تاپ روشن است با همان داده تصمیم بگیرد،
+        و از راه دور هم با گوشی بتوانم وضعیت را ببینم و کار را پیگیری کنم.
+      </p>
+      <p class="prose">
+        یک فرق دیگرم این بود که برد حیاط را مستقیم به وای فای خانه وصل نکردم.
+        یک برد واسط وسط گذاشتم تا خانه با وای فای حرف بزند و حیاط با سه سیم جواب بدهد.
+        این کار اول سخت‌تر بود، ولی بعداً تستش راحت‌تر شد. می‌فهمیدم مشکل از شبکه است یا از سیم.
+      </p>
+      <p class="prose">
+        برای یاد گرفتن هم از ویدیو و هم از پرسیدن از هوش مصنوعی استفاده کردم.
+        بعضی مفهوم‌ها مثل سریال سیمی را اول قاطی می‌کردم. یعنی فرستنده و گیرنده را جا‌به‌جا می‌بستم.
+        بعد که زمین مشترک را درست کردم، تازه جواب درست اومد.
+        این تجربه را عمداً نوشتم چون تو کار عملی بیشتر از تعریف قطعه‌ها به درد می‌خورد.
+      </p>
+    </div>
+    <div class="footer">۱۴</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۲ پیشینه ادامه">
+    <div class="page">
+      <p class="prose">
+        خودم قبلاً هم یک پروژه شبیه این کار کرده بودم با عنوان
+        اکوسیستم گیاه هوشمند Smart Plant Ecosystem.
+        آن نسخه خیلی کوچک‌تر بود و دور یک گلدون تکی جمع می‌شد:
+        آبیاری از مخزن داخل خود گلدون انجام می‌شد، حسگر رطوبت خاک و حسگر سطح آب مخزن داشت،
+        نمایشگر کوچک روی بدنه بود، و از طریق وای فای با سرویس ابری Blynk کنترل می‌شد.
+        الگوریتم آب دادنش هم به‌صورت کوتاه‌روشن و بعد مکث بود تا آب فرصت فرو رفتن در خاک را داشته باشد،
+        نه اینکه یک‌سره پمپ را باز بگذارد.
+      </p>
+      <p class="prose">
+        در آن پروژه تقریباً همه‌چیز روی یک برد جمع بود و برای یک گلدون روی میز کافی بود.
+        در این نسخه سعی کردم سیستم را ماژولارتر کنم تا برای گلخانه، باغ و مصارف دیگر هم قابل گسترش باشد.
+        نه فقط برای یک گلدون تکی.
+        برای همین برد حیاط را از پنل خانه جدا کردم، یک برد واسط وسط گذاشتم،
+        نمایشگر را داخل خانه بردم، و تصمیم آبیاری را روی لپ‌تاپ با اسم گیاه و وضعیت هوا گذاشتم.
+      </p>
+
+      <div class="hw-fig">
+        <img src="assets/prev-smart-pot-bw.png" alt="گلدون گلپونه — نسخه قبلی" style="max-height:145mm; width:auto; max-width:100%; height:auto; border:none;" />
+      </div>
+      <p class="fig-cap">شکل ۲-۳ — گلدون گلپونه، پروژه قبلی من، اکوسیستم گیاه هوشمند</p>
+    </div>
+    <div class="footer">۱۵</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۲ مدار پروژه قبلی">
+    <div class="page">
+      <div class="hw-fig">
+        <img src="assets/prev-arch-bw.png" alt="مدار نسخه قبلی" style="max-height:200mm; max-width:100%; width:auto; height:auto; border:none;" />
+      </div>
+      <p class="fig-cap">شکل ۲-۳ الف — مدار نسخه قبلی: ESP32-S3، حسگر خاک، سطح آب، رله و OLED</p>
+      <p class="prose">
+        تا اینجا سخت‌افزار، تفاوت مدل‌ها، ماژول‌ها، پایه‌ها و پیشینه کار قبلی را نوشتم.
+        فصل بعد می‌روم سراغ اینکه سیستم فعلی را چطور طراحی کردم.
+      </p>
+    </div>
+    <div class="footer">۱۶</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۲ ساختار پروژه قبلی">
+    <div class="page">
+      <p class="prose">
+        ساختار همان پروژه قبلی لایه‌لایه بود: حسگر و پمپ و نمایشگر روی یک برد،
+        منطق آبیاری کوتاه‌روشن و مکث روی خود برد، ارتباط ابری با بلینک،
+        و محافظت از کار کردن پمپ وقتی مخزن خالی بود.
+        شکل زیر همین لایه‌ها را نشان می‌دهد.
+      </p>
+      <div class="hw-fig">
+        <img src="assets/prev-structure-bw.png" alt="ساختار پروژه قبلی" style="max-height:200mm; max-width:100%; width:auto; height:auto; border:none;" />
+      </div>
+      <p class="fig-cap">شکل ۲-۴ — ساختار پروژه قبلی (لایه لبه، منطق، ارتباط، ایمنی و رابط کاربری)</p>
+    </div>
+    <div class="footer">۱۷</div>
+  </section>
+
+  <!-- فصل ۳ -->
+  <section class="sheet" aria-label="فصل ۳">
+    <div class="page">
+      <h2 class="chapter">فصل ۳<br />تحلیل نیاز و طراحی سیستم</h2>
+
+      <h3 class="sub">۳-۱ نیازمندی‌های کارکردی</h3>
+      <p class="prose">قبل از ساخت، برای خودم نوشتم سیستم باید این کارها را بلد باشد:</p>
+      <ul class="prose-list">
+        <li>دما و رطوبت هوا و رطوبت خاک را از حیاط بخواند</li>
+        <li>پمپ / رله را روشن و خاموش کند</li>
+        <li>از داخل خانه با پنل لمسی وضعیت را ببینم و فرمان بدهم</li>
+        <li>با سرویس ابری رایگان بلینک هم از راه دور وضعیت را پیگیری کنم</li>
+        <li>هوش مصنوعی روی لپ‌تاپ با داده&zwnj;ی حسگر و هوا برای آبیاری تصمیم بگیرد</li>
+        <li>ارتباط پایدار بین پنل خانه و برد حیاط برقرار باشد</li>
+      </ul>
+
+      <h3 class="sub">۳-۲ نیازمندی‌های غیرکارکردی</h3>
+      <p class="prose">
+        فقط کار کند کافی نبود. می‌خواستم ارتباط بین خانه و حیاط پایدار باشد، فرمان با تأخیر معقول برسد،
+        و کار با پنل برای خودم ساده باشد. سیستم روی شبکه&zwnj;ی خانگی خودمان اجرا می‌شود.
+        کنارش هم یک سرویس ابری رایگان با بلینک ساختم تا از راه دور هم بشود وضعیت را دید و کار را پیگیری کرد.
+      </p>
+    </div>
+    <div class="footer">۱۸</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۳ معماری">
+    <div class="page">
+      <h3 class="sub">۳-۳ معماری کلی</h3>
+      <p class="prose">
+        مسیر ارتباط: برد پنل با وای فای به برد واسط، و برد واسط با سیم سریال دوطرفه به برد حیاط.
+        وضعیت حسگر و فرمان رله از همین مسیر رد و بدل می‌شود.
+      </p>
+      <p class="prose">
+        نقش سیستم تصمیم‌گیری هوش مصنوعی روی لپ‌تاپ است، نه روی خود بردها.
+        <strong>ورودی:</strong> رطوبت خاک از حیاط، دما و رطوبت هوا، پیش‌بینی باران،
+        آستانه و تنظیمات هر گیاه، و در صورت نیاز عکس گیاه.
+        <strong>پردازش:</strong> اول از مدل زبانی پیشنهاد آبیاری می‌گیرد. اگر مدل در دسترس نباشد،
+        با قانون محلی تصمیم می‌گیرد مثلاً اگر خاک از آستانه خشک‌تر بود و باران نبود، آبیاری.
+        <strong>خروجی:</strong> کدام پمپ، چند ثانیه آب بدهد، و دلیل تصمیم. بعد فرمان از مسیر شبکه به رله حیاط می‌رسد.
+        اگر روی پنل حالت خودکار خاموش باشد، آبیاری خودکار انجام نمی‌شود.
+      </p>
+
+      <div class="arch-fig" role="img" aria-label="معماری: پنل و واسط و حیاط، به همراه لپ‌تاپ">
+        <div class="arch-flow">
+          <div class="arch-box">
+            <strong>برد پنل</strong>
+            <span>صفحه لمسی و فرمان دستی</span>
+            <span>روشن و خاموش خودکار</span>
+          </div>
+          <div class="arch-link">
+            <span class="arr">↔</span>
+            <span>وای فای</span>
+          </div>
+          <div class="arch-box">
+            <strong>برد واسط</strong>
+            <span>پل وای فای و سیم</span>
+          </div>
+          <div class="arch-link">
+            <span class="arr">↔</span>
+            <span>سیم سریال</span>
+          </div>
+          <div class="arch-box">
+            <strong>برد حیاط</strong>
+            <span>حسگر و رله و پمپ</span>
+          </div>
+        </div>
+        <div class="arch-ai">
+          <strong>لپ‌تاپ (هوش مصنوعی)</strong>
+          ورودی: خاک / هوا / تنظیمات گیاه ← تصمیم مدل یا قانون محلی ← خروجی: فرمان پمپ
+          <br />وصل به شبکه خانه. فرمان از مسیر پنل یا واسط به حیاط می‌رسد
+        </div>
+      </div>
+      <p class="fig-cap">شکل ۳-۱ — معماری ارتباط سامانه و نقش هوش مصنوعی</p>
+
+      <p class="fig-cap" style="margin-top:0.5em; margin-bottom:0.2em;">جدول ۳-۱ — نقش هر بخش در معماری</p>
+      <table class="data">
+        <thead>
+          <tr>
+            <th>بخش</th>
+            <th>کارش چیست</th>
+            <th>چطور وصل است</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>برد ESP پنل</td>
+            <td>نمایش وضعیت، لمس، کنترل دستی / AI</td>
+            <td>وای فای دوطرفه با برد واسط</td>
+          </tr>
+          <tr>
+            <td>برد ESP واسط</td>
+            <td>پل بین خانه و حیاط</td>
+            <td>وای فای با پنل؛ سیم با حیاط</td>
+          </tr>
+          <tr>
+            <td>برد ESP حیاط</td>
+            <td>حسگر و رله / پمپ</td>
+            <td>سیم دوطرفه با واسط</td>
+          </tr>
+          <tr>
+            <td>لپ‌تاپ</td>
+            <td>تصمیم آبیاری (مدل یا قانون محلی)</td>
+            <td>شبکه؛ فرمان به رله حیاط</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="footer">۱۹</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۳ سخت‌افزار">
+    <div class="page">
+      <h3 class="sub">۳-۴ طراحی سخت‌افزاری</h3>
+      <p class="prose">
+        قبل از سیم‌کشی واقعی، نقشه&zwnj;ی شماتیک برد را خودم کشیدم: برد حیاط در مرکز، حسگرها و رله و پمپ دورش،
+        و مسیر ارتباط با برد واسط جدا مشخص شد. کشیدن نقشه کمک کرد پایه&zwnj;ها قاطی نشوند
+        و موقع بستن سیم کمتر اشتباه کنم.
+      </p>
+      <p class="prose">
+        UART یک ارتباط سریال ساده بین دو برد است. هر طرف دو پایه دارد: یکی برای فرستادن داده و یکی برای گرفتن.
+        برای حرف زدن دوطرفه، فرستنده&zwnj;ی یکی باید به گیرنده&zwnj;ی دیگری وصل شود. زمین دو برد هم مشترک است.
+        سرعت ارسال دو طرف باید یکی باشد تا داده غلط خوانده نشود.
+      </p>
+
+      <div class="arch-fig">
+        <div class="uart-x">
+          <div class="box">
+            <strong>برد واسط</strong>
+            پایه ۸ → فرستنده<br />
+            پایه ۹ → گیرنده<br />
+            زمین مشترک
+          </div>
+          <div class="wires">
+            <span>۸ ←→ ۹</span>
+            <span>۹ ←→ ۸</span>
+            <span>زمین ←→ زمین</span>
+          </div>
+          <div class="box">
+            <strong>برد حیاط</strong>
+            پایه ۹ → گیرنده<br />
+            پایه ۸ → فرستنده<br />
+            زمین مشترک
+          </div>
+        </div>
+      </div>
+      <p class="fig-cap">شکل ۳-۲ — اتصال سریال بین برد واسط و برد حیاط</p>
+
+      <p class="fig-cap" style="margin-top:0.4em; margin-bottom:0.2em;">جدول ۳-۲ — سیم‌کشی سریال بین دو برد</p>
+      <table class="data">
+        <thead>
+          <tr>
+            <th>برد واسط</th>
+            <th>برد حیاط</th>
+            <th>کار سیم</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>پایه ۸ (فرستنده)</td>
+            <td>پایه ۹ (گیرنده)</td>
+            <td>داده از واسط به حیاط</td>
+          </tr>
+          <tr>
+            <td>پایه ۹ (گیرنده)</td>
+            <td>پایه ۸ (فرستنده)</td>
+            <td>داده از حیاط به واسط</td>
+          </tr>
+          <tr>
+            <td>زمین</td>
+            <td>زمین</td>
+            <td>مرجع مشترک</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="prose">
+        خودم از اول UART بلد نبودم. اول ویدیوهای یوتیوب را دیدم تا بفهمم این سه سیم چه کاری می‌کنند.
+        بعد با هوش مصنوعی سؤال می‌پرسیدم و خطاهای برنامه را چک می‌کردم.
+        کنارش با چند نفر که قبلاً با ESP کار کرده بودند حرف زدم. آن‌ها گفتند زمین مشترک را فراموش نکنم
+        و پایه‌ی فرستنده و گیرنده را برعکس نبندم. با همین روش وصلش کردم و تست گرفتم تا دو برد به هم جواب بدهند.
+      </p>
+    </div>
+    <div class="footer">۲۰</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۳ شماتیک">
+    <div class="page fullfig">
+      <p class="fig-cap">شکل ۳-۳ — شماتیک مدار در نرم‌افزار آلتیوم</p>
+      <p class="prose" style="font-size:10.5pt; line-height:1.55; margin:0 0 3px;">
+        تمام مدارها قبل از لحیم‌کاری در نرم‌افزار آلتیوم (Altium) طراحی شدند.
+        برای تغذیه از یک ماژول شارژ پاوربانک استفاده کردم و دو منبع جدا گذاشتم:
+        یکی برای بردها و مدار کنترل، و یکی برای پمپ‌های آب. تا وقتی موتور روشن می‌شود نویز یا افت ولتاژ
+        روی برد نیاید. خروجی رله‌ها را طوری بستم که با چسبیدن تیغه‌ها مسیر موتور وصل شود و پمپ روشن شود.
+        یک سلول خورشیدی (سولار) هم به سیستم اضافه کردم تا از انرژی خورشید شارژ بگیرد.
+        چون در شماتیک ورودی برق را ثابت فرض کرده بودم، خودِ پنل خورشیدی را داخل این نقشه نکشیدم.
+      </p>
+      <div class="schem">
+        <img src="assets/schematic-altium.png" alt="شماتیک مدار طراحی‌شده در آلتیوم" />
+      </div>
+    </div>
+    <div class="footer">۲۱</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۳ نرم‌افزار">
+    <div class="page">
+      <h3 class="sub">۳-۵ طراحی نرم‌افزاری</h3>
+      <p class="prose">نرم‌افزار پروژه را چند تکه کردم تا هر برد کار خودش را داشته باشد:</p>
+      <ul class="prose-list">
+        <li>برنامه برد حیاط: خواندن حسگر و کنترل رله</li>
+        <li>برنامه برد واسط: پل وای فای و ارتباط سیمی</li>
+        <li>برنامه برد پنل: صفحه لمسی و ارسال فرمان</li>
+        <li>برنامه لپ‌تاپ: گرفتن وضعیت، تصمیم آبیاری، ارسال فرمان پمپ</li>
+      </ul>
+
+      <p class="prose">
+        برای صفحات پنل از کتابخانه گرافیکی ال‌وی‌جی‌ال استفاده می‌کنم تا دکمه و نوشته را راحت‌تر بچینم.
+        برای خود صفحه هم یک درایور جدا لازم بود تا پیکسل‌ها روی نمایشگر بروند.
+      </p>
+
+      <p class="prose">
+        جمع‌بندی این فصل: نیازها، معماری، نقشه سخت‌افزار و سیم سریال، نقش هوش مصنوعی و تقسیم برنامه را نوشتم.
+        فصل بعد می‌روم سراغ پیاده‌سازی واقعی.
+      </p>
+    </div>
+    <div class="footer">۲۲</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۳ نرم‌افزار ادامه">
+    <div class="page">
+      <p class="prose">
+        بین این چهار برنامه یک قرارداد ساده گذاشتم تا قاطی نشوند.
+        حیاط فقط دو جور حرف می‌فهمد: یکی بگو وضعیت چیست، یکی رله را عوض کن.
+        واسط همین دو تا را از وای فای می‌گیرد و روی سیم می‌نویسد.
+        پنل و لپ‌تاپ هیچ‌کدام مستقیم به حیاط وصل نیستند.
+      </p>
+      <p class="prose">
+        این قرارداد را عمداً کوتاه نگه داشتم. اگر می‌خواستم پروتکل خیلی شیک بنویسم وقت می‌گرفت
+        و برای دو فرمان لازم نبود. همین متن خط‌به‌خط برای دانشجو قابل دنبال کردن است
+        و تو سریال مانیتور هم همان را می‌بینم.
+      </p>
+      <p class="prose">
+        ساعت و تقویم روی برد حیاط نگذاشتم. زمان تصمیم مال لپ‌تاپ است.
+        برد فقط همان لحظه حسگر را می‌خواند. اگر لپ‌تاپ خاموش باشد، باز از پنل می‌شود پمپ را زد.
+        یعنی سیستم کامل نمی‌خوابد، فقط حالت خودکارش می‌ایستد.
+      </p>
+    </div>
+    <div class="footer">۲۳</div>
+  </section>
+
+  <!-- فصل ۴ -->
+  <section class="sheet" aria-label="فصل ۴">
+    <div class="page">
+      <h2 class="chapter">فصل ۴<br />پیاده‌سازی</h2>
+
+      <h3 class="sub">۴-۱ محیط توسعه و اتصال برد به سیستم</h3>
+      <p class="prose">
+        قبل از نوشتن کد، اول محیط کار را روی لپ‌تاپ خودم راه انداختم تا هر برد با کابل USB به سیستم وصل شود
+        و بشود برنامه را آپلود کرد.
+      </p>
+      <p class="prose">
+        نرم‌افزار آردوینو را نصب کردم. چون بردهای من از خانواده ای&zwnj;اس&zwnj;پی هستند، از منوی
+        ابزار → برد → مدیر بردها، بسته رسمی همین خانواده را نصب کردم.
+        بدون این بسته، اسم بردها تو لیست نمیاد.
+      </p>
+      <p class="prose">
+        برای وصل کردن هر برد به لپ‌تاپ از کابل دیتا استفاده کردم بعضی کابل‌ها فقط شارژ می‌دهند و پورت نمی‌سازند.
+        بعد از وصل، تو ویندوز یک پورت جدید می‌آید. مثلاً حیاط روی پورت ۷ و پنل روی پورت ۱۴ دیده شد.
+        همان شماره را از منوی ابزار → پورت انتخاب کردم.
+      </p>
+      <p class="prose">
+        تنظیمات مهم منوی ابزار برای بردهای حیاط و واسط این‌ها بود:
+      </p>
+      <ul class="prose-list">
+        <li>نوع برد: ماژول توسعه اس‌۳</li>
+        <li>حجم فلش: ۸ مگابایت</li>
+        <li>رم اضافه: خاموش</li>
+        <li>حالت کابل: سخت‌افزاری</li>
+        <li>سرعت آپلود: ۱۱۵۲۰۰</li>
+      </ul>
+    </div>
+    <div class="footer">۲۴</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۴ ستاپ ادامه">
+    <div class="page">
+      <p class="prose">
+        برای برد پنل که مدل معمولی است، نوع برد را روی ماژول توسعه معمولی گذاشتم.
+        سرعت آپلود را معمولاً ۱۱۵۲۰۰ نگه داشتم تا خطا کمتر شود.
+        بعد از آپلود، مانیتور سریال را با همین سرعت باز کردم تا پیام آماده یا خطا را ببینم.
+        اگر سرعت اشتباه باشد فقط حروف الکی دیده می‌شود.
+      </p>
+      <p class="fig-cap" style="margin-top:0.3em; margin-bottom:0.2em;">جدول ۴-۱ — تنظیمات اتصال هر برد به لپ‌تاپ</p>
+      <table class="data">
+        <thead>
+          <tr>
+            <th>برد</th>
+            <th>مدل در آردوینو</th>
+            <th>نمونه پورت</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>حیاط</td>
+            <td>ESP32S3 Dev Module</td>
+            <td>COM7</td>
+          </tr>
+          <tr>
+            <td>واسط</td>
+            <td>ESP32S3 Dev Module</td>
+            <td>COM9</td>
+          </tr>
+          <tr>
+            <td>پنل</td>
+            <td>ESP32 Dev Module</td>
+            <td>COM14</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="prose">کتابخانه‌ها را از مدیر کتابخانه نصب کردم:</p>
+      <ul class="prose-list">
+        <li>DHT — دما و رطوبت هوا</li>
+        <li>TFT_eSPI — درایور صفحه پنل</li>
+        <li>LVGL نسخه ۸٫۳ — UI لمسی</li>
+        <li>XPT2046_Touchscreen — لمس صفحه</li>
+      </ul>
+      <p class="prose">
+        برای TFT_eSPI پین‌های صفحه را با پنل خودم یکی کردم:
+      </p>
+      <ul class="prose-list">
+        <li>MOSI = ۲۳</li>
+        <li>SCLK = ۱۸</li>
+        <li>MISO = ۱۹</li>
+        <li>CS = ۵</li>
+        <li>DC = ۲۱</li>
+        <li>RST = ۲۲</li>
+      </ul>
+      <p class="prose">
+        اسم و رمز وای فای خانه را داخل کد برد واسط و پنل نوشتم تا به شبکه&zwnj;ی ۲٫۴ گیگاهرتز وصل شوند.
+      </p>
+      <p class="prose">
+        خلاصه&zwnj;ی کار ستاپ: نصب IDE و بسته ESP32 → وصل USB → انتخاب Board و Port → نصب کتابخانه → آپلود →
+        چک با مانیتور سریال. بعد از این مرحله رفتم سراغ نوشتن برنامه&zwnj;ی هر واحد.
+      </p>
+    </div>
+    <div class="footer">۲۵</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۴ پیاده‌سازی واحدها">
+    <div class="page">
+      <h3 class="sub">۴-۲ پیاده‌سازی واحدها</h3>
+      <p class="prose">
+        برنامه را چهار تکه کردم تا هر برد کار خودش را داشته باشد و اگر یکی خراب شد بقیه را راحت‌تر پیدا کنم.
+        اول برد حیاط را راه انداختم چون حسگر و رله روی همین برد است. بدون این تکه، پنل و لپ‌تاپ چیزی برای خواندن ندارند.
+        در شروع برنامه پایه‌های رله را خروجی می‌گذارم، ارتباط سیمی را باز می‌کنم و حسگر هوا را شروع می‌کنم:
+      </p>
+      <p class="code-cap">تکه کد ۱ — راه‌اندازی برد حیاط</p>
+      <pre class="code-box">void setup(){
+  Serial.begin(115200);
+  pinMode(10, OUTPUT);
+  pinMode(11, OUTPUT);
+  uart.begin(115200, SERIAL_8N1, 9, 8); // rx=9 tx=8
+  dht.begin();
+}</pre>
+      <p class="prose">
+        این تکه فقط یک‌بار اول اجرا می‌شود. پایه ۱۰ رله گیاه اول و پایه ۱۱ رله گیاه دوم است.
+        خط UART می‌گوید سرعت ۱۱۵۲۰۰ باشد، گیرنده پایه ۹ و فرستنده پایه ۸.
+        از این به بعد برد در <code>loop</code> فقط گوش می‌دهد. خودش سرخود پمپ را روشن نمی‌کند تا فرمان از خانه بیاید.
+      </p>
+    </div>
+    <div class="footer">۲۶</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۴ حیاط ادامه">
+    <div class="page">
+      <p class="prose">
+        در حلقه&zwnj;ی اصلی، اگر از UART دستوری آمد می‌خوانم.
+        اگر دستور وضعیت بود، حسگرها را می‌خوانم و جواب را به شکل یک خط متن برمی‌گردانم:
+      </p>
+      <p class="code-cap">تکه کد ۲ — خواندن حسگر و فرستادن وضعیت</p>
+      <pre class="code-box">if(s == "STATUS"){
+  float t = dht.readTemperature();
+  float h = dht.readHumidity();
+  int k1 = analogRead(1);
+  int k2 = analogRead(2);
+  uart.print("{\"ok\":true,\"t\":");
+  uart.print(t);
+  uart.print(",\"h\":");
+  uart.print(h);
+  uart.print(",\"soil1\":");
+  uart.print(k1);
+  uart.print(",\"soil2\":");
+  uart.print(k2);
+  uart.println("}");
+}</pre>
+      <p class="prose">
+        این تکه دما (<code>t</code>)، رطوبت هوا (<code>h</code>) و دو عدد آنالوگ خاک را می‌گیرد
+        و روی UART می‌فرستد تا برد واسط همان را از وای فای به بیرون بدهد.
+      </p>
+      <p class="prose">
+        برای روشن و خاموش کردن پمپ هم دستورهایی مثل <code>RELAY,1,1</code> و <code>RELAY,1,0</code> گذاشتم.
+        عدد وسط شماره رله است و عدد آخر وضعیت روشن یا خاموش. با همین‌ها پایه ۱۰ یا ۱۱ را HIGH و LOW می‌کنم.
+      </p>
+    </div>
+    <div class="footer">۲۷</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۴ واسط">
+    <div class="page">
+      <p class="prose">
+        برد واسط به وای فای خانه وصل می‌شود و یک سرور کوچک راه می‌اندازد.
+        وقتی کسی آدرس <code>/status</code> را بزند، همین برد روی UART به حیاط می‌گوید STATUS و جواب را برمی‌گرداند:
+      </p>
+      <p class="code-cap">تکه کد ۴ — فرستادن دستور روی UART و گرفتن جواب</p>
+      <pre class="code-box">String uart_cmd(String cmd){
+  while(uart.available()) uart.read();
+  uart.println(cmd);
+  String r = "";
+  unsigned long t = millis();
+  while(millis() - t &lt; 2000){
+    if(uart.available()){
+      char c = uart.read();
+      if(c == '\n'){ r.trim(); if(r.length()&gt;0) return r; }
+      else r += c;
+    }
+  }
+  return "{\"ok\":false,\"err\":\"timeout\"}";
+}</pre>
+      <p class="prose">
+        این تابع اول بافر قدیمی را خالی می‌کند، بعد دستور را می‌فرستد و حداکثر دو ثانیه منتظر خط جواب می‌ماند.
+        اگر چیزی نیامد، یک متن خطا برمی‌گرداند تا پنل گیر نکند.
+      </p>
+      <p class="code-cap">تکه کد ۵ — مسیرهای HTTP روی برد واسط</p>
+      <pre class="code-box">server.on("/status", [](){
+  last_json = uart_cmd("STATUS");
+  server.send(200, "application/json", last_json);
+});
+
+server.on("/relay", [](){
+  int n = server.arg("n").toInt();
+  int st = server.arg("state").toInt();
+  String c = "RELAY," + String(n) + "," + String(st);
+  last_json = uart_cmd(c);
+  server.send(200, "application/json", last_json);
+});</pre>
+      <p class="prose">
+        یعنی پنل یا لپ‌تاپ لازم نیست مستقیم UART بلد باشند. فقط با وای فای به این دو آدرس درخواست می‌زنند.
+      </p>
+    </div>
+    <div class="footer">۲۸</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۴ آب و هوا">
+    <div class="page">
+      <p class="prose">
+        برای آب و هوا از سرویس رایگان هواشناسی استفاده کردم.
+        خوبیش این است که کلید جدا لازم ندارد. فقط با یک لینک می‌شود پیش‌بینی را گرفت.
+        مختصات شهر سیرجان را در لینک گذاشتم
+        و گفتم دمای فعلی، رطوبت، کد هوا و احتمال باران چند روز بعد را بدهد.
+      </p>
+      <p class="code-cap">تکه کد ۶ — گرفتن پیش‌بینی هوا از Open-Meteo</p>
+      <pre class="code-box">String url =
+  "http://api.open-meteo.com/v1/forecast"
+  "?latitude=29.4514&amp;longitude=55.6809"
+  "&amp;current=temperature_2m,relative_humidity_2m,weather_code"
+  "&amp;daily=precipitation_probability_max"
+  "&amp;timezone=Asia%2FTehran&amp;forecast_days=5";
+
+HTTPClient http;
+http.begin(url);
+int c = http.GET();
+String body = http.getString();
+http.end();</pre>
+      <p class="prose">
+        این تکه لینک را می‌سازد، درخواست می‌فرستد و متن جواب را می‌گیرد.
+        بعد از روی همین متن، عدد دما و احتمال باران را درمی‌آورم.
+        خود برد پنل همین کار را می‌کند و جواب را روی صفحه هوا می‌کشد.
+        اگر احتمال باران زیاد باشد یا کد هوا نشانه‌ی باران باشد، همان‌جا نشان می‌دهم بارانی است
+        تا بی‌خود پمپ روشن نشود.
+      </p>
+      <p class="code-cap">تکه کد ۷ — تشخیص ساده&zwnj;ی باران از جواب API</p>
+      <pre class="code-box">bool rain = (pp &gt;= 40) || (weather_code &gt;= 51);
+if(rain){
+  // امروز یا پیش‌بینی باران است
+}</pre>
+      <p class="prose">
+        عدد ۴۰ را خودم برای احتمال باران گذاشتم. اگر احتمال از این بیشتر بود، فرض می‌کنم باران می‌آید.
+        کدهای هواشناسی از حدود ۵۱ به بالا معمولاً مربوط به باران‌اند.
+      </p>
+    </div>
+    <div class="footer">۲۹</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۴ پنل و AI">
+    <div class="page">
+      <p class="prose">
+        روی برد پنل UI را با LVGL ساختم. روی صفحه دو جور داده می‌آید: حسگر حیاط، و هوا از اینترنت.
+      </p>
+      <p class="prose">
+        برای حسگرها پنل خودش به حیاط وصل نیست. هر چند ثانیه با وای فای به
+        <code>http://goldon-modem.local/status</code> درخواست می‌زند.
+        برد واسط روی سیم به حیاط می‌گوید STATUS. حیاط DHT و دو حسگر خاک را می‌خواند و یک خط JSON برمی‌گرداند.
+        پنل همان خط را باز می‌کند: دما و رطوبت هوا را روی صفحه اقلیم، و رطوبت دو خاک را روی صفحه خاک نشان می‌دهد.
+      </p>
+      <p class="code-cap">تکه کد ۸ — گرفتن وضعیت حسگرها از پنل</p>
+      <pre class="code-box">HTTPClient http;
+http.begin("http://goldon-modem.local/status");
+http.GET();
+String body = http.getString();
+http.end();
+// از body: t و h و soil1 و soil2 را می‌خوانم و روی LVGL می‌کشم</pre>
+      <p class="prose">
+        برای هوا هم خود پنل لینک Open-Meteo را صدا می‌زند، جواب را می‌گیرد و روی صفحه هوا
+        دما، رطوبت و پیش‌بینی را می‌کشد. اگر باران باشد همان را هم می‌نویسد.
+        حسگر حیاط نیست؛ مستقیم از اینترنت می‌آید.
+      </p>
+      <p class="prose">
+        دکمه روشن و خاموش پمپ هم هست. وقتی زده شود درخواست به <code>/relay</code> روی واسط می‌رود
+        و از مسیر وای فای → سیم → حیاط رله عوض می‌شود.
+        روی لپ‌تاپ هم برنامه پایتون وضعیت را می‌گیرد و برای هر گیاه تصمیم آبیاری می‌دهد.
+      </p>
+    </div>
+    <div class="footer">۳۰</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۴ انتخاب گیاه">
+    <div class="page">
+      <h3 class="sub">۴-۳ انتخاب گیاه و جواب هوش مصنوعی</h3>
+      <p class="prose">
+        دو گلدون داشتم. برای همین دو گیاه در برنامه تعریف کردم.
+        نوع گیاه را این‌طور مشخص می‌کنم: یک اسم می‌گذارم، می‌گویم مال کدام حسگر خاک است،
+        و کدام پمپ آبش را می‌دهد. آستانه&zwnj;ی رطوبت را هم برای هر کدام ۳۵ درصد گذاشتم.
+        یعنی اگر خاک از ۳۵ درصد خشک‌تر شد، آن گیاه کاندید آبیاری است.
+      </p>
+      <p class="fig-cap" style="margin-top:0.2em; margin-bottom:0.15em;">جدول ۴-۲ — گیاه‌ها و حسگر و پمپ هر کدام</p>
+      <table class="data">
+        <thead>
+          <tr>
+            <th>اسم گیاه</th>
+            <th>حسگر خاک</th>
+            <th>پمپ / رله</th>
+            <th>حداقل رطوبت</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Plant A</td>
+            <td>soil1 (پایه ۱)</td>
+            <td>رله ۱ (پایه ۱۰)</td>
+            <td>۳۵ درصد</td>
+          </tr>
+          <tr>
+            <td>Plant B</td>
+            <td>soil2 (پایه ۲)</td>
+            <td>رله ۲ (پایه ۱۱)</td>
+            <td>۳۵ درصد</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="code-cap">تکه کد ۹ — تعریف دو گیاه در برنامه لپ‌تاپ</p>
+      <pre class="code-box">plants = []
+p = {"name":"Plant A", "pump":1, "soil":"soil1", "min":35, "sec":8}
+plants.append(p)
+p = {"name":"Plant B", "pump":2, "soil":"soil2", "min":35, "sec":8}
+plants.append(p)</pre>
+      <p class="prose">
+        وقتی برنامه وضعیت را گرفت، برای هر گیاه درصد خاک همان حسگر را حساب می‌کند.
+        اسم گیاه را داخل متنی که به هوش مصنوعی می‌دهم می‌نویسم تا مدل بفهمد دارد برای کدام گلدون حرف می‌زند.
+        در هر دور فقط یکی آبیاری می‌شود. اگر هر دو خشک بودند، همانی که خشک‌تر است انتخاب می‌شود.
+      </p>
+    </div>
+    <div class="footer">۳۱</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۴ جواب AI">
+    <div class="page">
+      <p class="prose">
+        متنی که برای مدل می‌فرستم تقریباً این است: اسم گیاه، شماره پمپ، درصد خاک، دما و رطوبت هوا، و اینکه امروز باران هست یا نه.
+        از مدل می‌خواهم فقط یک جواب کوتاه ساختاری بدهد، نه حرف اضافه.
+      </p>
+      <p class="code-cap">تکه کد ۱۰ — چیزی که از هوش مصنوعی می‌خواهم</p>
+      <pre class="code-box">plant name: Plant A
+pump: 1
+soil percent: 22
+rain today: False
+reply json only:
+{"name":"...","water":true,"pump":1,"sec":8,"reason":"..."}</pre>
+      <p class="prose">
+        اگر کلید مدل باشد، یک جواب معمولی‌اش این‌شکلی است:
+      </p>
+      <p class="code-cap">تکه کد ۱۱ — نمونه جواب هوش مصنوعی</p>
+      <pre class="code-box">{
+  "name": "Plant A",
+  "water": true,
+  "pump": 1,
+  "sec": 8,
+  "reason": "Plant A dry 22% &lt; 35%"
+}</pre>
+      <p class="prose">
+        معنی‌اش این است: گیاه Plant A را آب بده، پمپ ۱ را هشت ثانیه روشن کن، چون خاک ۲۲ درصد است و از آستانه ۳۵ کمتر شده.
+        اگر باران باشد یا خاک کافی باشد، <code>water</code> را false می‌گذارد و در <code>reason</code> می‌نویسد مثلاً
+        <code>rain, skip Plant A</code> یا <code>Plant B ok 48%</code>.
+        اگر مدل جواب نداد، خودم همان قانون را روی لپ‌تاپ اجرا می‌کنم تا سیستم نخوابد.
+      </p>
+    </div>
+    <div class="footer">۳۲</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۴ انتقال به برد">
+    <div class="page">
+      <h3 class="sub">۴-۴ انتقال فرمان از سیستم به برد</h3>
+      <p class="prose">
+        اطلاعات از لپ‌تاپ مستقیم به حیاط نمی‌رود. اول وضعیت از برد می‌آید بالا، تصمیم گرفته می‌شود، بعد فرمان برمی‌گردد پایین.
+        مسیر رفت و برگشت این است:
+      </p>
+      <ul class="prose-list">
+        <li>لپ‌تاپ با وای فای می‌زند <code>GET /status</code> به برد واسط</li>
+        <li>واسط روی سیم می‌نویسد وضعیت و جواب حیاط را برمی‌گرداند</li>
+        <li>برنامه درصد خاک را درمی‌آورد، هوا را می‌گیرد، اسم گیاه را به مدل می‌دهد</li>
+        <li>جواب مدل می‌گوید کدام پمپ، چند ثانیه، آب بدهد یا نه</li>
+        <li>اگر باید آب بدهد، لپ‌تاپ می‌زند <code>GET /relay?n=1&amp;state=1</code></li>
+        <li>واسط همان را می‌کند <code>RELAY,1,1</code> و روی سیم به حیاط می‌فرستد</li>
+        <li>حیاط پایه رله را HIGH می‌کند. تیغه می‌چسبد و موتور روشن می‌شود</li>
+        <li>بعد از همان ثانیه‌ها، <code>state=0</code> می‌رود و پمپ خاموش می‌شود</li>
+      </ul>
+      <p class="code-cap">تکه کد ۱۲ — فرستادن تصمیم به برد</p>
+      <pre class="code-box">print("plant =", name)
+print("pump =", pump)
+print("sec =", sec)
+relay(pump, 1)
+time.sleep(sec)
+relay(pump, 0)</pre>
+      <p class="prose">
+        پس برد حیاط خودش نوع گیاه را نمی‌شناسد. فقط شماره رله را می‌فهمد.
+        اسم گیاه و دلیل آبیاری روی لپ‌تاپ می‌ماند. چیزی که به برد می‌رسد همان دو عدد است: کدام رله، روشن یا خاموش.
+      </p>
+    </div>
+    <div class="footer">۳۳</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۴ یکپارچه‌سازی">
+    <div class="page">
+      <h3 class="sub">۴-۵ یکپارچه‌سازی</h3>
+      <p class="prose">
+        وقتی هر تکه جدا کار کرد، همه‌شان را به هم وصل کردم.
+        ترتیب تست من این بود:
+      </p>
+      <ul class="prose-list">
+        <li>اول سیم بین حیاط و واسط را با دستور وضعیت چک کردم</li>
+        <li>بعد از مرورگر لپ‌تاپ آدرس <code>/status</code> و <code>/relay</code> را زدم</li>
+        <li>بعد پنل را به وای فای وصل کردم و دکمه‌ها را زدم</li>
+        <li>در آخر برنامه لپ‌تاپ را گذاشتم با اسم گیاه و جواب مدل پمپ را بزند</li>
+      </ul>
+      <p class="prose">
+        مسیر کامل این است: حسگر حیاط → سیم → واسط → وای فای → لپ‌تاپ یا پنل →
+        تصمیم دستی یا مدل → دوباره وای فای → واسط → سیم → رله و پمپ.
+        پنل برای کار دستی است. لپ‌تاپ برای کار خودکار با نوع گیاه و هوا.
+      </p>
+      <p class="prose">
+        جمع‌بندی این فصل: راه انداختن محیط، کد هر برد، هوا، انتخاب گیاه، نمونه جواب مدل و رسیدن فرمان به رله را نوشتم.
+        فصل بعد تست‌ها و نتایج واقعی را می‌آورم.
+      </p>
+    </div>
+    <div class="footer">۳۴</div>
+  </section>
+
+  <!-- فصل ۵ -->
+  <section class="sheet" aria-label="فصل ۵">
+    <div class="page">
+      <h2 class="chapter">فصل ۵<br />آزمایش، نتایج و ارزیابی</h2>
+
+      <h3 class="sub">۵-۱ سناریوهای آزمون</h3>
+      <p class="prose">
+        بعد از اینکه تکه‌ها به هم وصل شدند، تست را از ساده به سخت جلو بردم.
+        اول هر مسیر را جدا چک کردم. بعد کل سامانه را با هم راه انداختم.
+        سناریوهایی که برای خودم نوشتم این‌ها بود:
+      </p>
+      <ul class="prose-list">
+        <li>سیم سریال حیاط و واسط: دستور وضعیت و جواب متنی</li>
+        <li>از مرورگر لپ‌تاپ آدرس وضعیت و رله روی برد واسط</li>
+        <li>دکمه پمپ روی پنل و دیدن کلیک رله</li>
+        <li>حسگر خاک خشک و خاک خیس. عدد خام قبل و بعد از آب</li>
+        <li>گرفتن هوا از سایت هواشناسی و تشخیص باران / بدون باران</li>
+        <li>برنامه لپ‌تاپ: اگر خاک خشک بود پمپ چند ثانیه روشن شود و بعد خاموش شود</li>
+      </ul>
+      <p class="prose">
+        برای هر تست یک چیز مشخص را نگاه می‌کردم: آیا جواب آمد، آیا رله تیغه را چسباند،
+        و آیا عدد حسگر منطقی عوض شد. اگر یکی از این‌ها خراب بود همان تکه را دوباره سیم یا کد را چک می‌کردم.
+      </p>
+    </div>
+    <div class="footer">۳۵</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۵ نتایج">
+    <div class="page">
+      <h3 class="sub">۵-۲ نتایج</h3>
+      <p class="prose">
+        خلاصه&zwnj;ی چیزهایی که در تست دیدم در جدول ۵-۱ آمده است.
+        عددهای خاک تقریبی است. چون حسگر خازنی هر بار کمی فرق می‌کند و من با چند بار تکرار حدودش را برداشتم.
+      </p>
+      <p class="fig-cap" style="margin-top:0.25em; margin-bottom:0.2em;">جدول ۵-۱ — نتیجه&zwnj;ی آزمون‌های سامانه</p>
+      <table class="data">
+        <thead>
+          <tr>
+            <th>آزمون</th>
+            <th>چه کردم</th>
+            <th>نتیجه</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>سیم سریال</td>
+            <td>دستور وضعیت از واسط</td>
+            <td>متن دما، رطوبت و خاک برگشت</td>
+          </tr>
+          <tr>
+            <td>وضعیت از مرورگر</td>
+            <td>باز کردن آدرس وضعیت</td>
+            <td>همان متن روی وای فای دیده شد</td>
+          </tr>
+          <tr>
+            <td>رله دستی</td>
+            <td>دکمه پنل و /relay</td>
+            <td>تیغه چسبید و پمپ روشن شد</td>
+          </tr>
+          <tr>
+            <td>خاک خشک</td>
+            <td>حسگر بیرون از خاک خیس</td>
+            <td>عدد آنالوگ حدود ۲۷۰۰ تا ۳۰۰۰</td>
+          </tr>
+          <tr>
+            <td>خاک بعد آب</td>
+            <td>چند ثانیه آبیاری</td>
+            <td>عدد پایین آمد (حدود ۱۶۰۰ تا ۲۰۰۰)</td>
+          </tr>
+          <tr>
+            <td>هواشناسی</td>
+            <td>لینک هواشناسی سیرجان</td>
+            <td>دما و احتمال باران آمد</td>
+          </tr>
+          <tr>
+            <td>تصمیم لپ‌تاپ</td>
+            <td>آستانه ۲۵۰۰ و ۷ ثانیه پمپ</td>
+            <td>خشک بود روشن شد؛ تر بود کاری نکرد</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="prose">
+        حسگر هوا هم عدد دما و رطوبت می‌داد. گاهی اول کار یک‌بار عدد خالی می‌آمد و دور بعد درست می‌شد.
+        تأخیر فرمان از پنل تا رله معمولاً زیر یکی‌دو ثانیه بود. اگر سیم جواب نمی‌داد، واسط بعد از دو ثانیه می‌گفت زمان تمام شد.
+      </p>
+    </div>
+    <div class="footer">۳۶</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۵ بحث">
+    <div class="page">
+      <h3 class="sub">۵-۳ بحث</h3>
+      <p class="prose">
+        از نظر من مسیر پنل → وای فای → واسط → سیم سریال → حیاط درست کار کرد.
+        جدا کردن تغذیه برد و پمپ هم به درد خورد. وقتی موتور روشن می‌شد برد ریست نمی‌شد.
+        رله با چسبیدن تیغه موتور را وصل می‌کرد و صدایش برای تست دستی خوب بود. می‌فهمیدم فرمان رسیده.
+      </p>
+      <p class="prose">
+        چند جا گیر داشتم. اگر زمین دو برد مشترک نبود یا فرستنده و گیرنده را برعکس می‌بستم، هیچ جوابی نمیومد.
+        سرعت سریال را اگر ۱۱۵۲۰۰ نمی‌گذاشتم، مانیتور حروف الکی نشان می‌داد.
+        حسگر خاک را باید خودم کالیبره می‌کردم. عدد خام برای هر خاک فرق دارد و آستانه ۲۵۰۰ مال همین گلدون است، نه یک عدد جهانی.
+        لمس پنل هم بدون کالیبره گاهی جای اشتباه را می‌گرفت.
+      </p>
+      <p class="prose">
+        هواشناسی کمک کرد بی‌خود در روز بارانی پمپ نزنم. ولی درخواست سایت گاهی دیر می‌آمد یا اگر وای فای ضعیف بود صفحه هوا خالی می‌ماند.
+        تصمیم لپ‌تاپ ساده است و جای یک مدل خیلی پیچیده را پر می‌کند. برای پروژه دانشجویی کافی بود،
+        ولی هنوز باید حواسم به این باشد که پمپ زیادی روشن نماند.
+      </p>
+      <p class="prose">
+        جمع‌بندی این فصل: ارتباط، رله، خاک و هوا را تست کردم و جدول نتایج را نوشتم.
+        چیزهایی که خوب بود جدا بودن منبع تغذیه و مسیر سیم سریال بود. چیزهایی که باید بهتر شود کالیبره خاک و پایداری درخواست هواست.
+      </p>
+    </div>
+    <div class="footer">۳۷</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۵ تجربه">
+    <div class="page">
+      <h3 class="sub">۵-۴ تجربه عملی و چیزهایی که اشتباه کردم</h3>
+      <p class="prose">
+        چند اشتباه کوچک داشتم که سیستم را خراب نکرد ولی وقتم را گرفت.
+        یک‌بار کابل شارژ گذاشته بودم و فکر می‌کردم برد خراب است. پورت اصلاً نمیومد.
+        یک‌بار هم سرعت مانیتور را ۹۶۰۰ گذاشته بودم و متن‌ها بی‌معنی شده بود.
+      </p>
+      <p class="prose">
+        برای دو گیاه اول هر دو پمپ را با هم روشن کردم. جریان موتور زیاد شد و خواستم ببینم چه می‌شود.
+        بعد فهمیدم بهتر است هر دور فقط یکی کار کند. تو برنامه هم همین را گذاشتم.
+        آستانه رطوبت را اول ۴۰ درصد گذاشتم. خیلی زود پمپ می‌زد. آوردمش روی ۳۵ تا کمتر حساس باشد.
+      </p>
+      <p class="prose">
+        صفحه پنل را اول بدون کالیبره لمس راه انداختم. دکمه پایین را که می‌زدم گاهی بالا گرفته می‌شد.
+        بعد با چند نقطه لمس، حدود اعداد را تو تابع نگاشت گذاشتم. دقیق آزمایشگاهی نیست، ولی برای کار من کافی بود.
+      </p>
+      <p class="prose">
+        این‌ها را نوشتم چون فقط گفتن کار کرد کافی نبود. چند جا هم اشتباه کرده بودم و با همین تست‌ها درست شد.
+      </p>
+    </div>
+    <div class="footer">۳۸</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۵ آزمایش هفته">
+    <div class="page">
+      <h3 class="sub">۵-۵ آزمایش یک هفته</h3>
+      <p class="prose">
+        برای اینکه فقط تست لحظه‌ای نباشد، یک هفته فرضی در نظر گرفتم که سیستم روشن بماند
+        و لپ‌تاپ هر چند ساعت وضعیت را بگیرد. عددها حدودی است. مال دفترچه خودم است نه آزمایشگاه.
+      </p>
+      <p class="fig-cap" style="margin-top:0.15em; margin-bottom:0.15em;">جدول ۵-۲ — یادداشت یک هفته آزمایش فرضی</p>
+      <table class="data">
+        <thead>
+          <tr>
+            <th>روز</th>
+            <th>هوا</th>
+            <th>خاک تقریبی</th>
+            <th>کار سیستم</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>۱</td>
+            <td>آفتابی</td>
+            <td>گیاه اول خشک</td>
+            <td>پمپ ۱ حدود ۸ ثانیه</td>
+          </tr>
+          <tr>
+            <td>۲</td>
+            <td>آفتابی</td>
+            <td>گیاه دوم خشک‌تر</td>
+            <td>پمپ ۲ زد؛ اولی را رد کرد</td>
+          </tr>
+          <tr>
+            <td>۳</td>
+            <td>باران در پیش‌بینی</td>
+            <td>متوسط</td>
+            <td>آب نداد</td>
+          </tr>
+          <tr>
+            <td>۴</td>
+            <td>آفتابی</td>
+            <td>هر دو خوب</td>
+            <td>کاری نکرد</td>
+          </tr>
+          <tr>
+            <td>۵</td>
+            <td>آفتابی</td>
+            <td>—</td>
+            <td>یک‌بار وای فای واسط قطع شد</td>
+          </tr>
+          <tr>
+            <td>۶</td>
+            <td>آفتابی</td>
+            <td>گیاه اول دوباره خشک</td>
+            <td>پمپ ۱ زد</td>
+          </tr>
+          <tr>
+            <td>۷</td>
+            <td>ابری بدون باران</td>
+            <td>هر دو قابل قبول</td>
+            <td>پمپ خاموش ماند</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="prose">
+        جمع کوتاه: تو این هفته فرضی سه بار آبیاری شد و یک روز به‌خاطر باران رد شد.
+        روز قطع وای فای، خودکار کار نکرد ولی از پنل می‌شد دستی زد.
+        پس سیستم برای چند روز پشت‌سرهم منطقی به نظر می‌رسد. لازم نیست هر روز خودم بروم حیاط.
+      </p>
+    </div>
+    <div class="footer">۳۹</div>
+  </section>
+
+  <!-- فصل ۶ -->
+  <section class="sheet" aria-label="فصل ۶">
+    <div class="page">
+      <h2 class="chapter">فصل ۶<br />نتیجه‌گیری و کارهای آینده</h2>
+      <h3 class="sub">۶-۱ جمع‌بندی</h3>
+      <p class="prose">
+        سؤال اولم این بود که آیا می‌شود کنترل یک وسیله واقعی را تا حد خوبی به هوش مصنوعی سپرد یا نه.
+        روی گلدون حیاط این را امتحان کردم. حسگرها وضعیت را می‌خوانند، لپ‌تاپ با خاک و هوا تصمیم می‌گیرد،
+        و برد حیاط فقط رله را می‌زند.
+      </p>
+      <p class="prose">
+        سه برد لازم شد: حیاط برای حسگر و پمپ، واسط برای وای فای، پنل برای کار دستی داخل خانه.
+        مسیر فرمان دوطرفه است و بدون زمین مشترک یا با سیم برعکس، هیچ‌چیز جلو نمی‌رود.
+        دو منبع تغذیه جدا هم کمک کرد موتور برد را نیندازد.
+      </p>
+      <p class="prose">
+        جواب کلی من این است: برای این کار کوچک، بله. می‌شود بیشتر کار را خودکار کرد.
+        ولی هنوز باید آستانه و زمان پمپ را خودم تعیین کنم و حواسم به باران و خشکی بیش از حد باشد.
+        هوش مصنوعی اینجا مشاور است، نه صاحب کامل سیستم.
+      </p>
+    </div>
+    <div class="footer">۴۰</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۶ ادامه">
+    <div class="page">
+      <p class="prose">
+        چیزهایی که به نظرم خوب از آب درآمد:
+      </p>
+      <ul class="prose-list">
+        <li>جدا کردن حیاط از وای فای با یک برد واسط</li>
+        <li>دو گیاه با دو حسگر و دو پمپ، ولی هر دور فقط یکی</li>
+        <li>گرفتن هوا بدون کلید جدا</li>
+        <li>پنل لمسی برای وقتی که بخواهم دستی دخالت کنم</li>
+      </ul>
+      <p class="prose">
+        چیزهایی که ضعیف ماند: کالیبره خاک دقیق نیست، لمس صفحه گاهی خطا دارد،
+        و اگر اینترنت نباشد هوا نمی‌آید. تصمیم لپ‌تاپ هم ساده است و عکس گیاه را هر بار جدی تحلیل نمی‌کند.
+      </p>
+      <h3 class="sub">۶-۲ کارهای آینده</h3>
+      <p class="prose">اگر بخواهم کار را ادامه بدهم، این‌ها را جلو می‌برم:</p>
+      <ul class="prose-list">
+        <li>عکس گیاه را جدی‌تر به مدل بدهم تا نوعش را بهتر حدس بزند</li>
+        <li>آستانه هر گیاه را جدا و با تجربه چند هفته عوض کنم</li>
+        <li>اگر مخزن آب خالی شد پمپ را قفل کنم</li>
+        <li>گزارش روزانه روی لپ‌تاپ نگه دارم که کی آب داده</li>
+        <li>پنل را فارسی‌تر کنم تا برای خانواده هم خوانا باشد</li>
+      </ul>
+      <p class="prose">
+        این‌ها لازم نبود برای همین پروژه دانشجویی تمام شود. سیستم الان آب می‌دهد و وضعیت را نشان می‌دهد.
+        فقط می‌دانم هنوز جا دارد بهتر شود.
+      </p>
+    </div>
+    <div class="footer">۴۱</div>
+  </section>
+
+  <section class="sheet" aria-label="فصل ۶ محدودیت">
+    <div class="page">
+      <h3 class="sub">۶-۳ محدودیت‌ها</h3>
+      <ul class="prose-list">
+        <li>سیستم فقط روی وای فای خانه کار می‌کند. اگر مودم خاموش شود خودکار می‌ایستد</li>
+        <li>مغز تصمیم روی لپ‌تاپ است. لپ‌تاپ که خاموش باشد فقط پنل دستی می‌ماند</li>
+        <li>حسگر سطح آب ندارم. اگر منبع خالی شود پمپ ممکن است خشک کار کند</li>
+        <li>سلول خورشیدی در سخت‌افزار هست، ولی تو شماتیک کشیده نشده</li>
+        <li>کالیبره خاک تقریبی است و برای هر گلدون فرق می‌کند</li>
+        <li>لمس پنل گاهی جای اشتباه را می‌گیرد</li>
+        <li>اگر اینترنت نباشد پیش‌بینی هوا نمی‌آید</li>
+        <li>مدل نوع گیاه را دقیق تشخیص نمی‌دهد</li>
+        <li>برد حیاط آنتن وای فای پایدار ندارد و وابسته به سیم واسط است</li>
+        <li>برای چند خانه یا محصول فروشی آماده نیست</li>
+      </ul>
+    </div>
+    <div class="footer">۴۲</div>
+  </section>
+
+  <!-- پیوست -->
+  <section class="sheet" aria-label="پیوست ۱">
+    <div class="page">
+      <h1 class="page-title">پیوست الف — دستورهای بین بردها</h1>
+      <p class="prose">
+        این‌ها همان حرف‌هایی است که روی سیم بین واسط و حیاط می‌رود.
+        خودم همین‌ها را تو مانیتور می‌دیدم.
+      </p>
+      <p class="fig-cap">جدول پ-۱ — دستور از واسط به حیاط</p>
+      <table class="data">
+        <thead>
+          <tr>
+            <th>دستور</th>
+            <th>معنی</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>STATUS</td>
+            <td>وضعیت حسگرها را بفرست</td>
+          </tr>
+          <tr>
+            <td>RELAY,1,1</td>
+            <td>پمپ گیاه اول روشن</td>
+          </tr>
+          <tr>
+            <td>RELAY,1,0</td>
+            <td>پمپ گیاه اول خاموش</td>
+          </tr>
+          <tr>
+            <td>RELAY,2,1</td>
+            <td>پمپ گیاه دوم روشن</td>
+          </tr>
+          <tr>
+            <td>RELAY,2,0</td>
+            <td>پمپ گیاه دوم خاموش</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="prose">
+        جواب وضعیت یک خط متن است که دما، رطوبت هوا، دو عدد خاک و وضعیت دو رله را دارد.
+        اگر تا دو ثانیه چیزی نیاید، واسط می‌گوید زمان تمام شد تا پنل گیر نکند.
+      </p>
+    </div>
+    <div class="footer">۴۳</div>
+  </section>
+
+  <section class="sheet" aria-label="پیوست ۲">
+    <div class="page">
+      <h1 class="page-title">پیوست ب — نکات لازم برای نصب و کار</h1>
+      <p class="prose">
+        این‌ها نکاتی است که اگر رعایت نشود سیستم یا کار نمی‌کند یا ممکن است به پمپ و برد آسیب بزند.
+      </p>
+      <ul class="prose-list">
+        <li>کابل وصل به لپ‌تاپ باید دیتا باشد. کابل فقط‌شارژ پورت نمی‌سازد</li>
+        <li>وای فای خانه باید باند ۲٫۴ گیگاهرتز باشد</li>
+        <li>زمین دو برد حیاط و واسط باید مشترک باشد</li>
+        <li>فرستنده یکی به گیرنده آن یکی وصل شود. جابه‌جا بسته شود جواب نمیاد</li>
+        <li>تغذیه برد و تغذیه پمپ جدا باشد تا موتور برد را نیندازد</li>
+        <li>خروجی رله طوری بسته شود که با چسبیدن تیغه موتور روشن شود</li>
+        <li>در هر دور فقط یک پمپ روشن شود</li>
+        <li>اگر پیش‌بینی باران است و خاک خیلی خشک نیست، پمپ زده نشود</li>
+        <li>عدد حسگر خاک خام است. آستانه را باید برای همان گلدون تنظیم کرد</li>
+        <li>اگر منبع آب خالی است پمپ را نباید روشن گذاشت</li>
+      </ul>
+    </div>
+    <div class="footer">۴۴</div>
+  </section>
+
+  <section class="sheet" aria-label="پیوست ۳">
+    <div class="page">
+      <h1 class="page-title">پیوست ج — کاربردهای دیگر و انبوه‌سازی</h1>
+      <p class="prose">
+        ایده اینترنت اشیا از گلدون بزرگ‌تر است: حسگر ببیند، از شبکه برود بالا، تصمیم گرفته شود،
+        و یک وسیله پایین روشن یا خاموش شود. با همین الگو می‌شود سراغ کار‌های دیگر رفت:
+      </p>
+      <ul class="prose-list">
+        <li>خانه: لامپ، پرده، کولر یا بخاری با دما و حضور آدم</li>
+        <li>کشاورزی: رطوبت خاک چند زمین، باز و بسته کردن شیر آب از راه دور</li>
+        <li>انبار و سردخانه: دما و رطوبت. اگر از حد رد شد آژیر یا فن</li>
+        <li>شهر: سطل زباله پر، جای پارک خالی، روشنایی معبر با نور محیط</li>
+        <li>انرژی: دیدن مصرف برق خانه و قطع بار غیرلازم وقتی اوج مصرف است</li>
+        <li>کارگاه کوچک: لرزش یا دمای موتور. اگر غیرعادی شد دستگاه بایستد</li>
+        <li>گلخانه و دامداری: تهویه، مهپاش، آبخوری با همان پنل و واسط</li>
+      </ul>
+      <p class="prose">
+        انبوه‌سازی با سه برد جدا سخت است. برای محصول باید یک جعبه جمع‌وجور و قیمت کمتر باشد،
+        و کار روزمره با پنل داخل خانه یا گوشی از راه دور جلو برود، نه اینکه همیشه یک کامپیوتر کنار سیستم روشن بماند.
+        این نمونه برای فهم ایده خوب است. برای کارخانه هنوز کافی نیست.
+      </p>
+    </div>
+    <div class="footer">۴۵</div>
+  </section>
+
+  <section class="sheet" aria-label="پیوست ۴">
+    <div class="page">
+      <h1 class="page-title">پیوست د — آینده اینترنت اشیا و هوش مصنوعی</h1>
+      <p class="prose">
+        اینترنت اشیا یعنی وسیله واقعی به شبکه وصل باشد و داده بفرستد.
+        هوش مصنوعی روی همان داده تصمیم می‌گیرد. مسیر کلی این است که حسگر ببیند، مدل بفهمد،
+        و فرمان برود سمت رله یا موتور. انسان کمتر وسط باشد.
+      </p>
+      <p class="prose">
+        تو پروژه من هوش مصنوعی هنوز تصمیم‌گیر کامل نیست. فقط با خاک و هوا پیشنهاد می‌دهد
+        که پمپ بزند یا نه. کار خطرناک مثل خالی بودن منبع یا گیر کردن موتور را خودش نمی‌فهمد.
+        برای همین دکمه دستی و قانون ساده روی لپ‌تاپ را نگه داشتم تا اگر مدل اشتباه گفت، سیستم بی‌محابا آب ندهد.
+      </p>
+      <p class="prose">
+        به نظرم آینده نزدیک این نیست که انسان کاملاً کنار برود.
+        بیشتر این است که کار تکراری را مدل انجام بدهد و انسان فقط نظارت کند.
+        برای گلدون من همین الان هم بیشتر روزها لازم نیست بروم حیاط.
+        ولی هنوز خاموش کردن دستی و چک کردن سیم را لازم دارم.
+        تا وقتی مدل نتواند خطای خودش را بفهمد، سپردن کامل کار به هوش مصنوعی خطرناک است.
+      </p>
+    </div>
+    <div class="footer">۴۶</div>
+  </section>
+
+  <!-- منابع -->
+  <section class="sheet" aria-label="منابع و مآخذ">
+    <div class="page">
+      <h1 class="page-title">منابع و مآخذ</h1>
+      <p class="prose">
+        برای یاد گرفتن کارها از کتاب و سایت فارسی، ویدیوی یوتیوب و پرسیدن از هوش مصنوعی استفاده کردم.
+      </p>
+      <ol class="refs">
+        <li>پروژه قبلی خودم — اکوسیستم گیاه هوشمند (Smart Plant Ecosystem)، گلدون تکی با مخزن داخلی و کنترل ابری</li>
+        <li>آموزش اینترنت اشیا و کار با برد ESP32</li>
+        <li>آموزش رسم شماتیک و PCB در نرم‌افزار آلتیوم دیزاینر</li>
+        <li>مقدمه‌ای بر آبیاری هوشمند و حسگر رطوبت خاک</li>
+        <li>یوتیوب — آموزش Altium Designer و کشیدن شماتیک مدار</li>
+        <li>یوتیوب — ارتباط UART بین دو برد ESP32</li>
+        <li>یوتیوب — ساخت UI لمسی با LVGL روی صفحه TFT</li>
+        <li>یوتیوب — گرفتن داده از API هواشناسی با HTTP در ESP32</li>
+        <li>سایت Open-Meteo — پیش‌بینی هوا بدون کلید API</li>
+        <li>مستندات LVGL — چیدمان دکمه و برچسب روی صفحه</li>
+        <li>هوش مصنوعی (چت‌جی‌پی‌تی) — رفع خطاهای کد، فهم UART و ساخت لینک API</li>
+      </ol>
+    </div>
+    <div class="footer">۴۷</div>
+  </section>
+
+</body>
+
+</html>

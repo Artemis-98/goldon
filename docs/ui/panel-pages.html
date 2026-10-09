@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <title>طراحی UI پنل — ۲۴۰×۳۲۰</title>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap");
+
+    :root {
+      --desk: #141414;
+      --paper: #eceae3;
+      --ink: #111;
+      --mute: #6b6b6b;
+      --line: #111;
+      --beige: #d2d1c1;
+      --tile: #f7f5ef;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(ellipse at 20% 0%, #222 0%, transparent 50%),
+        var(--desk);
+      color: var(--paper);
+      font-family: "IBM Plex Sans", Tahoma, sans-serif;
+      padding: 28px 32px 48px;
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: 1.35rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+    .sub {
+      margin: 0 0 28px;
+      color: #9a9a9a;
+      font-size: 0.92rem;
+      max-width: 52rem;
+      line-height: 1.55;
+    }
+
+    .board {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 36px 40px;
+      align-items: flex-start;
+    }
+
+    .device { width: 240px; flex: 0 0 240px; }
+    .cap {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 10px;
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #8a8a8a;
+    }
+    .cap b { color: #cfcfcf; font-weight: 500; letter-spacing: 0; text-transform: none; font-size: 0.85rem; }
+    .tag {
+      border: 1px solid #3a3a3a;
+      padding: 1px 7px;
+      border-radius: 999px;
+      font-size: 0.65rem;
+      color: #888;
+    }
+    .tag.on { border-color: #6a6a6a; color: #ddd; }
+
+    /* قاب فیزیکی نمایشگر */
+    .bezel {
+      width: 240px;
+      height: 320px;
+      background: #0a0a0a;
+      border: 3px solid #2a2a2a;
+      box-shadow: 0 0 0 1px #111, 0 18px 40px rgba(0,0,0,.45);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .screen {
+      width: 240px;
+      height: 320px;
+      position: relative;
+      overflow: hidden;
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      color: var(--ink);
+    }
+
+    /* —— صفحه ۱: اسپلش —— */
+    .p-splash {
+      background: var(--beige);
+    }
+    .p-splash video {
+      width: 240px;
+      height: 320px;
+      object-fit: cover;
+      display: block;
+    }
+    .p-splash .hint {
+      position: absolute;
+      left: 0; right: 0; bottom: 10px;
+      text-align: center;
+      font-size: 10px;
+      color: rgba(0,0,0,.45);
+      letter-spacing: 0.08em;
+      pointer-events: none;
+    }
+
+    /* —— صفحه ۲: هواشناسی —— 240×320، سه نوار ثابت —— */
+    .p-weather {
+      background: #102030;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .nav {
+      width: 240px;
+      height: 28px;
+      flex: none;
+      display: grid;
+      grid-template-columns: 28px 1fr 28px;
+      align-items: center;
+      padding: 0 6px;
+      background: #102030;
+      border-bottom: 1px solid #2a3d52;
+    }
+    .nav-ico {
+      width: 22px;
+      height: 22px;
+      margin: 0 auto;
+      border: 1px solid #8aa0b4;
+      border-radius: 4px;
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+      line-height: 1;
+      color: #fff;
+    }
+    .nav-title {
+      text-align: center;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.16em;
+      color: #fff;
+    }
+    .nav-sub { display: none; }
+
+    /* امروز: 148px ثابت */
+    .today {
+      width: 240px;
+      height: 148px;
+      flex: none;
+      padding: 10px 12px;
+      direction: ltr;
+      text-align: left;
+      background: #1e90ff;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .today-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 18px;
+    }
+    .today-city {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: #e8f4ff;
+    }
+    .today-badge {
+      font-size: 9px;
+      font-weight: 600;
+      height: 16px;
+      line-height: 16px;
+      padding: 0 7px;
+      border-radius: 8px;
+      background: #ffd27a;
+      color: #102030;
+    }
+    .today-main {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      height: 52px;
+    }
+    .today-temp {
+      font-size: 40px;
+      font-weight: 600;
+      line-height: 52px;
+      letter-spacing: -0.03em;
+    }
+    .today-temp em {
+      font-style: normal;
+      font-size: 16px;
+      font-weight: 500;
+      margin-left: 2px;
+      opacity: .8;
+    }
+    .today-cond {
+      text-align: right;
+      padding-bottom: 8px;
+    }
+    .today-cond .name {
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+    .today-cond .hl {
+      font-size: 10px;
+      color: #d6ecff;
+      margin-top: 3px;
+    }
+
+    .metrics {
+      height: 44px;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      background: #187ae0;
+      border-radius: 6px;
+    }
+    .metric {
+      padding: 6px 0 0;
+      text-align: center;
+      border-right: 1px solid #4aa0f0;
+    }
+    .metric:last-child { border-right: 0; }
+    .metric .l {
+      font-size: 8px;
+      letter-spacing: 0.04em;
+      color: #cfe6ff;
+      font-weight: 600;
+      line-height: 1;
+    }
+    .metric .v {
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 5px;
+      line-height: 1;
+    }
+
+    /* روزهای بعد: 144px ثابت — شبکه ۲×۲ بدون اسکرول */
+    .days-wrap {
+      width: 240px;
+      height: 144px;
+      flex: none;
+      padding: 8px 10px 10px;
+      direction: ltr;
+      background: #102030;
+      display: flex;
+      flex-direction: column;
+    }
+    .days-label {
+      height: 16px;
+      font-size: 9px;
+      letter-spacing: 0.14em;
+      color: #7d93a8;
+      font-weight: 600;
+      line-height: 16px;
+    }
+    .days-grid {
+      margin-top: 6px;
+      height: 104px;
+      display: grid;
+      grid-template-columns: 105px 105px;
+      grid-template-rows: 49px 49px;
+      gap: 6px;
+      justify-content: space-between;
+    }
+    .day-card {
+      width: 105px;
+      height: 49px;
+      background: #1a3044;
+      border: 1px solid #2d4a63;
+      border-radius: 6px;
+      padding: 5px 8px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-rows: 16px 18px;
+      column-gap: 4px;
+    }
+    .day-card .wd {
+      grid-column: 1;
+      grid-row: 1;
+      font-weight: 600;
+      color: #c5d4e2;
+      font-size: 11px;
+      line-height: 16px;
+    }
+    .day-card .temps {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      font-weight: 600;
+      color: #fff;
+      font-size: 14px;
+      line-height: 18px;
+    }
+    .day-card .temps span {
+      color: #6d8296;
+      font-weight: 500;
+      margin: 0 2px;
+    }
+    .rain {
+      grid-column: 2;
+      grid-row: 1;
+      align-self: center;
+      font-size: 8px;
+      font-weight: 600;
+      height: 14px;
+      line-height: 14px;
+      padding: 0 5px;
+      border-radius: 7px;
+      white-space: nowrap;
+    }
+    .rain.yes {
+      background: #1a4a6e;
+      color: #7ec8ff;
+    }
+    .rain.no {
+      background: #3d3420;
+      color: #ffd27a;
+    }
+
+    /* —— صفحه ۳: خاک —— 240×320، دو بخش مساوی —— */
+    .p-soil {
+      background: #142018;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .p-soil .nav {
+      background: #142018;
+      border-bottom-color: #2a3d30;
+    }
+
+    .soil-stack {
+      width: 240px;
+      height: 292px;
+      flex: none;
+      padding: 8px 10px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      direction: ltr;
+    }
+    .soil-card {
+      width: 220px;
+      height: 133px;
+      flex: none;
+      background: #1c2e24;
+      border: 1px solid #33503f;
+      border-radius: 8px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .soil-card.a { border-top: 3px solid #3ecf8e; }
+    .soil-card.b { border-top: 3px solid #6bcb77; }
+
+    .soil-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 18px;
+    }
+    .soil-name {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: #c8e6d0;
+    }
+    .soil-status {
+      font-size: 9px;
+      font-weight: 600;
+      height: 16px;
+      line-height: 16px;
+      padding: 0 7px;
+      border-radius: 8px;
+    }
+    .soil-status.ok {
+      background: #1e4d35;
+      color: #3ecf8e;
+    }
+    .soil-status.dry {
+      background: #4a3a1a;
+      color: #ffd27a;
+    }
+    .soil-status.wet {
+      background: #1a3d55;
+      color: #7ec8ff;
+    }
+
+    .soil-mid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: end;
+      height: 48px;
+    }
+    .soil-pct {
+      font-size: 36px;
+      font-weight: 600;
+      line-height: 48px;
+      letter-spacing: -0.03em;
+      color: #fff;
+    }
+    .soil-pct em {
+      font-style: normal;
+      font-size: 14px;
+      font-weight: 500;
+      margin-left: 1px;
+      opacity: .7;
+    }
+    .soil-meta {
+      text-align: right;
+      padding-bottom: 8px;
+      font-size: 10px;
+      line-height: 1.35;
+      color: #8fad9a;
+    }
+    .soil-meta strong {
+      display: block;
+      color: #d4eadc;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .soil-bar-wrap {
+      height: 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      gap: 5px;
+    }
+    .soil-bar-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 8px;
+      letter-spacing: 0.06em;
+      color: #6f8f7c;
+      font-weight: 600;
+    }
+    .soil-bar {
+      height: 8px;
+      background: #0f1a14;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid #2a4034;
+    }
+    .soil-bar > i {
+      display: block;
+      height: 100%;
+      border-radius: 3px;
+      background: #3ecf8e;
+    }
+    .soil-card.b .soil-bar > i { background: #6bcb77; }
+    .soil-card.dry-tone .soil-bar > i { background: #ffd27a; }
+
+    /* —— صفحه پمپ ۱ / پمپ ۲ —— ثابت ۲۴۰×۳۲۰، بدون اسکرول —— */
+    .p-pump {
+      width: 240px;
+      height: 320px;
+      background: #181410;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .p-pump .nav {
+      width: 240px;
+      height: 28px;
+      flex: none;
+      background: #181410;
+      border-bottom-color: #3a3228;
+    }
+    .p-pump.p1 .nav { border-bottom-color: #2a4050; }
+    .p-pump.p2 .nav { border-bottom-color: #2a4038; }
+
+    /* 320 − 28 = 292 */
+    .pump-body {
+      width: 240px;
+      height: 292px;
+      flex: none;
+      padding: 10px 12px;
+      box-sizing: border-box;
+      direction: ltr;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      overflow: hidden;
+    }
+
+    .pump-hero {
+      height: 58px;
+      flex: none;
+      box-sizing: border-box;
+      border-radius: 8px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .p-pump.p1 .pump-hero {
+      background: #1e3a52;
+      border: 1px solid #3a6a90;
+    }
+    .p-pump.p2 .pump-hero {
+      background: #1e3d32;
+      border: 1px solid #3a7a60;
+    }
+    .pump-hero .who {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      opacity: .7;
+      line-height: 1;
+    }
+    .pump-hero .plant {
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+    .p-pump.p1 .pump-hero .who,
+    .p-pump.p1 .pump-hero .plant { color: #9fd0ff; }
+    .p-pump.p2 .pump-hero .who,
+    .p-pump.p2 .pump-hero .plant { color: #8fdbb8; }
+
+    .pump-schedule {
+      flex: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .pump-block {
+      height: 48px;
+      flex: none;
+      box-sizing: border-box;
+      background: #241e18;
+      border: 1px solid #4a3f32;
+      border-radius: 8px;
+      padding: 8px 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .pump-block .lbl {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      color: #8a7a68;
+      line-height: 1;
+    }
+    .pump-block .val {
+      font-size: 15px;
+      font-weight: 600;
+      color: #f0e6d8;
+      line-height: 1;
+    }
+    .pump-block.next .val { color: #7ec8ff; }
+    .p-pump.p2 .pump-block.next .val { color: #5ec8a0; }
+
+    .pump-extra {
+      height: 42px;
+      flex: none;
+      box-sizing: border-box;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .pump-chip {
+      box-sizing: border-box;
+      background: #1a1612;
+      border: 1px solid #332b22;
+      border-radius: 6px;
+      padding: 7px 8px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 3px;
+      min-height: 0;
+    }
+    .pump-chip .l {
+      font-size: 8px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: #6e6052;
+      line-height: 1;
+    }
+    .pump-chip .v {
+      font-size: 12px;
+      font-weight: 600;
+      color: #d8cbb8;
+      line-height: 1;
+    }
+
+    .pump-btns {
+      height: 38px;
+      flex: none;
+      display: flex;
+      gap: 8px;
+    }
+    .pump-btn {
+      height: 38px;
+      box-sizing: border-box;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      display: grid;
+      place-items: center;
+      cursor: default;
+    }
+    .pump-btn.water { flex: 1; }
+    .pump-btn.ai {
+      width: 58px;
+      flex: none;
+      letter-spacing: 0.06em;
+    }
+    .p-pump.p1 .pump-btn.water {
+      border: 1px solid #5a9fd4;
+      background: #1e3a52;
+      color: #9fd0ff;
+    }
+    .p-pump.p2 .pump-btn.water {
+      border: 1px solid #4a9a78;
+      background: #1e3d32;
+      color: #8fdbb8;
+    }
+    /* AI روشن */
+    .p-pump.p1 .pump-btn.ai.on {
+      border: 1px solid #7ab8e8;
+      background: #2a5a7a;
+      color: #c8e8ff;
+    }
+    .p-pump.p2 .pump-btn.ai.on {
+      border: 1px solid #6aba98;
+      background: #2a5a48;
+      color: #c8f0dc;
+    }
+    /* AI خاموش */
+    .p-pump .pump-btn.ai.off {
+      border: 1px solid #3a3a3a;
+      background: #1a1a1a;
+      color: #666;
+    }
+
+    /* —— صفحه: دما و رطوبت (DHT) —— */
+    .p-climate {
+      background: #121820;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .p-climate .nav {
+      background: #121820;
+      border-bottom-color: #2a3848;
+    }
+
+    .climate-stack {
+      width: 240px;
+      height: 292px;
+      flex: none;
+      padding: 8px 10px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      direction: ltr;
+    }
+    .climate-card {
+      width: 220px;
+      height: 133px;
+      flex: none;
+      border-radius: 8px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .climate-card.temp {
+      background: #1e2a3a;
+      border: 1px solid #3a5570;
+      border-top: 3px solid #ff8a4c;
+    }
+    .climate-card.hum {
+      background: #1a2c34;
+      border: 1px solid #356070;
+      border-top: 3px solid #4ec4e8;
+    }
+
+    .climate-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 18px;
+    }
+    .climate-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+    }
+    .climate-card.temp .climate-label { color: #ffb08a; }
+    .climate-card.hum .climate-label { color: #8ad8f0; }
+
+    .climate-badge {
+      font-size: 9px;
+      font-weight: 600;
+      height: 16px;
+      line-height: 16px;
+      padding: 0 7px;
+      border-radius: 8px;
+    }
+    .climate-card.temp .climate-badge {
+      background: #3a2a20;
+      color: #ffb08a;
+    }
+    .climate-card.hum .climate-badge {
+      background: #1a3540;
+      color: #8ad8f0;
+    }
+
+    .climate-value {
+      font-size: 44px;
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: -0.03em;
+    }
+    .climate-value em {
+      font-style: normal;
+      font-size: 16px;
+      font-weight: 500;
+      margin-left: 2px;
+      opacity: .75;
+    }
+    .climate-card.temp .climate-value { color: #ffe0d0; }
+    .climate-card.hum .climate-value { color: #d6f4ff; }
+
+    .climate-foot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      opacity: .65;
+    }
+    .climate-card.temp .climate-foot { color: #ffb08a; }
+    .climate-card.hum .climate-foot { color: #8ad8f0; }
+
+    .spec {
+      flex: 1 1 280px;
+      max-width: 360px;
+      border-top: 1px solid #2e2e2e;
+      padding-top: 14px;
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: #b0b0b0;
+    }
+    .spec h2 {
+      margin: 0 0 10px;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #888;
+      font-weight: 500;
+    }
+    .spec ul {
+      margin: 0;
+      padding: 0 1.1rem 0 0;
+    }
+    .spec li { margin-bottom: 6px; }
+    .spec code {
+      font-family: "IBM Plex Mono", monospace;
+      font-size: 0.8em;
+      background: #222;
+      padding: 1px 5px;
+      border-radius: 3px;
+      color: #ddd;
+    }
+    .spec .k { color: #eee; }
+  </style>
+</head>
+<body>
+  <h1>طراحی UI پنل لمسی</h1>
+  <p class="sub">
+    مقیاس واقعی نمایشگر <strong>۲۴۰ × ۳۲۰</strong> پیکسل (پرتره).
+    فقط طراحی صفحات — بدون فریمور.
+    اسپلش → هواشناسی → دما/رطوبت → خاک → پمپ ۱ → پمپ ۲.
+  </p>
+
+  <div class="board">
+    <!-- صفحه ۱ -->
+    <div class="device">
+      <div class="cap"><b>صفحه ۱ — اسپلش</b> <span class="tag on">۲۴۰×۳۲۰</span></div>
+      <div class="bezel">
+        <div class="screen p-splash">
+          <video src="../../file/HooshaAI_2026_09_18_141456.mp4" autoplay muted loop playsinline></video>
+          <div class="hint">TAP ANYWHERE</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- صفحه ۲ -->
+    <div class="device">
+      <div class="cap"><b>صفحه ۲ — هواشناسی سیرجان</b> <span class="tag on">طراحی</span></div>
+      <div class="bezel">
+        <div class="screen p-weather">
+          <div class="nav">
+            <div class="nav-ico" title="برگشت">‹</div>
+            <div class="nav-title">SIRJAN</div>
+            <div class="nav-ico" title="صفحه بعد">›</div>
+          </div>
+
+          <section class="today">
+            <div class="today-top">
+              <div class="today-city">FRI 18 SEP</div>
+              <div class="today-badge">DRY</div>
+            </div>
+            <div class="today-main">
+              <div class="today-temp">34<em>°</em></div>
+              <div class="today-cond">
+                <div class="name">Clear</div>
+                <div class="hl">H 36°  L 18°</div>
+              </div>
+            </div>
+            <div class="metrics">
+              <div class="metric">
+                <div class="l">HUM</div>
+                <div class="v">18%</div>
+              </div>
+              <div class="metric">
+                <div class="l">WIND</div>
+                <div class="v">12</div>
+              </div>
+              <div class="metric">
+                <div class="l">FEELS</div>
+                <div class="v">33°</div>
+              </div>
+              <div class="metric">
+                <div class="l">UV</div>
+                <div class="v">8</div>
+              </div>
+            </div>
+          </section>
+
+          <div class="days-wrap">
+            <div class="days-label">NEXT DAYS</div>
+            <div class="days-grid">
+              <div class="day-card">
+                <div class="wd">SAT</div>
+                <div class="rain no">DRY</div>
+                <div class="temps">30<span>/</span>15°</div>
+              </div>
+              <div class="day-card">
+                <div class="wd">SUN</div>
+                <div class="rain no">DRY</div>
+                <div class="temps">31<span>/</span>14°</div>
+              </div>
+              <div class="day-card">
+                <div class="wd">MON</div>
+                <div class="rain yes">RAIN</div>
+                <div class="temps">28<span>/</span>16°</div>
+              </div>
+              <div class="day-card">
+                <div class="wd">TUE</div>
+                <div class="rain no">DRY</div>
+                <div class="temps">29<span>/</span>15°</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- صفحه ۳ — دما و رطوبت -->
+    <div class="device">
+      <div class="cap"><b>صفحه ۳ — دما و رطوبت</b> <span class="tag on">طراحی</span></div>
+      <div class="bezel">
+        <div class="screen p-climate">
+          <div class="nav">
+            <div class="nav-ico" title="برگشت">‹</div>
+            <div class="nav-title">CLIMATE</div>
+            <div class="nav-ico" title="صفحه بعد">›</div>
+          </div>
+          <div class="climate-stack">
+            <section class="climate-card temp">
+              <div class="climate-head">
+                <div class="climate-label">TEMP</div>
+                <div class="climate-badge">DHT11</div>
+              </div>
+              <div class="climate-value">27<em>°C</em></div>
+              <div class="climate-foot">
+                <span>AIR</span>
+                <span>OK</span>
+              </div>
+            </section>
+            <section class="climate-card hum">
+              <div class="climate-head">
+                <div class="climate-label">HUMIDITY</div>
+                <div class="climate-badge">DHT11</div>
+              </div>
+              <div class="climate-value">41<em>%</em></div>
+              <div class="climate-foot">
+                <span>AIR</span>
+                <span>OK</span>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- صفحه ۴ — خاک -->
+    <div class="device">
+      <div class="cap"><b>صفحه ۴ — رطوبت خاک</b> <span class="tag on">طراحی</span></div>
+      <div class="bezel">
+        <div class="screen p-soil">
+          <div class="nav">
+            <div class="nav-ico" title="برگشت">‹</div>
+            <div class="nav-title">SOIL</div>
+            <div class="nav-ico" title="صفحه بعد">›</div>
+          </div>
+
+          <div class="soil-stack">
+            <section class="soil-card a">
+              <div class="soil-head">
+                <div class="soil-name">SOIL 1</div>
+                <div class="soil-status ok">OK</div>
+              </div>
+              <div class="soil-mid">
+                <div class="soil-pct">62<em>%</em></div>
+                <div class="soil-meta">
+                  <strong>Plant A</strong>
+                  ADC 1840
+                </div>
+              </div>
+              <div class="soil-bar-wrap">
+                <div class="soil-bar-label">
+                  <span>MOISTURE</span>
+                  <span>DRY ←→ WET</span>
+                </div>
+                <div class="soil-bar"><i style="width:62%"></i></div>
+              </div>
+            </section>
+
+            <section class="soil-card b dry-tone">
+              <div class="soil-head">
+                <div class="soil-name">SOIL 2</div>
+                <div class="soil-status dry">DRY</div>
+              </div>
+              <div class="soil-mid">
+                <div class="soil-pct">28<em>%</em></div>
+                <div class="soil-meta">
+                  <strong>Plant B</strong>
+                  ADC 2910
+                </div>
+              </div>
+              <div class="soil-bar-wrap">
+                <div class="soil-bar-label">
+                  <span>MOISTURE</span>
+                  <span>DRY ←→ WET</span>
+                </div>
+                <div class="soil-bar"><i style="width:28%"></i></div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- صفحه ۵ — پمپ ۱ -->
+    <div class="device">
+      <div class="cap"><b>صفحه ۵ — پمپ ۱</b> <span class="tag on">طراحی</span></div>
+      <div class="bezel">
+        <div class="screen p-pump p1">
+          <div class="nav">
+            <div class="nav-ico" title="برگشت">‹</div>
+            <div class="nav-title">PUMP 1</div>
+            <div class="nav-ico" title="صفحه بعد">›</div>
+          </div>
+          <div class="pump-body">
+            <div class="pump-hero">
+              <div class="who">PUMP 1</div>
+              <div class="plant">Plant A</div>
+            </div>
+            <div class="pump-schedule">
+              <div class="pump-block">
+                <div class="lbl">LAST RUN</div>
+                <div class="val">Today 07:30</div>
+              </div>
+              <div class="pump-block next">
+                <div class="lbl">NEXT RUN</div>
+                <div class="val">Sat 07:30</div>
+              </div>
+            </div>
+            <div class="pump-extra">
+              <div class="pump-chip">
+                <div class="l">DURATION</div>
+                <div class="v">30 sec</div>
+              </div>
+              <div class="pump-chip">
+                <div class="l">STATUS</div>
+                <div class="v">Idle</div>
+              </div>
+            </div>
+            <div class="pump-btns">
+              <div class="pump-btn water">WATER NOW</div>
+              <div class="pump-btn ai on" title="خودکار AI — روشن">AI</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- صفحه ۶ — پمپ ۲ -->
+    <div class="device">
+      <div class="cap"><b>صفحه ۶ — پمپ ۲</b> <span class="tag on">طراحی</span></div>
+      <div class="bezel">
+        <div class="screen p-pump p2">
+          <div class="nav">
+            <div class="nav-ico" title="برگشت">‹</div>
+            <div class="nav-title">PUMP 2</div>
+            <div class="nav-ico" title="صفحه بعد">›</div>
+          </div>
+          <div class="pump-body">
+            <div class="pump-hero">
+              <div class="who">PUMP 2</div>
+              <div class="plant">Plant B</div>
+            </div>
+            <div class="pump-schedule">
+              <div class="pump-block">
+                <div class="lbl">LAST RUN</div>
+                <div class="val">Fri 18:00</div>
+              </div>
+              <div class="pump-block next">
+                <div class="lbl">NEXT RUN</div>
+                <div class="val">Sun 18:00</div>
+              </div>
+            </div>
+            <div class="pump-extra">
+              <div class="pump-chip">
+                <div class="l">DURATION</div>
+                <div class="v">30 sec</div>
+              </div>
+              <div class="pump-chip">
+                <div class="l">STATUS</div>
+                <div class="v">Idle</div>
+              </div>
+            </div>
+            <div class="pump-btns">
+              <div class="pump-btn water">WATER NOW</div>
+              <div class="pump-btn ai on" title="خودکار AI — روشن">AI</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <aside class="spec">
+      <h2>مشخصات صفحه ۳ — دما و رطوبت</h2>
+      <ul>
+        <li><span class="k">چیدمان:</span> نوار ۲۸ + دو کارت مساوی ۱۳۳ = <code>320</code></li>
+        <li><span class="k">TEMP:</span> دمای هوا °C · حسگر DHT11</li>
+        <li><span class="k">HUMIDITY:</span> رطوبت هوا ٪ · حسگر DHT11</li>
+        <li><span class="k">ترتیب:</span> هواشناسی → دما/رطوبت → خاک → پمپ ۱ → پمپ ۲</li>
+      </ul>
+    </aside>
+  </div>
+</body>
+</html>

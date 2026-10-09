@@ -1,0 +1,34 @@
+# secrets
+.env
+**/.env
+host/.env
+*.pem
+*.key
+
+# local / editor
+.cursor/
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
+
+# local runtime
+host/data/
+**/__pycache__/
+*.pyc
+.venv/
+venv/
+
+# firmware build artifacts
+firmware/**/build/
+firmware/**/.pio/
+**/.pio/
+
+# large / local-only dumps
+file/
+*.rar
+*.zip
+*.7z
+
+# old nested clone / duplicate tree (keep local, don't publish)
+/goldon/

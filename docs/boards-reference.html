@@ -1,0 +1,1317 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مرجع فنی بردها — گلدون هوشمند</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --bg: #0f1419;
+      --panel: #161b22;
+      --panel2: #0d1117;
+      --border: #30363d;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --blue: #58a6ff;
+      --orange: #f0883e;
+      --gold: #e3b341;
+      --green: #3fb950;
+      --red: #f85149;
+      --purple: #a371f7;
+      --cyan: #79c0ff;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 24px;
+      line-height: 1.6;
+    }
+
+    .wrap {
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--blue);
+      font-size: 1.65rem;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      text-align: center;
+      color: var(--muted);
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    .meta {
+      text-align: center;
+      color: var(--green);
+      font-size: 0.82rem;
+      margin-bottom: 28px;
+    }
+
+    .toc {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 22px;
+      margin-bottom: 24px;
+    }
+
+    .toc h2 {
+      color: var(--orange);
+      font-size: 1.05rem;
+      margin-bottom: 10px;
+    }
+
+    .toc ol {
+      margin: 0 22px 0 0;
+      columns: 2;
+      gap: 24px;
+    }
+
+    @media (max-width: 700px) {
+      .toc ol {
+        columns: 1;
+      }
+    }
+
+    .toc a {
+      color: var(--cyan);
+      text-decoration: none;
+    }
+
+    .toc a:hover {
+      text-decoration: underline;
+    }
+
+    .toc li {
+      margin: 4px 0;
+      font-size: 0.9rem;
+    }
+
+    .section {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 22px;
+      margin-bottom: 22px;
+    }
+
+    .section h2 {
+      color: var(--orange);
+      font-size: 1.2rem;
+      margin-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+
+    .section h3 {
+      color: var(--gold);
+      font-size: 1rem;
+      margin: 18px 0 10px;
+    }
+
+    .section p {
+      margin: 8px 0;
+      font-size: 0.92rem;
+    }
+
+    .arch {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 18px 8px;
+      background: var(--panel2);
+      border-radius: 10px;
+      margin: 12px 0;
+    }
+
+    .arch-box {
+      background: #21262d;
+      border: 2px solid var(--blue);
+      border-radius: 10px;
+      padding: 12px 16px;
+      text-align: center;
+      min-width: 120px;
+    }
+
+    .arch-box.b1 {
+      border-color: var(--green);
+    }
+
+    .arch-box.b2 {
+      border-color: var(--orange);
+    }
+
+    .arch-box.b3 {
+      border-color: var(--purple);
+    }
+
+    .arch-box.b4 {
+      border-color: var(--cyan);
+    }
+
+    .arch-box .num {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .arch-box .name {
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    .arch-box .role {
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .arch-arrow {
+      color: var(--blue);
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-align: center;
+    }
+
+    .arch-arrow span {
+      display: block;
+      font-size: 0.7rem;
+      color: var(--muted);
+      font-weight: 400;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      margin-top: 10px;
+    }
+
+    th,
+    td {
+      border: 1px solid var(--border);
+      padding: 8px 10px;
+      text-align: right;
+      vertical-align: top;
+    }
+
+    th {
+      background: #21262d;
+      color: var(--blue);
+    }
+
+    tr:nth-child(even) {
+      background: var(--panel2);
+    }
+
+    .pin {
+      font-family: Consolas, 'Courier New', monospace;
+      background: #21262d;
+      padding: 1px 6px;
+      border-radius: 3px;
+      color: var(--cyan);
+      white-space: nowrap;
+    }
+
+    .code {
+      font-family: Consolas, 'Courier New', monospace;
+      background: var(--panel2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 14px;
+      font-size: 0.8rem;
+      overflow-x: auto;
+      direction: ltr;
+      text-align: left;
+      color: #c9d1d9;
+      margin: 10px 0;
+      white-space: pre;
+    }
+
+    .tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+      margin-left: 4px;
+    }
+
+    .tag-g {
+      background: rgba(63, 185, 80, .18);
+      color: var(--green);
+    }
+
+    .tag-o {
+      background: rgba(240, 136, 62, .18);
+      color: var(--orange);
+    }
+
+    .tag-p {
+      background: rgba(163, 113, 247, .18);
+      color: var(--purple);
+    }
+
+    .tag-b {
+      background: rgba(88, 166, 255, .18);
+      color: var(--blue);
+    }
+
+    .tag-r {
+      background: rgba(248, 81, 73, .18);
+      color: var(--red);
+    }
+
+    .notes {
+      background: #1c2128;
+      border-right: 4px solid var(--orange);
+      padding: 12px 14px;
+      margin-top: 14px;
+      border-radius: 8px 0 0 8px;
+      font-size: 0.85rem;
+    }
+
+    .notes ul {
+      margin: 6px 18px 0 0;
+    }
+
+    .notes li {
+      margin: 5px 0;
+    }
+
+    .grid2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 700px) {
+      .grid2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--panel2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+    }
+
+    .card strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--blue);
+    }
+
+    .card p {
+      color: var(--muted);
+      font-size: 0.84rem;
+      margin: 0;
+    }
+
+    .wire-map {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      margin: 14px 0;
+    }
+
+    .wire-side {
+      background: var(--panel2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 18px;
+      min-width: 200px;
+    }
+
+    .wire-side h4 {
+      color: var(--gold);
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+    }
+
+    .wire-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 4px 0;
+      font-size: 0.85rem;
+      border-bottom: 1px solid #21262d;
+    }
+
+    .wire-row:last-child {
+      border-bottom: none;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .links a {
+      background: #21262d;
+      border: 1px solid var(--border);
+      color: var(--cyan);
+      text-decoration: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 0.82rem;
+    }
+
+    .links a:hover {
+      border-color: var(--blue);
+    }
+
+    .footer-note {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.82rem;
+      margin-top: 8px;
+      margin-bottom: 40px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <h1>مرجع فنی بردها و اتصالات</h1>
+    <p class="subtitle">گلدون هوشمند — ساختار سیستم، پین‌مپ، لینک بین بردها، شبکه و فریمور</p>
+    <p class="meta">منبع حقیقت: فریمور + <span class="pin">docs/boards.md</span> · به‌روز بر اساس پیکربندی فعلی پروژه
+    </p>
+
+    <nav class="toc">
+      <h2>فهرست</h2>
+      <ol>
+        <li><a href="#arch">معماری کلی</a></li>
+        <li><a href="#board1">برد ۱ — حیاط</a></li>
+        <li><a href="#sim800">ماژول SIM800L EVB</a></li>
+        <li><a href="#board2">برد ۲ — پنل TFT</a></li>
+        <li><a href="#board3">برد ۳ — مودم</a></li>
+        <li><a href="#board4">برد ۴ — C6 LCD</a></li>
+        <li><a href="#uart">اتصال UART ۳↔۱</a></li>
+        <li><a href="#yard-io">سنسور و رله حیاط</a></li>
+        <li><a href="#api">پروتکل و API</a></li>
+        <li><a href="#upload">آپلود و FQBN</a></li>
+        <li><a href="#related">مدارک مرتبط</a></li>
+      </ol>
+    </nav>
+
+    <!-- ========== ARCH ========== -->
+    <section class="section" id="arch">
+      <h2>۱. معماری کلی</h2>
+      <p>سیستم فعلی چهار برد دارد. مسیر فرمان از پنل به حیاط از طریق مودم است:</p>
+
+      <div class="arch">
+        <div class="arch-box b2">
+          <div class="num">برد ۲</div>
+          <div class="name">پنل</div>
+          <div class="role">TFT لمسی · داخل خانه</div>
+        </div>
+        <div class="arch-arrow">→ وای فای HTTP →<span>goldon-modem</span></div>
+        <div class="arch-box b3">
+          <div class="num">برد ۳</div>
+          <div class="name">مودم</div>
+          <div class="role">پل شبکه · آنتن</div>
+        </div>
+        <div class="arch-arrow">→ UART 115200 →<span>GPIO 8/9 ضربدری</span></div>
+        <div class="arch-box b1">
+          <div class="num">برد ۱</div>
+          <div class="name">حیاط</div>
+          <div class="role">سنسور · رله · پمپ</div>
+        </div>
+      </div>
+
+      <div class="arch" style="margin-top:8px">
+        <div class="arch-box b4">
+          <div class="num">برد ۴</div>
+          <div class="name">C6 LCD</div>
+          <div class="role">اسپلش / UI کوچک · کلاینت HTTP</div>
+        </div>
+        <div class="arch-arrow">→ وای فای HTTP →<span>همان API مودم</span></div>
+        <div class="arch-box b3">
+          <div class="num">برد ۳</div>
+          <div class="name">مودم</div>
+          <div class="role">پروکسی به حیاط</div>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="card">
+          <strong>حالت پیش‌فرض</strong>
+          <p><span class="pin">YARD_LINK_UART 1</span> روی حیاط → وای فای حیاط خاموش؛ آپلود حیاط فقط USB؛ پنل به مودم
+            وصل می‌شود.</p>
+        </div>
+        <div class="card">
+          <strong>حالت جایگزین</strong>
+          <p><span class="pin">YARD_LINK_UART 0</span> → حیاط مستقیم وای فای + OTA با hostname <span
+              class="pin">goldon-yard</span> (بدون نیاز به برد ۳).</p>
+        </div>
+      </div>
+
+      <div class="notes">
+        <ul>
+          <li>پنل در حالت فعلی <strong>مستقیم UART به حیاط ندارد</strong>؛ فرمان از وای فای به مودم می‌رود.</li>
+          <li>برد ۴ هم کلاینت HTTP است (مثل پنل)، نه پل UART.</li>
+          <li>شبکه خانه: <span class="pin">X28-2.4G-94A50A</span> · رمز OTA: <span class="pin">ota2026</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== BOARD 1 ========== -->
+    <section class="section" id="board1">
+      <h2>۲. برد ۱ — حیاط (Yard) <span class="tag tag-g">#1</span></h2>
+
+      <table>
+        <tr>
+          <th>فیلد</th>
+          <th>مقدار</th>
+        </tr>
+        <tr>
+          <td>نقش</td>
+          <td>سنسورها، رله/پمپ، پاسخ به فرمان‌های وضعیت و آبیاری</td>
+        </tr>
+        <tr>
+          <td>سخت‌افزار</td>
+          <td>ESP32-S3-N8R2</td>
+        </tr>
+        <tr>
+          <td>فریمور</td>
+          <td><span class="pin">firmware/yard_api</span></td>
+        </tr>
+        <tr>
+          <td>ارتباط پیش‌فرض</td>
+          <td>UART به برد ۳ (<span class="pin">YARD_LINK_UART 1</span>)</td>
+        </tr>
+        <tr>
+          <td>Hostname (فقط وای فای)</td>
+          <td><span class="pin">goldon-yard</span></td>
+        </tr>
+        <tr>
+          <td>USB نمونه</td>
+          <td>COM7</td>
+        </tr>
+        <tr>
+          <td>محل</td>
+          <td>بیرون خانه (حیاط)</td>
+        </tr>
+      </table>
+
+      <h3>پین‌مپ نرم‌افزاری (فعلی)</h3>
+      <table>
+        <tr>
+          <th>سیگنال</th>
+          <th>GPIO</th>
+          <th>نوع</th>
+          <th>توضیح</th>
+        </tr>
+        <tr>
+          <td>SOIL1</td>
+          <td><span class="pin">1</span></td>
+          <td>ADC</td>
+          <td>رطوبت خاک گیاه ۱ (HW-103) — عدد بالاتر = خشک‌تر</td>
+        </tr>
+        <tr>
+          <td>SOIL2</td>
+          <td><span class="pin">2</span></td>
+          <td>ADC</td>
+          <td>رطوبت خاک گیاه ۲</td>
+        </tr>
+        <tr>
+          <td>DHT</td>
+          <td><span class="pin">4</span></td>
+          <td>Digital 1-wire</td>
+          <td>DHT11 (دما / رطوبت هوا)</td>
+        </tr>
+        <tr>
+          <td>LINK TX</td>
+          <td><span class="pin">8</span></td>
+          <td>UART TX</td>
+          <td>به RX مودم (GPIO9)</td>
+        </tr>
+        <tr>
+          <td>LINK RX</td>
+          <td><span class="pin">9</span></td>
+          <td>UART RX</td>
+          <td>از TX مودم (GPIO8)</td>
+        </tr>
+        <tr>
+          <td>RELAY1</td>
+          <td><span class="pin">10</span></td>
+          <td>Digital out</td>
+          <td>پمپ ۱ — از طریق ULN2003</td>
+        </tr>
+        <tr>
+          <td>RELAY2</td>
+          <td><span class="pin">11</span></td>
+          <td>Digital out</td>
+          <td>پمپ ۲ — از طریق ULN2003</td>
+        </tr>
+        <tr>
+          <td>WATER</td>
+          <td><span class="pin">18</span></td>
+          <td>Digital in</td>
+          <td>سنسور سطح / آب — در سیم‌کشی SIM، RST هم روی ۱۸ است (تداخل؛ پایین ببین)</td>
+        </tr>
+        <tr>
+          <td>SIM RX ← TXD</td>
+          <td><span class="pin">16</span></td>
+          <td>UART RX</td>
+          <td>از TXD ماژول SIM800L</td>
+        </tr>
+        <tr>
+          <td>SIM TX → RXD</td>
+          <td><span class="pin">17</span></td>
+          <td>UART TX</td>
+          <td>به RXD ماژول SIM800L</td>
+        </tr>
+      </table>
+
+      <div class="notes">
+        <ul>
+          <li>پین‌های خاک و رله در Preferences قابل تغییر runtime هستند؛ مقادیر بالا پیش‌فرض فریمورند.</li>
+          <li>حداکثر روشن‌ماندن رله در فریمور: ۱۵ ثانیه (ایمنی).</li>
+          <li>در حالت UART، OTA روی حیاط کار نمی‌کند — آپلود USB.</li>
+          <li>SIM800L روی همین برد حیاط است؛ جزئیات کامل پایه‌ها در <a href="#sim800" style="color:var(--cyan)">بخش
+              SIM800L</a>.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== SIM800L ========== -->
+    <section class="section" id="sim800">
+      <h2>۳. ماژول SIM800L EVB <span class="tag tag-r">روی برد ۱</span></h2>
+      <p>
+        ماژول GSM روی برد حیاط (ESP32-S3). ترتیب پین‌ها روی هدر برد EVB از چپ به راست
+        (طبق سیم‌کشی پروژه):
+      </p>
+      <div class="code">5VIN · GND · VDD · TXD · RXD · GND · RST</div>
+
+      <h3>نام پایه‌ها و نقش هر کدام</h3>
+      <table>
+        <tr>
+          <th>نام پایه</th>
+          <th>معنی</th>
+          <th>نقش</th>
+        </tr>
+        <tr>
+          <td><span class="pin">5VIN</span></td>
+          <td>۵ ولت ورودی ماژول</td>
+          <td>تغذیه قدرت RF/GSM — جریان لحظه‌ای بالا</td>
+        </tr>
+        <tr>
+          <td><span class="pin">GND</span></td>
+          <td>زمین (اولین)</td>
+          <td>مرجع تغذیه و سیگنال</td>
+        </tr>
+        <tr>
+          <td><span class="pin">VDD</span></td>
+          <td>سطح منطقی I/O</td>
+          <td>تعیین ولتاژ UART/منطق — باید ۳.۳V باشد</td>
+        </tr>
+        <tr>
+          <td><span class="pin">TXD</span></td>
+          <td>Transmit Data (خروجی ماژول)</td>
+          <td>داده از SIM به ESP — به RX برد وصل می‌شود</td>
+        </tr>
+        <tr>
+          <td><span class="pin">RXD</span></td>
+          <td>Receive Data (ورودی ماژول)</td>
+          <td>داده از ESP به SIM — از TX برد می‌آید</td>
+        </tr>
+        <tr>
+          <td><span class="pin">GND</span></td>
+          <td>زمین (دومین)</td>
+          <td>همان GND مشترک؛ هر دو پایه یکی‌اند</td>
+        </tr>
+        <tr>
+          <td><span class="pin">RST</span></td>
+          <td>Reset</td>
+          <td>ریست سخت‌افزاری ماژول (اختیاری)</td>
+        </tr>
+      </table>
+
+      <h3>اتصال به ESP32-S3 حیاط</h3>
+      <table>
+        <tr>
+          <th>پایه SIM800L</th>
+          <th>وصل به</th>
+          <th>رنگ سیم (راهنما)</th>
+          <th>توضیح</th>
+        </tr>
+        <tr>
+          <td><span class="pin">5VIN</span></td>
+          <td><strong>خروجی ۵V پاوربانک</strong> (نه پین ۵V خود ESP)</td>
+          <td>قرمز</td>
+          <td>منبع حداقل ۵V/۲A · خازن ۱۰۰۰µF موازی بین 5VIN و GND نزدیک ماژول</td>
+        </tr>
+        <tr>
+          <td><span class="pin">GND</span> (اول)</td>
+          <td>GND مشترک</td>
+          <td>مشکی</td>
+          <td>همراه پایه − خازن</td>
+        </tr>
+        <tr>
+          <td><span class="pin">VDD</span></td>
+          <td>ESP32 <span class="pin">3.3V</span></td>
+          <td>آبی روشن</td>
+          <td>سطح منطقی UART — <strong>هرگز ۵V نده</strong></td>
+        </tr>
+        <tr>
+          <td><span class="pin">TXD</span></td>
+          <td>ESP32 <span class="pin">GPIO16</span> (RX)</td>
+          <td>زرد</td>
+          <td>SIM TX → ESP RX · ضربدری</td>
+        </tr>
+        <tr>
+          <td><span class="pin">RXD</span></td>
+          <td>ESP32 <span class="pin">GPIO17</span> (TX)</td>
+          <td>سبز</td>
+          <td>ESP TX → SIM RX · ضربدری</td>
+        </tr>
+        <tr>
+          <td><span class="pin">GND</span> (دوم)</td>
+          <td>GND مشترک</td>
+          <td>مشکی</td>
+          <td>همان زمین؛ اتصال دوم اختیاری ولی توصیه‌شده</td>
+        </tr>
+        <tr>
+          <td><span class="pin">RST</span></td>
+          <td>ESP32 <span class="pin">GPIO18</span> (اختیاری)</td>
+          <td>نارنجی</td>
+          <td>ریست نرم‌افزاری — در فریمور تست: <span class="pin">firmware/sim800l_test</span></td>
+        </tr>
+      </table>
+
+      <div class="wire-map">
+        <div class="wire-side">
+          <h4>SIM800L EVB</h4>
+          <div class="wire-row"><span>5VIN</span><span class="pin">پاوربانک ۵V</span></div>
+          <div class="wire-row"><span>GND</span><span class="pin">GND</span></div>
+          <div class="wire-row"><span>VDD</span><span class="pin">ESP 3.3V</span></div>
+          <div class="wire-row"><span>TXD</span><span class="pin">→ GPIO16</span></div>
+          <div class="wire-row"><span>RXD</span><span class="pin">← GPIO17</span></div>
+          <div class="wire-row"><span>GND</span><span class="pin">GND</span></div>
+          <div class="wire-row"><span>RST</span><span class="pin">→ GPIO18</span></div>
+        </div>
+        <div class="wire-side">
+          <h4>ESP32-S3 حیاط</h4>
+          <div class="wire-row"><span>GPIO16 RX</span><span class="pin">← SIM TXD</span></div>
+          <div class="wire-row"><span>GPIO17 TX</span><span class="pin">→ SIM RXD</span></div>
+          <div class="wire-row"><span>GPIO18</span><span class="pin">→ SIM RST</span></div>
+          <div class="wire-row"><span>3.3V</span><span class="pin">→ SIM VDD</span></div>
+          <div class="wire-row"><span>GND</span><span class="pin">مشترک</span></div>
+        </div>
+      </div>
+
+      <div class="code">SIM800L.TXD → ESP32.GPIO16 (RX)
+        ESP32.GPIO17 (TX) → SIM800L.RXD
+        ESP32.GPIO18 → SIM800L.RST (اختیاری)
+        SIM800L.VDD ← ESP32 3.3V
+        SIM800L.5VIN ← پاوربانک 5V + خازن 1000µF موازی
+        SIM800L.GND —— GND مشترک</div>
+
+      <h3>خازن بای‌پس روی تغذیه SIM</h3>
+      <table>
+        <tr>
+          <th>قطعه</th>
+          <th>پایه</th>
+          <th>وصل به</th>
+        </tr>
+        <tr>
+          <td rowspan="2">خازن الکترولیت ۱۰۰۰µF · حداقل ۱۶V</td>
+          <td>+ (بلند / بدون نوار)</td>
+          <td>SIM <span class="pin">5VIN</span> و +۵V پاوربانک</td>
+        </tr>
+        <tr>
+          <td>− (کوتاه / نوار تیره)</td>
+          <td>SIM <span class="pin">GND</span></td>
+        </tr>
+      </table>
+      <p>موازی روی تغذیه، حداکثر ۲–۳ سانتی‌متر از پین‌های ماژول — برای جهش جریان هنگام ارسال GPRS.</p>
+
+      <div class="notes">
+        <ul>
+          <li>UART همیشه ضربدری است: TXD ماژول → RX میکرو · RXD ماژول ← TX میکرو.</li>
+          <li>آنتن روی سوکت IPEX خود ماژول؛ سیم جدا به GPIO ندارد.</li>
+          <li><strong>تداخل GPIO18:</strong> در سیم‌کشی، RST سیم به GPIO18 است؛ در <span class="pin">yard_api</span>
+            فعلی
+            WATER هم روی GPIO18 تعریف شده. اگر هر دو لازم‌اند، یکی را جابه‌جا کن (شماتیک سطح‌آب را روی GPIO7 گذاشته).
+          </li>
+          <li>تست AT: <span class="pin">firmware/sim800l_test</span> با baudهای ۹۶۰۰ / ۱۱۵۲۰۰ و …</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== BOARD 2 ========== -->
+    <section class="section" id="board2">
+      <h2>۴. برد ۲ — پنل کنترل TFT <span class="tag tag-o">#2</span></h2>
+
+      <table>
+        <tr>
+          <th>فیلد</th>
+          <th>مقدار</th>
+        </tr>
+        <tr>
+          <td>نقش</td>
+          <td>UI لمسی داخل خانه؛ نمایش وضعیت و کنترل پمپ از طریق مودم</td>
+        </tr>
+        <tr>
+          <td>سخت‌افزار</td>
+          <td>ESP32 Dev Module — FQBN <span class="pin">esp32:esp32:esp32</span></td>
+        </tr>
+        <tr>
+          <td>نمایشگر</td>
+          <td>ILI9341 ۳.۲ اینچ · <strong>۲۴۰×۳۲۰</strong> · <span class="pin">setRotation(0)</span></td>
+        </tr>
+        <tr>
+          <td>لمس</td>
+          <td>XPT2046 روی SPI مشترک (CS جدا)</td>
+        </tr>
+        <tr>
+          <td>کتابخانه</td>
+          <td><strong>TFT_eSPI</strong> (نه LVGL / ST7789 / SSD1306)</td>
+        </tr>
+        <tr>
+          <td>فریمور</td>
+          <td><span class="pin">firmware/panel_status</span></td>
+        </tr>
+        <tr>
+          <td>Hostname</td>
+          <td><span class="pin">goldon-panel</span></td>
+        </tr>
+        <tr>
+          <td>IP نمونه</td>
+          <td><span class="pin">192.168.70.185</span></td>
+        </tr>
+        <tr>
+          <td>USB نمونه</td>
+          <td>COM14 (CP210x)</td>
+        </tr>
+      </table>
+
+      <h3>پین‌های TFT / Touch</h3>
+      <table>
+        <tr>
+          <th>سیگنال</th>
+          <th>GPIO</th>
+          <th>توضیح</th>
+        </tr>
+        <tr>
+          <td>MOSI</td>
+          <td><span class="pin">23</span></td>
+          <td>SPI data</td>
+        </tr>
+        <tr>
+          <td>SCLK</td>
+          <td><span class="pin">18</span></td>
+          <td>SPI clock</td>
+        </tr>
+        <tr>
+          <td>MISO</td>
+          <td><span class="pin">19</span></td>
+          <td>برای خواندن لمس لازم است — حذف نشود</td>
+        </tr>
+        <tr>
+          <td>TFT_CS</td>
+          <td><span class="pin">5</span></td>
+          <td>Chip select نمایشگر</td>
+        </tr>
+        <tr>
+          <td>DC</td>
+          <td><span class="pin">21</span></td>
+          <td>Data / Command</td>
+        </tr>
+        <tr>
+          <td>RST</td>
+          <td><span class="pin">22</span></td>
+          <td>Reset</td>
+        </tr>
+        <tr>
+          <td>TOUCH_CS</td>
+          <td><span class="pin">15</span></td>
+          <td>Chip select لمس</td>
+        </tr>
+      </table>
+
+      <h3>لینک به حیاط (نرم‌افزار پنل)</h3>
+      <table>
+        <tr>
+          <th>حالت</th>
+          <th>جزئیات</th>
+        </tr>
+        <tr>
+          <td>فعلی</td>
+          <td><span class="pin">YARD_LINK_UART 0</span> → HTTP به مودم:
+            <span class="pin">192.168.70.193</span> /
+            <span class="pin">goldon-modem.local</span> /
+            <span class="pin">goldon-yard.local</span>
+          </td>
+        </tr>
+        <tr>
+          <td>اختیاری (غیرفعال)</td>
+          <td>اگر UART پنل روشن شود: Panel RX=<span class="pin">16</span> TX=<span class="pin">17</span>
+            ↔ Yard TX=<span class="pin">8</span> RX=<span class="pin">9</span></td>
+        </tr>
+      </table>
+
+      <h3>صفحات UI</h3>
+      <p>SPLASH → WEATHER → CLIMATE → SOIL → PUMP1 → PUMP2</p>
+      <p>کالیبره لمس: ۵ عدد در LittleFS مسیر <span class="pin">/touch.cal</span> یا از Serial — عدد حدسی جایگزین نشود.
+      </p>
+    </section>
+
+    <!-- ========== BOARD 3 ========== -->
+    <section class="section" id="board3">
+      <h2>۵. برد ۳ — مودم وای فای (Modem Bridge) <span class="tag tag-p">#3</span></h2>
+
+      <table>
+        <tr>
+          <th>فیلد</th>
+          <th>مقدار</th>
+        </tr>
+        <tr>
+          <td>نقش</td>
+          <td>پل بین پنل/C6 (وای فای HTTP) و حیاط (UART)</td>
+        </tr>
+        <tr>
+          <td>سخت‌افزار</td>
+          <td>ESP32-S3 (هم‌خانوادهٔ برد ۱)</td>
+        </tr>
+        <tr>
+          <td>فریمور</td>
+          <td><span class="pin">firmware/modem_bridge</span></td>
+        </tr>
+        <tr>
+          <td>Hostname</td>
+          <td><span class="pin">goldon-modem</span></td>
+        </tr>
+        <tr>
+          <td>رمز OTA</td>
+          <td><span class="pin">ota2026</span></td>
+        </tr>
+        <tr>
+          <td>USB نمونه</td>
+          <td>COM9</td>
+        </tr>
+        <tr>
+          <td>IP نمونه (پنل)</td>
+          <td><span class="pin">192.168.70.193</span></td>
+        </tr>
+      </table>
+
+      <h3>پین‌های لینک UART</h3>
+      <table>
+        <tr>
+          <th>سیگنال مودم</th>
+          <th>GPIO</th>
+          <th>وصل به حیاط</th>
+        </tr>
+        <tr>
+          <td>LINK TX</td>
+          <td><span class="pin">8</span></td>
+          <td>Yard RX <span class="pin">GPIO9</span></td>
+        </tr>
+        <tr>
+          <td>LINK RX</td>
+          <td><span class="pin">9</span></td>
+          <td>Yard TX <span class="pin">GPIO8</span></td>
+        </tr>
+        <tr>
+          <td>GND</td>
+          <td>—</td>
+          <td>GND مشترک حیاط</td>
+        </tr>
+      </table>
+
+      <p>Baud: <span class="pin">115200</span> · HardwareSerial(1) · timeout پاسخ UART حدود ۲.۵ ثانیه</p>
+    </section>
+
+    <!-- ========== BOARD 4 ========== -->
+    <section class="section" id="board4">
+      <h2>۶. برد ۴ — ESP32-C6 LCD 1.47 <span class="tag tag-b">#4</span></h2>
+
+      <table>
+        <tr>
+          <th>فیلد</th>
+          <th>مقدار</th>
+        </tr>
+        <tr>
+          <td>نقش</td>
+          <td>نمایش اسپلش و صفحات وضعیت روی LCD کوچک؛ کنترل پمپ با دکمه BOOT</td>
+        </tr>
+        <tr>
+          <td>سخت‌افزار</td>
+          <td>Waveshare ESP32-C6-LCD-1.47 — FQBN <span class="pin">esp32:esp32:esp32c6</span></td>
+        </tr>
+        <tr>
+          <td>نمایشگر</td>
+          <td>ST7789 · <strong>۱۷۲×۳۲۰</strong> (نه ۲۴۰×۳۲۰ پنل)</td>
+        </tr>
+        <tr>
+          <td>کتابخانه</td>
+          <td>Adafruit_ST7789 + JPEGDEC + NeoPixel</td>
+        </tr>
+        <tr>
+          <td>فریمور</td>
+          <td><span class="pin">firmware/c6_splash</span></td>
+        </tr>
+        <tr>
+          <td>USB نمونه</td>
+          <td>COM15 (Espressif USB-Serial/JTAG)</td>
+        </tr>
+        <tr>
+          <td>ناوبری</td>
+          <td>فقط دکمه BOOT — لمس ندارد</td>
+        </tr>
+      </table>
+
+      <h3>پین‌های LCD / RGB / BOOT</h3>
+      <table>
+        <tr>
+          <th>سیگنال</th>
+          <th>GPIO</th>
+        </tr>
+        <tr>
+          <td>MOSI</td>
+          <td><span class="pin">6</span></td>
+        </tr>
+        <tr>
+          <td>SCLK</td>
+          <td><span class="pin">7</span></td>
+        </tr>
+        <tr>
+          <td>RGB WS2812</td>
+          <td><span class="pin">8</span></td>
+        </tr>
+        <tr>
+          <td>BOOT</td>
+          <td><span class="pin">9</span></td>
+        </tr>
+        <tr>
+          <td>CS</td>
+          <td><span class="pin">14</span></td>
+        </tr>
+        <tr>
+          <td>DC</td>
+          <td><span class="pin">15</span></td>
+        </tr>
+        <tr>
+          <td>RST</td>
+          <td><span class="pin">21</span></td>
+        </tr>
+        <tr>
+          <td>BL (بک‌لایت)</td>
+          <td><span class="pin">22</span></td>
+        </tr>
+      </table>
+
+      <div class="notes">
+        <ul>
+          <li>تک‌کلیک BOOT = صفحه بعد · در صفحات پمپ، دوبار BOOT = روشن/خاموش رله.</li>
+          <li>اسپلش: ۶۱ فریم JPEG در LittleFS مسیر <span class="pin">/splash/f_XXX.jpg</span> (برش وسط از ویدیو
+            ۲۴۰×۳۲۰).</li>
+          <li>با برد ۲ قاطی نشود: رزولوشن، پین، و کتابخانه متفاوت‌اند.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== UART ========== -->
+    <section class="section" id="uart">
+      <h2>۷. اتصال فیزیکی UART — برد ۳ ↔ برد ۱</h2>
+      <p>سیم‌ها <strong>ضربدری</strong> هستند (TX→RX). GND مشترک الزامی است.</p>
+
+      <div class="wire-map">
+        <div class="wire-side">
+          <h4>مودم #3</h4>
+          <div class="wire-row"><span>TX</span><span class="pin">GPIO8</span></div>
+          <div class="wire-row"><span>RX</span><span class="pin">GPIO9</span></div>
+          <div class="wire-row"><span>GND</span><span class="pin">GND</span></div>
+        </div>
+        <div class="wire-side">
+          <h4>حیاط #1</h4>
+          <div class="wire-row"><span>RX</span><span class="pin">GPIO9</span></div>
+          <div class="wire-row"><span>TX</span><span class="pin">GPIO8</span></div>
+          <div class="wire-row"><span>GND</span><span class="pin">GND</span></div>
+        </div>
+      </div>
+
+      <table>
+        <tr>
+          <th>مودم #3</th>
+          <th>حیاط #1</th>
+          <th>نکته</th>
+        </tr>
+        <tr>
+          <td>GPIO8 TX</td>
+          <td>GPIO9 RX</td>
+          <td>فرمان از مودم به حیاط</td>
+        </tr>
+        <tr>
+          <td>GPIO9 RX</td>
+          <td>GPIO8 TX</td>
+          <td>پاسخ JSON از حیاط</td>
+        </tr>
+        <tr>
+          <td>GND</td>
+          <td>GND</td>
+          <td>مرجع مشترک</td>
+        </tr>
+      </table>
+
+      <div class="code">Modem TX GPIO8 → Yard RX GPIO9
+        Modem RX GPIO9 ← Yard TX GPIO8
+        GND —— GND
+        Baud: 115200 · line protocol · \\n</div>
+    </section>
+
+    <!-- ========== YARD IO ========== -->
+    <section class="section" id="yard-io">
+      <h2>۸. سنسورها و رله روی برد حیاط</h2>
+
+      <h3>سنسورها → ESP32-S3</h3>
+      <table>
+        <tr>
+          <th>ماژول</th>
+          <th>پین ماژول</th>
+          <th>ESP32</th>
+          <th>تغذیه</th>
+        </tr>
+        <tr>
+          <td rowspan="3">خاک ۱ (HW-103)</td>
+          <td>VCC</td>
+          <td>—</td>
+          <td>۳.۳V</td>
+        </tr>
+        <tr>
+          <td>GND</td>
+          <td>GND</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>AO</td>
+          <td><span class="pin">GPIO1</span></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td rowspan="3">خاک ۲ (HW-103)</td>
+          <td>VCC</td>
+          <td>—</td>
+          <td>۳.۳V</td>
+        </tr>
+        <tr>
+          <td>GND</td>
+          <td>GND</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>AO</td>
+          <td><span class="pin">GPIO2</span></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td rowspan="3">DHT11</td>
+          <td>VCC</td>
+          <td>—</td>
+          <td>۳.۳V</td>
+        </tr>
+        <tr>
+          <td>GND</td>
+          <td>GND</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>DATA</td>
+          <td><span class="pin">GPIO4</span></td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td>WATER</td>
+          <td>سیگنال</td>
+          <td><span class="pin">GPIO18</span></td>
+          <td>طبق ماژول</td>
+        </tr>
+      </table>
+
+      <h3>مسیر رله (با ULN2003 — مستقیم به GPIO نزن)</h3>
+      <p>مسیر درست: <strong>ESP32 → ULN2003 → IN رله → پمپ ۳V</strong></p>
+      <table>
+        <tr>
+          <th>از</th>
+          <th>به</th>
+          <th>نقش</th>
+        </tr>
+        <tr>
+          <td>ESP GPIO10</td>
+          <td>ULN پین ۱ (1B)</td>
+          <td>سیگنال رله ۱</td>
+        </tr>
+        <tr>
+          <td>ESP GPIO11</td>
+          <td>ULN پین ۲ (2B)</td>
+          <td>سیگنال رله ۲</td>
+        </tr>
+        <tr>
+          <td>ULN پین ۸</td>
+          <td>GND مشترک</td>
+          <td>زمین</td>
+        </tr>
+        <tr>
+          <td>ULN پین ۹ (COM)</td>
+          <td>۵V پاوربانک</td>
+          <td>فعال‌سازی دیودهای داخلی</td>
+        </tr>
+        <tr>
+          <td>ULN پین ۱۶ (1C)</td>
+          <td>IN رله ۱</td>
+          <td>درایو کویل ۱</td>
+        </tr>
+        <tr>
+          <td>ULN پین ۱۵ (2C)</td>
+          <td>IN رله ۲</td>
+          <td>درایو کویل ۲</td>
+        </tr>
+        <tr>
+          <td>VCC / GND رله</td>
+          <td>۵V / GND</td>
+          <td>تغذیه کویل</td>
+        </tr>
+        <tr>
+          <td>منبع ۳V → COM رله</td>
+          <td>NO → +پمپ · −پمپ → GND ۳V</td>
+          <td>سوییچ برق پمپ</td>
+        </tr>
+      </table>
+
+      <div class="notes">
+        <ul>
+          <li>تغذیه کنترل (ESP / ULN / کویل رله) با GND مشترک؛ مسیر ۳V پمپ می‌تواند جدا بماند.</li>
+          <li>جزئیات کامل سیم‌کشی و برق: <span class="pin">docs/wiring-diagram.html</span></li>
+          <li>شماتیک دقیق حیاط: <span class="pin">docs/schematic.html</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ========== API ========== -->
+    <section class="section" id="api">
+      <h2>۹. پروتکل و API</h2>
+
+      <h3>HTTP روی مودم (و حیاط در حالت وای فای)</h3>
+      <table>
+        <tr>
+          <th>متد / مسیر</th>
+          <th>عمل</th>
+        </tr>
+        <tr>
+          <td><span class="pin">GET /status</span></td>
+          <td>وضعیت سنسورها و رله‌ها (JSON)</td>
+        </tr>
+        <tr>
+          <td><span class="pin">GET /relay?n=1|2&amp;state=0|1|toggle</span></td>
+          <td>کنترل پمپ</td>
+        </tr>
+        <tr>
+          <td><span class="pin">GET /ai?state=0|1|toggle</span></td>
+          <td>حالت خودکار AI</td>
+        </tr>
+        <tr>
+          <td><span class="pin">GET /dhtscan</span></td>
+          <td>اسکن / بایند DHT</td>
+        </tr>
+      </table>
+
+      <h3>UART خط‌به‌خط (مودم ↔ حیاط)</h3>
+      <div class="code">Modem→Yard: STATUS
+        Modem→Yard: RELAY,1,1 / RELAY,2,0
+        Modem→Yard: AI,toggle / AI,1 / AI,0
+        Yard→Modem: {"ok":true, ... } (یک خط JSON + \\n)</div>
+
+      <p>مودم همان API HTTP را نگه می‌دارد و پشت صحنه با UART به حیاط پروکسی می‌کند.</p>
+    </section>
+
+    <!-- ========== UPLOAD ========== -->
+    <section class="section" id="upload">
+      <h2>۱۰. آپلود و FQBN</h2>
+
+      <table>
+        <tr>
+          <th>برد</th>
+          <th>روش آپلود</th>
+          <th>FQBN / اسکریپت</th>
+        </tr>
+        <tr>
+          <td>#1 حیاط (UART)</td>
+          <td><span class="tag tag-r">فقط USB</span></td>
+          <td>
+            <div class="code" style="margin:0">
+              esp32:esp32:esp32s3:CDCOnBoot=default,FlashSize=8M,PSRAM=disabled,PartitionScheme=default_8MB,USBMode=hwcdc,UploadSpeed=115200
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>#1 حیاط (وای فای)</td>
+          <td>OTA با <span class="pin">ota2026</span></td>
+          <td>همان FQBN بالا · hostname <span class="pin">goldon-yard</span></td>
+        </tr>
+        <tr>
+          <td>#2 پنل</td>
+          <td>USB (نمونه COM14)</td>
+          <td><span class="pin">esp32:esp32:esp32</span> · اسکریپت <span class="pin">scripts/upload_panel.ps1</span>
+          </td>
+        </tr>
+        <tr>
+          <td>#3 مودم</td>
+          <td>USB یا OTA بعد از آنلاین</td>
+          <td>همان FQBN حیاط (ESP32-S3) · host <span class="pin">goldon-modem</span></td>
+        </tr>
+        <tr>
+          <td>#4 C6</td>
+          <td>USB (نمونه COM15)</td>
+          <td>
+            <div class="code" style="margin:0">
+              esp32:esp32:esp32c6:CDCOnBoot=cdc,FlashSize=4M,PartitionScheme=default,UploadSpeed=921600</div>
+            اسکریپت: <span class="pin">scripts/upload_c6_splash.ps1 -Port COM15</span>
+          </td>
+        </tr>
+      </table>
+    </section>
+
+    <!-- ========== RELATED ========== -->
+    <section class="section" id="related">
+      <h2>۱۱. مدارک و پیش‌نمایش‌های مرتبط</h2>
+      <div class="links">
+        <a href="boards.md">boards.md — قوانین خلاصه</a>
+        <a href="wiring-diagram.html">سیم‌کشی حیاط</a>
+        <a href="schematic.html">شماتیک دقیق حیاط</a>
+        <a href="ui/panel-pages.html">پیش‌نمایش UI پنل ۲۴۰×۳۲۰</a>
+        <a href="ui/c6-pages.html">پیش‌نمایش UI C6 ۱۷۲×۳۲۰</a>
+      </div>
+    </section>
+
+    <p class="footer-note">
+      این صفحه مرجع تجمیعی است. برای جزئیات سیم‌رنگ و برق خودکفا به wiring-diagram مراجعه کنید.
+    </p>
+  </div>
+</body>
+
+</html>

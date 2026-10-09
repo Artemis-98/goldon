@@ -1,0 +1,52 @@
+# گلدون هوشمند — مغز لپ‌تاپ
+yard_base: "http://goldon-yard.local"
+yard_fallback:
+  - "http://goldon-yard.local"
+
+sirjan_lat: 29.4514
+sirjan_lon: 55.6809
+
+default_check_every_hours: 4
+manual_lock_minutes: 30
+
+plants:
+  - id: plant_a
+    name: "Plant A"
+    pump: 1
+    photo: "plants/plant_a.jpg"
+    soil_key: soil1
+    water_duration_sec: 40
+    soil_moist_min_percent: 35
+  - id: plant_b
+    name: "Plant B"
+    pump: 2
+    photo: "plants/plant_b.jpg"
+    soil_key: soil2
+    water_duration_sec: 40
+    soil_moist_min_percent: 35
+
+soil_adc_dry: 3200
+soil_adc_wet: 1200
+
+# —— ایمنی آبیاری ——
+safety:
+  never_both_pumps: true
+  one_plant_per_check: true
+  gap_between_pumps_sec: 90
+  burst_on_sec: 8
+  soak_pause_sec: 55
+  max_bursts_per_session: 5
+  moisture_verify_wait_sec: 180
+  min_soil_increase_percent: 3
+  max_daily_on_sec_per_pump: 160
+  min_minutes_between_waterings: 120
+  max_soil_percent_to_water: 68
+  block_if_tank_empty: false
+  tank_empty_when: false
+
+openai_api_key_env: "OPENAI_API_KEY"
+# GapGPT (سازگار با OpenAI) — جایگزین: https://api.gapapi.com/v1
+openai_base_url: "https://api.gapgpt.app/v1"
+openai_model: "gpt-4o"
+
+data_dir: "data"

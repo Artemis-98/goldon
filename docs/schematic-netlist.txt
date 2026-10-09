@@ -1,0 +1,75 @@
+# Netlist — گلدون هوشمند / برد حیاط ESP32-S3
+# Source of truth for connections. Not AI-invented.
+# Version: 1.0
+
+## Power nets
+
++5V_BANK:
+  Powerbank+
+  ESP32.5V
+  SIM800L.5VIN
+  C1_1000uF.+
+  ULN2003.9_COM
+  RELAY1.VCC
+  RELAY2.VCC
+
+GND:
+  Powerbank-
+  ESP32.GND
+  SIM800L.GND
+  SIM800L.GND2
+  C1_1000uF.-
+  ULN2003.8_GND
+  RELAY1.GND
+  RELAY2.GND
+  SOIL1.GND
+  SOIL2.GND
+  DHT11.GND
+  AP3216.GND
+  WATER.GND
+
++3V3:
+  ESP32.3V3
+  SIM800L.VDD
+  SOIL1.VCC
+  SOIL2.VCC
+  DHT11.VCC
+  AP3216.VCC
+  WATER.VCC
+
++3V_PUMP:
+  PumpSupply3V+
+  RELAY1.COM
+  RELAY2.COM
+
+GND_PUMP:
+  PumpSupply3V-
+  PUMP1.-
+  PUMP2.-
+
+## Signal nets
+
+SIM_TX:     SIM800L.TXD  --  ESP32.GPIO16
+SIM_RX:     ESP32.GPIO17 --  SIM800L.RXD
+SIM_RST:    ESP32.GPIO18 --  SIM800L.RST
+SOIL1_AO:   SOIL1.AO     --  ESP32.GPIO1
+SOIL2_AO:   SOIL2.AO     --  ESP32.GPIO2
+DHT_DATA:   DHT11.DATA   --  ESP32.GPIO4
+I2C_SDA:    AP3216.SDA   --  ESP32.GPIO5
+I2C_SCL:    AP3216.SCL   --  ESP32.GPIO9
+WATER_S:    WATER.S      --  ESP32.GPIO7
+RLY1_IN_B:  ESP32.GPIO10 --  ULN2003.1_1B
+RLY2_IN_B:  ESP32.GPIO11 --  ULN2003.2_2B
+RLY1_IN:    ULN2003.16_1C -- RELAY1.IN
+RLY2_IN:    ULN2003.15_2C -- RELAY2.IN
+PUMP1+:     RELAY1.NO    --  PUMP1.+
+PUMP2+:     RELAY2.NO    --  PUMP2.+
+
+## Unused ULN pins (leave open)
+ULN2003: 3,4,5,6,7,10,11,12,13,14
+
+## Notes
+- UART is crossed: module TXD -> MCU RX, module RXD -> MCU TX
+- Relay IN never connects directly to GPIO
+- C1 is parallel across SIM 5VIN/GND, close to module
+- Pump 3V supply may stay isolated from control GND

@@ -1,0 +1,16 @@
+Designator,Quantity,Value/Part,Footprint/Module,Notes
+U1,1,ESP32-S3 DevKit,Dev board,Main MCU
+U2,1,SIM800L EVB,Module,5VIN from bank; VDD=3V3 logic
+U3,1,ULN2003A,DIP-16 or module,Drive low-trigger relays; unused channels open
+K1,1,5V relay module,Low-trigger,IN via ULN 1C; COM to +3V pump
+K2,1,5V relay module,Low-trigger,IN via ULN 2C; COM to +3V pump
+J1,1,Capacitive soil moisture,3-pin,AO->GPIO1
+J2,1,Capacitive soil moisture,3-pin,AO->GPIO2
+U4,1,DHT11,3-pin,DATA->GPIO4
+U5,1,AP3216C ALS/PS,I2C module,SDA GPIO8 / SCL GPIO9
+J3,1,Water level sensor,3-pin,S->GPIO12
+C1,1,1000uF 16V electrolytic,Through-hole,Across SIM 5VIN-GND close to module
+M1,1,3V water pump,,Via RELAY1 NO
+M2,1,3V water pump,,Via RELAY2 NO
+J4,1,5V powerbank / USB supply,,Control +5V_BANK
+J5,1,3V pump supply,,May stay isolated from control GND
